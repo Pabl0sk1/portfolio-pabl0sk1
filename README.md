@@ -8,6 +8,6 @@ Diseñado con Astro y Tailwind, es responsivo y accesible desde cualquier dispos
 [![My Skills](https://skillicons.dev/icons?i=astro&theme=light)](https://astro.build/)
 [![My Skills](https://skillicons.dev/icons?i=tailwind&theme=light)](https://tailwindcss.com/)
 
-🔗 Puedes verlo en línea: https://portfolio-pabl0sk1.netlify.app/
+🔗 <a href="https://portfolio-pabl0sk1.netlify.app/" target="_blank" rel="noopener noreferrer">Ver Portafolio en Línea</a>
 
 Gracias por visitar 🙌
