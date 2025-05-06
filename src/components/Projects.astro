@@ -1,0 +1,246 @@
+---
+import HtmlIcon from "./icons/Html.astro";
+import CssIcon from "./icons/Css.astro";
+import SassIcon from "./icons/Sass.astro";
+import BootstrapIcon from "./icons/Bootstrap.astro";
+import JavascriptIcon from "./icons/Javascript.astro";
+import JavaIcon from "./icons/Java.astro";
+import TypescriptIcon from "./icons/Typescript.astro";
+import ReactIcon from "./icons/React.astro";
+import AngularIcon from "./icons/Angular.astro";
+import SpringbootIcon from "./icons/Springboot.astro";
+import PostgresqlIcon from "./icons/Postgresql.astro";
+import FirestoreIcon from "./icons/Firestore.astro";
+import IonicIcon from "./icons/Ionic.astro";
+import TailwindIcon from "./icons/Tailwind.astro";
+import AstroIcon from "./icons/AstroBuild.astro";
+import ViteIcon from "./icons/Vite.astro";
+import MysqlIcon from "./icons/Mysql.astro";
+import MongodbIcon from "./icons/Mongodb.astro";
+import PythonIcon from "./icons/Python.astro";
+import DjangoIcon from "./icons/Django.astro";
+import LinkIcon from "./icons/Link.astro";
+import RepoIcon from "./icons/Repo.astro";
+import LinkButton from "./LinkButton.astro";
+
+const TAGS = {
+  ASTROBUILD: {
+    name: "Astro",
+    class: "bg-white text-orange-500",
+    icon: AstroIcon,
+  },
+  VITE: {
+    name: "Vite",
+    class: "bg-white text-violet-500",
+    icon: ViteIcon,
+  },
+  HTML: {
+    name: "HTML",
+    class: "bg-white text-red-500",
+    icon: HtmlIcon,
+  },
+  CSS: {
+    name: "CSS",
+    class: "bg-white text-violet-500",
+    icon: CssIcon,
+  },
+  BOOTSTRAP: {
+    name: "Bootstrap",
+    class: "bg-white text-violet-500",
+    icon: BootstrapIcon,
+  },
+  TAILWIND: {
+    name: "Tailwind",
+    class: "bg-white text-sky-500",
+    icon: TailwindIcon,
+  },
+  SASS: {
+    name: "SASS",
+    class: "bg-white text-pink-500",
+    icon: SassIcon,
+  },
+  JAVASCRIPT: {
+    name: "JavaScript",
+    class: "bg-white text-yellow-500",
+    icon: JavascriptIcon,
+  },
+  TYPESCRIPT: {
+    name: "TypeScript",
+    class: "bg-white text-blue-500",
+    icon: TypescriptIcon,
+  },
+  REACT: {
+    name: "React",
+    class: "bg-white text-sky-500",
+    icon: ReactIcon,
+  },
+  ANGULAR: {
+    name: "Angular",
+    class: "bg-white text-red-500",
+    icon: AngularIcon,
+  },
+  PYTHON: {
+    name: "Python",
+    class: "bg-white text-blue-500",
+    icon: PythonIcon,
+  },
+  DJANGO: {
+    name: "Django",
+    class: "bg-white text-green-500",
+    icon: DjangoIcon,
+  },
+  JAVA: {
+    name: "Java",
+    class: "bg-white text-amber-500",
+    icon: JavaIcon,
+  },
+  SPRINGBOOT: {
+    name: "Spring Boot",
+    class: "bg-white text-green-500",
+    icon: SpringbootIcon,
+  },
+  IONIC: {
+    name: "Ionic",
+    class: "bg-white text-blue-500",
+    icon: IonicIcon,
+  },
+  FIRESTORE: {
+    name: "Firestore",
+    class: "bg-white text-yellow-500",
+    icon: FirestoreIcon,
+  },
+  POSTGRESQL: {
+    name: "PostgreSQL",
+    class: "bg-white text-blue-500",
+    icon: PostgresqlIcon,
+  },
+  MYSQL: {
+    name: "MySQL",
+    class: "bg-white text-blue-500",
+    icon: MysqlIcon,
+  },
+  MONGODB: {
+    name: "MongoDB",
+    class: "bg-white text-green-500",
+    icon: MongodbIcon,
+  },
+};
+
+const PROJECTS = [
+  {
+    title: "Muebleria",
+    description: "Sistema CRUD con módulos de inventario y registro de ventas.",
+    link: "",
+    github: "https://github.com/Pabl0sk1/muebleria-proyecto",
+    image: "/projects/Muebleria.webp",
+    tags: [
+      TAGS.POSTGRESQL,
+      TAGS.HTML,
+      TAGS.JAVASCRIPT,
+      TAGS.REACT,
+      TAGS.CSS,
+      TAGS.BOOTSTRAP,
+      TAGS.JAVA,
+      TAGS.SPRINGBOOT,
+    ],
+  },
+  {
+    title: "Atelier",
+    description:
+      "Sistema integral para negocio local que gestiona compras, ventas y alquileres, con control de inventario, emisión de tickets, generación de informes y autenticación con roles de usuario.",
+    link: "",
+    github: "",
+    image: "/projects/Atelier.webp",
+    tags: [
+      TAGS.POSTGRESQL,
+      TAGS.HTML,
+      TAGS.JAVASCRIPT,
+      TAGS.REACT,
+      TAGS.CSS,
+      TAGS.BOOTSTRAP,
+      TAGS.JAVA,
+      TAGS.SPRINGBOOT,
+    ],
+  },
+  {
+    title: "Shop Easy",
+    description:
+      "Aplicación móvil multiplataforma para gestión de listas de compras con marcado en tiempo real.",
+    link: "",
+    github: "https://github.com/Pabl0sk1/lista-compras",
+    image: "/projects/ListaCompras.webp",
+    tags: [
+      TAGS.IONIC,
+      TAGS.ANGULAR,
+      TAGS.FIRESTORE,
+      TAGS.TYPESCRIPT,
+      TAGS.HTML,
+      TAGS.SASS,
+    ],
+  },
+  {
+    title: "Fast-Food",
+    description:
+      "Sitio web atractivo e interactivo para un negocio ficticio de comida rápida. Incluye menú dinámico, secciones informativas, horarios, mapa embebido de ubicación y navegación responsive con swiper.",
+    link: "",
+    github: "https://github.com/Pabl0sk1/fast-food",
+    image: "/projects/Fast-Food.webp",
+    tags: [TAGS.HTML, TAGS.JAVASCRIPT, TAGS.CSS],
+  },
+];
+---
+
+<div class="flex flex-col gap-y-16">
+  {
+    PROJECTS.map(({ title, description, image, tags, link, github }) => (
+      <article class="flex flex-col space-x-0 space-y-8 group md:flex-row md:space-x-8 md:space-y-0">
+        <div class="w-full md:w-1/2">
+          <div class="relative flex flex-col items-center col-span-6 row-span-5 gap-8 transition duration-500 ease-in-out transform shadow-xl overflow-clip rounded-xl sm:rounded-xl md:group-hover:-translate-y-1 md:group-hover:shadow-2xl lg:border lg:border-gray-800 lg:hover:border-gray-700 lg:hover:bg-gray-800/50">
+            <img
+              src={image}
+              alt="Evolucionando en el mundo de la programación"
+              loading="lazy"
+              class="object-cover object-top w-full h-56 transition duration-500 sm:h-full md:scale-100 md:group-hover:scale-100"
+            />
+          </div>
+        </div>
+        <div class="w-full md:w-1/2 md:max-w-lg">
+          <h3 class="text-2xl font-bold text-gray-800 dark:text-gray-100">
+            {title}
+          </h3>
+          <div class="flex flex-wrap mt-2">
+            <ul class="flex flex-wrap gap-x-2">
+              {tags.map((tag) => (
+                <li>
+                  <span
+                    class={`${tag.class} flex select-none gap-x-2 mb-2 rounded-full text-xs py-1 px-2 border items-center hover:scale-105`}
+                  >
+                    <tag.icon class="size-4" />
+                    <span class="text-sm font-medium">{tag.name}</span>
+                  </span>
+                </li>
+              ))}
+            </ul>
+            <div class="mt-2 text-gray-700 dark:text-gray-400">
+              {description}
+            </div>
+            <footer class="flex items-end justify-start mt-4 gap-x-4">
+              {github && (
+                <LinkButton href={github}>
+                  <RepoIcon class="size-4" />
+                  Repositorio
+                </LinkButton>
+              )}
+              {link && (
+                <LinkButton href={link}>
+                  <LinkIcon class="size-4" />
+                  Web
+                </LinkButton>
+              )}
+            </footer>
+          </div>
+        </div>
+      </article>
+    ))
+  }
+</div>

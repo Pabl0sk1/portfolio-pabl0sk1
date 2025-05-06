@@ -1,0 +1,238 @@
+---
+const { Icon } = Astro.props;
+---
+
+<div class="tech-bubble" data-tech-bubble>
+  <div class="bubble-inner">
+    <span class="particle particle-1"></span>
+    <span class="particle particle-2"></span>
+    <span class="particle particle-3"></span>
+    <Icon class="size-10 icon" />
+  </div>
+</div>
+
+<style is:global>
+  .tech-bubble {
+    width: 90px;
+    height: 90px;
+    perspective: 800px;
+    cursor: pointer;
+    transform-style: preserve-3d;
+    position: relative;
+  }
+
+  .bubble-inner {
+    position: relative;
+    width: 100%;
+    height: 100%;
+    border-radius: 50%;
+    display: grid;
+    place-items: center;
+    background: radial-gradient(
+      circle at 30% 30%,
+      #ffffff88,
+      #bbaaff22 40%,
+      #00000008 100%
+    );
+    box-shadow:
+      inset -10px -10px 20px rgba(255, 255, 255, 0.5),
+      inset 8px 8px 16px rgba(100, 100, 255, 0.15),
+      0 10px 25px rgba(120, 100, 255, 0.25),
+      0 0 12px rgba(180, 160, 255, 0.2);
+    backdrop-filter: blur(6px);
+    transform-style: preserve-3d;
+    transition:
+      transform 0.3s ease,
+      opacity 0.3s ease;
+    overflow: hidden;
+  }
+
+  .bubble-inner::after {
+    content: "";
+    position: absolute;
+    top: 15%;
+    left: 15%;
+    width: 60%;
+    height: 60%;
+    background: radial-gradient(
+      circle,
+      rgba(255, 255, 255, 0.6),
+      transparent 80%
+    );
+    border-radius: 50%;
+    transform: rotateZ(45deg);
+    filter: blur(4px);
+    opacity: 0.6;
+    pointer-events: none;
+  }
+
+  .icon {
+    z-index: 1;
+    filter: drop-shadow(0 4px 6px rgba(0, 0, 0, 0.3));
+    transition: transform 0.3s ease;
+  }
+
+  @keyframes float {
+    0%,
+    100% {
+      transform: translateY(0) scale(1);
+    }
+    50% {
+      transform: translateY(-6px) scale(1.03);
+    }
+  }
+
+  .tech-bubble {
+    animation: float 3.5s ease-in-out infinite;
+  }
+
+  .particle {
+    position: absolute;
+    border-radius: 50%;
+    background: rgba(255, 255, 255, 0.2);
+    box-shadow: 0 0 6px rgba(255, 255, 255, 0.3);
+    pointer-events: none;
+    animation: float-particle 6s infinite ease-in-out;
+    filter: blur(1px);
+    z-index: 0;
+  }
+
+  /* Tamaños y posiciones personalizadas */
+  .particle-1 {
+    width: 8px;
+    height: 8px;
+    top: 20%;
+    left: 30%;
+    animation-delay: 0s;
+  }
+  .particle-2 {
+    width: 5px;
+    height: 5px;
+    top: 50%;
+    left: 60%;
+    animation-delay: 2s;
+  }
+  .particle-3 {
+    width: 6px;
+    height: 6px;
+    top: 70%;
+    left: 40%;
+    animation-delay: 4s;
+  }
+
+  /* Animación de flotación para las partículas */
+  @keyframes float-particle {
+    0% {
+      transform: translateY(0) scale(1);
+      opacity: 0.6;
+    }
+    50% {
+      transform: translateY(-12px) scale(1.2);
+      opacity: 1;
+    }
+    100% {
+      transform: translateY(0) scale(1);
+      opacity: 0.6;
+    }
+  }
+
+  @keyframes bounceDrop {
+    0% {
+      transform: translateY(0);
+    }
+    30% {
+      transform: translateY(60px);
+    }
+    50% {
+      transform: translateY(40px);
+    }
+    70% {
+      transform: translateY(55px);
+    }
+    85% {
+      transform: translateY(52px);
+    }
+    100% {
+      transform: translateY(55px);
+    }
+  }
+
+  .rebound-animation {
+    animation: bounceDrop 1.5s cubic-bezier(0.25, 1, 0.5, 1);
+  }
+
+  .bubble-explode {
+    transform: scale(1.8) !important;
+    opacity: 0 !important;
+    transition:
+      transform 0.3s ease,
+      opacity 0.3s ease;
+  }
+
+  .bubble-reset {
+    transform: scale(1);
+    opacity: 1;
+    transition:
+      transform 0.3s ease,
+      opacity 0.3s ease;
+  }
+</style>
+
+<script is:inline>
+  document.querySelectorAll("[data-tech-bubble]").forEach((bubble) => {
+    const inner = bubble.querySelector(".bubble-inner");
+    const icon = bubble.querySelector(".icon");
+
+    if (!inner || !icon) return;
+
+    bubble.addEventListener("click", () => {
+      inner.classList.remove("bubble-reset");
+      inner.classList.add("bubble-explode");
+
+      // Reinicia animación de icono
+      icon.classList.remove("rebound-animation");
+      void icon.offsetWidth; // Forzar reflow
+      icon.classList.add("rebound-animation");
+
+      // Desaparece ícono
+      setTimeout(() => {
+        icon.style.opacity = "0";
+      }, 100);
+
+      // Restaurar burbuja
+      setTimeout(() => {
+        inner.classList.remove("bubble-explode");
+        inner.classList.add("bubble-reset");
+        icon.classList.remove("rebound-animation");
+        icon.style.transition = "none";
+        icon.style.opacity = "1";
+        icon.style.transform = "translateY(0)";
+      }, 500);
+    });
+    bubble.addEventListener("mousemove", (e) => {
+      const rect = bubble.getBoundingClientRect();
+      const x = e.clientX - rect.left;
+      const y = e.clientY - rect.top;
+
+      const centerX = rect.width / 2;
+      const centerY = rect.height / 2;
+
+      const percentX = (x - centerX) / centerX;
+      const percentY = (y - centerY) / centerY;
+
+      // Aumentamos la intensidad del efecto
+      const rotateX = percentY * -20; // más inclinación en Y
+      const rotateY = percentX * 20;
+
+      if (!inner.classList.contains("bubble-explode")) {
+        inner.style.transform = `rotateX(${rotateX}deg) rotateY(${rotateY}deg) scale(1.07)`;
+      }
+    });
+
+    bubble.addEventListener("mouseleave", () => {
+      if (!inner.classList.contains("bubble-explode")) {
+        inner.style.transform = "rotateX(0deg) rotateY(0deg) scale(1)";
+      }
+    });
+  });
+</script>

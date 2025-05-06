@@ -1,0 +1,12 @@
+<div class="flex items-center">
+  <span class="relative inline-flex overflow-hidden rounded-full p-[1px] group">
+    <span
+      class="absolute inset-[-1000%] animate-[spin_2s_linear_infinite] bg-[conic-gradient(from_90deg_at_50%_50%,#8FD3F4_0%,#A18CD1_50%,#5AC8FA_100%)] group-hover:bg-[conic-gradient(from_90deg_at_50%_50%,#FFD700_0%,#8B4513_50%,#F28B82_100%)] transition-all duration-500"
+    ></span>
+    <div
+      class="inline-flex items-center justify-center w-full px-3 py-1 text-sm text-green-800 bg-green-100 rounded-full cursor-pointer dark:bg-gray-800 dark:text-white/80 backdrop-blur-3xl whitespace-nowrap hover:text-white hover:bg-black"
+    >
+      <slot />
+    </div>
+  </span>
+</div>

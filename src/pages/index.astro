@@ -1,11 +1,63 @@
 ---
-import Welcome from '../components/Welcome.astro';
-import Layout from '../layouts/Layout.astro';
+import Layout from "../layouts/Layout.astro";
+import Container from "../components/Container.astro";
+import BriefCaseIcon from "../components/icons/Briefcase.astro";
+import CodeIcon from "../components/icons/Code.astro";
+import TechFlowIcon from "../components/icons/TechFlow.astro";
+import UserIcon from "../components/icons/User.astro";
+import Experience from "../components/Experience.astro";
+import Projects from "../components/Projects.astro";
+import Stack from "../components/Stack.astro";
+import AboutMe from "../components/AboutMe.astro";
+import Hero from "../components/Hero.astro";
+import TitleSection from "../components/TitleSection.astro";
 
 // Welcome to Astro! Wondering what to do next? Check out the Astro documentation at https://docs.astro.build
 // Don't want to use any of this? Delete everything in this file, the `assets`, `components`, and `layouts` directories, and start fresh.
 ---
 
-<Layout>
-	<Welcome />
+<Layout
+  title="Portfolio de Pablo Ocampos - Desarrollador y Programador Web"
+  description="Contrata a Pablo Ocampos para crear tu aplicación web o empresarial. Especializado en crear aplicaciones únicas personalizadas."
+>
+  <main class="px-4">
+    <Container class="py-16 md:py-36">
+      <Hero>
+        <slot />
+      </Hero>
+    </Container>
+    <div class="space-y-24">
+      <Container id="experiencia">
+        <TitleSection>
+          <BriefCaseIcon class="size-8" />
+          Experiencia
+        </TitleSection>
+        <Experience />
+      </Container>
+
+      <Container id="proyectos">
+        <TitleSection>
+          <CodeIcon class="size-8" />
+          Proyectos
+        </TitleSection>
+        <Projects />
+      </Container>
+
+      <Container id="stack">
+        <TitleSection>
+          <TechFlowIcon class="size-8" />
+          Stack
+        </TitleSection>
+        <Stack />
+      </Container>
+
+      <Container id="sobre-mi">
+        <TitleSection>
+          <UserIcon class="size-8" />
+          Sobre mí
+        </TitleSection>
+        <AboutMe />
+      </Container>
+    </div>
+  </main>
 </Layout>
