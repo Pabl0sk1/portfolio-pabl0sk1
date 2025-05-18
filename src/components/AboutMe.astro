@@ -1,5 +1,7 @@
 ---
 const personalImageAlt = "Pablo Ocampos";
+import FileIcon from "./icons/File.astro";
+import LinkButton from "./LinkButton.astro";
 ---
 
 <article
@@ -46,6 +48,12 @@ const personalImageAlt = "Pablo Ocampos";
         >tecnología como herramienta para mejorar la vida cotidiana</strong
       >.
     </p>
+    <div class="mt-6">
+      <LinkButton href={"./(ES)Pablo_Mysskoski_Ocampos_CV_2025.pdf"}>
+        <FileIcon class="size-4" />
+        Curriculum Vitae
+      </LinkButton>
+    </div>
   </div>
   <img
     width="200"
