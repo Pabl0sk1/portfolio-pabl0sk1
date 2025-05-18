@@ -1,5 +1,6 @@
 ---
 import LinkInline from "./LinkInline.astro";
+import RouterIcon from "./icons/Route.astro";
 
 interface Props {
   title: string;
@@ -35,6 +36,12 @@ const { title, company, description, link, date } = Astro.props;
     class="relative flex flex-col gap-2 pb-4 text-gray-600 dark:text-gray-300 md:col-span-3"
   >
     {description}
-    {link && <LinkInline href={link}>Saber más {">"}</LinkInline>}
+    {
+      link && (
+        <LinkInline href={link}>
+          Saber más <RouterIcon class="ml-4" />
+        </LinkInline>
+      )
+    }
   </div>
 </div>
