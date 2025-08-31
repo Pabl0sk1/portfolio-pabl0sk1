@@ -11,6 +11,8 @@ import Stack from "../components/Stack.astro";
 import AboutMe from "../components/AboutMe.astro";
 import Hero from "../components/Hero.astro";
 import TitleSection from "../components/TitleSection.astro";
+import ContactIcon from "../components/icons/Contact.astro";
+import SendToMe from "../components/SendToMe.astro";
 
 // Welcome to Astro! Wondering what to do next? Check out the Astro documentation at https://docs.astro.build
 // Don't want to use any of this? Delete everything in this file, the `assets`, `components`, and `layouts` directories, and start fresh.
@@ -57,6 +59,14 @@ import TitleSection from "../components/TitleSection.astro";
           Sobre mí
         </TitleSection>
         <AboutMe />
+      </Container>
+
+      <Container id="contactar">
+        <TitleSection>
+          <ContactIcon class="size-8" />
+          Contactar
+        </TitleSection>
+        <SendToMe />
       </Container>
     </div>
   </main>
