@@ -6,9 +6,13 @@ const {} = Astro.props;
   name="contact"
   method="POST"
   data-netlify="true"
+  netlify-honeypot="bot-field"
+  data-netlify-recaptcha="true"
+  enctype="multipart/form-data"
   class="flex flex-col gap-4 bg-white/5 p-6 rounded-xl shadow-lg"
 >
   <input type="hidden" name="form-name" value="contact" />
+  <input type="hidden" name="bot-field" />
 
   <div class="flex flex-col">
     <label class="text-sm font-medium text-gray-300">Nombre</label>
@@ -52,6 +56,19 @@ const {} = Astro.props;
       rows="5"
       required></textarea>
   </div>
+
+  <div class="flex flex-col">
+    <label class="text-sm font-medium text-gray-300 mb-2"
+      >Adjuntar archivo</label
+    >
+    <label
+      class="flex justify-start w-full px-4 py-3 bg-white/10 rounded-lg cursor-pointer border border-dashed border-gray-400 hover:border-yellow-400 hover:bg-white/20 transition"
+    >
+      <input type="file" name="resume" />
+    </label>
+  </div>
+
+  <div data-netlify-recaptcha="true" class="mt-4"></div>
 
   <button
     type="submit"
