@@ -1,0 +1,63 @@
+---
+const { } = Astro.props;
+---
+
+<form 
+name="contact" 
+method="POST" 
+data-netlify="true" 
+class="flex flex-col gap-4 bg-white/5 p-6 rounded-xl shadow-lg"
+>
+<input type="hidden" name="form-name" value="contact" />
+
+<div class="flex flex-col">
+    <label class="text-sm font-medium text-gray-300">Nombre y Apellido / Entidad</label>
+    <input 
+    type="text" 
+    name="nombre"
+    placeholder="Escriba su nombre y apellido o empresa"
+    class="mt-2 p-2 rounded-lg bg-white/10 text-white"
+    required
+    />
+</div>
+
+<div class="flex flex-col">
+    <label class="text-sm font-medium text-gray-300">Teléfono</label>
+    <input 
+    type="tel" 
+    name="telefono"
+    placeholder="+595..."
+    class="mt-2 p-2 rounded-lg bg-white/10 text-white"
+    required
+    />
+</div>
+
+<div class="flex flex-col">
+    <label class="text-sm font-medium text-gray-300">Correo</label>
+    <input 
+    type="email" 
+    name="correo"
+    placeholder="ejemplo@miempresa.com"
+    class="mt-2 p-2 rounded-lg bg-white/10 text-white"
+    required
+    />
+</div>
+
+<div class="flex flex-col">
+    <label class="text-sm font-medium text-gray-300">Descripción</label>
+    <textarea 
+    name="descripcion"
+    placeholder="Escriba su motivo"
+    class="mt-2 p-2 rounded-lg bg-white/10 text-white"
+    rows="5"
+    required
+    />
+</div>
+
+<button 
+    type="submit" 
+    class="mt-4 bg-yellow-500 text-black font-bold py-2 rounded-lg hover:bg-yellow-400 transition-all cursor-pointer"
+>
+    Enviar Mensaje
+</button>
+</form>
