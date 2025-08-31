@@ -11,14 +11,11 @@ const {} = Astro.props;
   <input type="hidden" name="form-name" value="contact" />
 
   <div class="flex flex-col">
-    <label class="text-sm font-medium text-gray-300"
-      >Nombre y Apellido / Entidad</label
-    >
+    <label class="text-sm font-medium text-gray-300">Nombre</label>
     <input
       type="text"
       name="name"
-      id="name"
-      placeholder="Escriba su nombre y apellido o empresa"
+      placeholder="Escriba el nombre"
       class="mt-2 p-2 rounded-lg bg-white/10 text-white"
       required
     />
@@ -29,19 +26,28 @@ const {} = Astro.props;
     <input
       type="email"
       name="email"
-      id="email"
-      placeholder="ejemplo@miempresa.com"
+      placeholder="Escriba el correo"
       class="mt-2 p-2 rounded-lg bg-white/10 text-white"
       required
     />
   </div>
 
   <div class="flex flex-col">
-    <label class="text-sm font-medium text-gray-300">Descripción</label>
+    <label class="text-sm font-medium text-gray-300">Asunto</label>
+    <input
+      type="text"
+      name="subject"
+      placeholder="Escriba el asunto"
+      class="mt-2 p-2 rounded-lg bg-white/10 text-white"
+      required
+    />
+  </div>
+
+  <div class="flex flex-col">
+    <label class="text-sm font-medium text-gray-300">Mensaje</label>
     <textarea
       name="message"
-      id="message"
-      placeholder="Escriba su motivo"
+      placeholder="Escriba el mensaje"
       class="mt-2 p-2 rounded-lg bg-white/10 text-white"
       rows="5"
       required></textarea>
