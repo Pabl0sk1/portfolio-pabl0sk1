@@ -1,6 +1,6 @@
 # Portafolio Web
 
-![image](https://github.com/user-attachments/assets/2d59b492-9800-40e5-b25a-72b5f05c4469)
+![image](https://github.com/user-attachments/assets/77590e77-8b11-4d0e-b0f4-3fedc20a5306)
 
 <p align="justify">Este es mi portafolio web personal donde muestro mis proyectos, experiencia, stack, sobre mí y formas de contacto.  
 Diseñado con Astro y Tailwind, es responsivo y accesible desde cualquier dispositivo.</p>
