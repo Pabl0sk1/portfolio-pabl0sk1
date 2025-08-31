@@ -63,9 +63,15 @@ const {} = Astro.props;
       >Adjuntar archivo</label
     >
     <label
-      class="flex justify-start w-full px-4 py-3 bg-white/10 rounded-lg cursor-pointer border border-dashed border-gray-400 hover:border-yellow-400 hover:bg-white/20 transition"
+      class="flex justify-between items-center w-full text-sm px-4 py-3 bg-white/10 rounded-lg cursor-pointer border border-dashed border-gray-400 hover:border-yellow-400 hover:bg-white/20 transition"
     >
-      <input type="file" name="resume" />
+      <span id="file-name" class="truncate">Selecciona un archivo...</span>
+      <input
+        type="file"
+        name="resume"
+        class="hidden"
+        onchange="document.getElementById('file-name').textContent = this.files[0]?.name || 'Selecciona un archivo...'"
+      />
     </label>
   </div>
 
