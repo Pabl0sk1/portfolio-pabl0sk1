@@ -26,102 +26,102 @@ import LinkButton from "./LinkButton.astro";
 const TAGS = {
   ASTROBUILD: {
     name: "Astro",
-    class: "bg-white text-orange-500",
+    class: "bg-black/85 dark:bg-white text-orange-500",
     icon: AstroIcon,
   },
   VITE: {
     name: "Vite",
-    class: "bg-white text-violet-500",
+    class: "bg-black/85 dark:bg-white text-violet-500",
     icon: ViteIcon,
   },
   HTML: {
     name: "HTML",
-    class: "bg-white text-red-500",
+    class: "bg-black/85 dark:bg-white text-red-500",
     icon: HtmlIcon,
   },
   CSS: {
     name: "CSS",
-    class: "bg-white text-violet-500",
+    class: "bg-black/85 dark:bg-white text-violet-500",
     icon: CssIcon,
   },
   BOOTSTRAP: {
     name: "Bootstrap",
-    class: "bg-white text-violet-500",
+    class: "bg-black/85 dark:bg-white text-violet-500",
     icon: BootstrapIcon,
   },
   TAILWIND: {
     name: "Tailwind",
-    class: "bg-white text-sky-500",
+    class: "bg-black/85 dark:bg-white text-sky-500",
     icon: TailwindIcon,
   },
   SASS: {
     name: "SASS",
-    class: "bg-white text-pink-500",
+    class: "bg-black/85 dark:bg-white text-pink-500",
     icon: SassIcon,
   },
   JAVASCRIPT: {
     name: "JavaScript",
-    class: "bg-white text-yellow-500",
+    class: "bg-black/85 dark:bg-white text-yellow-500",
     icon: JavascriptIcon,
   },
   TYPESCRIPT: {
     name: "TypeScript",
-    class: "bg-white text-blue-500",
+    class: "bg-black/85 dark:bg-white text-blue-500",
     icon: TypescriptIcon,
   },
   REACT: {
     name: "React",
-    class: "bg-white text-sky-500",
+    class: "bg-black/85 dark:bg-white text-sky-500",
     icon: ReactIcon,
   },
   ANGULAR: {
     name: "Angular",
-    class: "bg-white text-red-500",
+    class: "bg-black/85 dark:bg-white text-red-500",
     icon: AngularIcon,
   },
   PYTHON: {
     name: "Python",
-    class: "bg-white text-blue-500",
+    class: "bg-black/85 dark:bg-white text-blue-500",
     icon: PythonIcon,
   },
   DJANGO: {
     name: "Django",
-    class: "bg-white text-green-500",
+    class: "bg-black/85 dark:bg-white text-green-500",
     icon: DjangoIcon,
   },
   JAVA: {
     name: "Java",
-    class: "bg-white text-amber-500",
+    class: "bg-black/85 dark:bg-white text-amber-500",
     icon: JavaIcon,
   },
   SPRINGBOOT: {
     name: "Spring Boot",
-    class: "bg-white text-green-500",
+    class: "bg-black/85 dark:bg-white text-green-500",
     icon: SpringbootIcon,
   },
   IONIC: {
     name: "Ionic",
-    class: "bg-white text-blue-500",
+    class: "bg-black/85 dark:bg-white text-blue-500",
     icon: IonicIcon,
   },
   FIREBASE: {
     name: "Firebase",
-    class: "bg-white text-yellow-500",
+    class: "bg-black/85 dark:bg-white text-yellow-500",
     icon: FirestoreIcon,
   },
   POSTGRESQL: {
     name: "PostgreSQL",
-    class: "bg-white text-blue-500",
+    class: "bg-black/85 dark:bg-white text-blue-500",
     icon: PostgresqlIcon,
   },
   MYSQL: {
     name: "MySQL",
-    class: "bg-white text-blue-500",
+    class: "bg-black/85 dark:bg-white text-blue-500",
     icon: MysqlIcon,
   },
   MONGODB: {
     name: "MongoDB",
-    class: "bg-white text-green-500",
+    class: "bg-black/85 dark:bg-white text-green-500",
     icon: MongodbIcon,
   },
 };
@@ -193,7 +193,7 @@ const PROJECTS = [
 <div class="max-w-6xl mx-auto px-4 grid gap-12 md:grid-cols-2">
   {
     PROJECTS.map(({ title, description, image, tags, link, github }) => (
-      <article class="flex flex-col bg-white dark:bg-gray-800 rounded-xl shadow-md overflow-hidden hover:shadow-lg transition-shadow duration-300">
+      <article class="flex flex-col bg-black/10 dark:bg-gray-800 rounded-xl shadow-md overflow-hidden hover:shadow-lg transition-shadow duration-300">
         {/* Imagen */}
         <div class="relative w-full h-64 md:h-48 overflow-hidden">
           <img
@@ -207,7 +207,7 @@ const PROJECTS = [
 
         {/* Contenido */}
         <div class="p-4 flex flex-col justify-between gap-3">
-          <h3 class="text-xl md:text-2xl font-bold text-gray-800 dark:text-blue-200">
+          <h3 class="text-xl md:text-2xl font-bold text-blue-800 dark:text-blue-200">
             {title}
           </h3>
           <p class="text-gray-700 dark:text-gray-300 text-sm">{description}</p>
