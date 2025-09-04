@@ -20,7 +20,6 @@ const {} = Astro.props;
     <input
       type="text"
       name="name"
-      placeholder="Escriba el nombre"
       class="mt-2 p-2 rounded-lg bg-white/10 text-white"
       required
     />
@@ -31,7 +30,6 @@ const {} = Astro.props;
     <input
       type="email"
       name="email"
-      placeholder="Escriba el correo"
       class="mt-2 p-2 rounded-lg bg-white/10 text-white"
       required
     />
@@ -42,7 +40,6 @@ const {} = Astro.props;
     <input
       type="text"
       name="subject"
-      placeholder="Escriba el asunto"
       class="mt-2 p-2 rounded-lg bg-white/10 text-white"
       required
     />
@@ -52,7 +49,6 @@ const {} = Astro.props;
     <label class="text-sm font-medium text-gray-300">Mensaje</label>
     <textarea
       name="message"
-      placeholder="Escriba el mensaje"
       class="mt-2 p-2 rounded-lg bg-white/10 text-white"
       rows="5"
       required></textarea>
@@ -63,7 +59,7 @@ const {} = Astro.props;
       >Adjuntar archivo</label
     >
     <label
-      class="flex justify-between items-center w-full text-sm px-4 py-3 bg-white/10 rounded-lg cursor-pointer border border-dashed border-gray-400 hover:border-yellow-400 hover:bg-white/20 transition"
+      class="flex justify-between items-center w-full text-sm px-4 py-3 bg-white/10 rounded-lg cursor-pointer border border-dashed border-gray-400 hover:border-blue-400 hover:bg-white/20 transition"
     >
       <span id="file-name" class="truncate">Selecciona un archivo...</span>
       <input
@@ -79,7 +75,7 @@ const {} = Astro.props;
 
   <button
     type="submit"
-    class="mt-4 bg-yellow-500 text-black font-bold py-2 rounded-lg hover:bg-yellow-400 transition-all cursor-pointer"
+    class="mt-4 bg-blue-500 text-white font-bold py-2 rounded-lg hover:bg-blue-400 transition-all cursor-pointer"
   >
     Enviar Mensaje
   </button>

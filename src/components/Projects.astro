@@ -190,56 +190,51 @@ const PROJECTS = [
 ];
 ---
 
-<div
-  class="grid grid-cols-1 md:grid-cols-2 gap-12 max-w-6xl mx-auto mt-12 px-4"
->
+<div class="max-w-6xl mx-auto px-4 grid gap-12 md:grid-cols-2">
   {
     PROJECTS.map(({ title, description, image, tags, link, github }) => (
-      <article class="group relative flex flex-col overflow-hidden rounded-2xl shadow-lg hover:shadow-2xl transition-shadow duration-500">
+      <article class="flex flex-col bg-white dark:bg-gray-800 rounded-xl shadow-md overflow-hidden hover:shadow-lg transition-shadow duration-300">
         {/* Imagen */}
-        <div class="relative">
+        <div class="relative w-full h-64 md:h-48 overflow-hidden">
           <img
             src={image}
             alt={title}
-            class="w-full h-64 md:h-80 object-cover transition-transform duration-500 group-hover:scale-102"
+            class="w-full h-full object-cover transition-transform duration-300 ease-in-out hover:scale-105"
+            loading="lazy"
+            decoding="async"
           />
         </div>
 
         {/* Contenido */}
-        <div class="p-6 bg-gray-50 dark:bg-gray-900 flex flex-col justify-between h-full">
-          <h3 class="text-2xl font-bold text-gray-800 dark:text-white mb-2">
+        <div class="p-4 flex flex-col justify-between gap-3">
+          <h3 class="text-xl md:text-2xl font-bold text-gray-800 dark:text-blue-200">
             {title}
           </h3>
-          <p class="text-gray-700 dark:text-gray-300 mb-4">{description}</p>
+          <p class="text-gray-700 dark:text-gray-300 text-sm">{description}</p>
 
-          {/* Tags debajo de la descripción */}
-          <div class="flex flex-wrap gap-2 mb-4">
+          {/* Tags */}
+          <div class="flex flex-wrap justify-center gap-2 mt-2">
             {tags.map((tag) => (
               <span
-                class={`flex items-center gap-1 px-3 py-1 rounded-full text-xs font-medium ${tag.class} backdrop-blur-sm bg-white/20`}
+                class={`flex items-center gap-1 px-2 py-1 md:px-3 md:py-1.5 text-[10px] md:text-sm font-medium rounded-full 
+                  transition-all duration-200 ease-in-out ${tag.class} md:hover:scale-105 md:hover:shadow-md md:hover:bg-opacity-20`}
               >
-                <tag.icon class="size-4" />
+                <tag.icon class="w-4 h-4 md:w-5 md:h-5" />
                 {tag.name}
               </span>
             ))}
           </div>
 
           {/* Botones */}
-          <div class="flex gap-4 mt-auto">
+          <div class="flex gap-3 mt-3">
             {github && (
-              <LinkButton
-                href={github}
-                class="bg-gray-800 dark:bg-gray-700 hover:bg-gray-900 dark:hover:bg-gray-600 transition-colors"
-              >
-                <RepoIcon class="size-4" /> Repositorio
+              <LinkButton href={github} class="text-sm px-3 py-1">
+                <RepoIcon class="w-4 h-4" /> Repositorio
               </LinkButton>
             )}
             {link && (
-              <LinkButton
-                href={link}
-                class="bg-blue-600 dark:bg-blue-500 hover:bg-blue-700 dark:hover:bg-blue-600 transition-colors"
-              >
-                <LinkIcon class="size-4" /> Website
+              <LinkButton href={link} class="text-sm px-3 py-1">
+                <LinkIcon class="w-4 h-4" /> Website
               </LinkButton>
             )}
           </div>

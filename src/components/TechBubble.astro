@@ -2,13 +2,15 @@
 const { Icon, label, link } = Astro.props;
 ---
 
-<a 
-  href={link} 
-  target="_blank" 
+<a
+  href={link}
+  target="_blank"
   class="group flex flex-col items-center gap-2 p-4 rounded-xl bg-white/5 shadow-sm hover:bg-white/10 hover:shadow-md transition-all duration-200"
 >
   <Icon class="w-10 h-10" />
-  <span class="text-sm text-gray-400 group-hover:text-yellow-100 group-hover:font-bold">
+  <span
+    class="text-sm text-gray-400 group-hover:text-blue-200 group-hover:font-bold"
+  >
     {label}
   </span>
 </a>
