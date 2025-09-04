@@ -8,59 +8,83 @@ import DiscordIcon from "./icons/Discord.astro";
 import SocialPill from "./SocialPill.astro";
 ---
 
-<div class="max-w-xl">
-  <div class="flex gap-4 mb-4">
-    <img
-      class="rounded-full shadow-lg size-16 hover:scale-105 border border-white hover:border-green-200 hover:grayscale-50"
-      src="https://avatars.githubusercontent.com/u/127477502?s=400&u=b76de0007f81513f49e60ebd8c3d14c61ca02292&v=4"
-      alt={personalImageAlt}
-    />
-    <a
-      href="https://www.linkedin.com/in/pablo-ocampos-b48374381"
-      target="_blank"
-      rel="noopener"
-      class="flex items-center transition md:justify-center md:hover:scale-105"
+<div
+  class="flex flex-col md:flex-row items-center md:items-start gap-8 max-w-6xl mx-auto mt-12 px-4"
+>
+  <!-- IZQUIERDA: Texto e info -->
+  <div class="flex-1 max-w-xl">
+    <div class="flex gap-4 mb-4">
+      <img
+        class="rounded-full shadow-lg w-20 h-20 hover:scale-105 border border-white hover:border-red-800 hover:grayscale-50"
+        src="https://avatars.githubusercontent.com/u/127477502?s=400&u=b76de0007f81513f49e60ebd8c3d14c61ca02292&v=4"
+        alt={personalImageAlt}
+      />
+      <a
+        href="https://www.linkedin.com/in/pablo-ocampos-b48374381"
+        target="_blank"
+        rel="noopener"
+        class="flex items-center transition md:justify-center md:hover:scale-105"
+      >
+        <Badge>Abierto a Oportunidades</Badge>
+      </a>
+    </div>
+    <h1
+      class="text-4xl font-bold tracking-tight text-gray-800 sm:text-5xl dark:text-white"
     >
-      <Badge>Abierto a Oportunidades</Badge>
-    </a>
+      Hola! Soy Pablo Ocampos
+    </h1>
+    <p
+      class="mt-6 text-xl text-gray-800 dark:[&>strong]:text-yellow-200 [&>strong]:text-yellow-500 [&>strong]:font-semibold dark:text-gray-300"
+    >
+      <span class="text-blue-400 dark:text-blue-200/75"
+        >+1 año de experiencia.</span
+      >
+      <span class="text-orange-400 dark:text-yellow-200/75 font-bold"
+        >Desarrollador web y de gestión empresarial.</span
+      >
+      <span class="text-red-400 dark:text-red-300/75"
+        >De Alto Paraná, Paraguay.</span
+      >
+      <span class="text-amber-400 dark:text-amber-50/75"
+        >Especializado en crear aplicaciones personalizadas únicas.</span
+      >
+    </p>
+    <nav class="flex flex-wrap gap-4 mt-8">
+      <SocialPill href="https://www.linkedin.com/in/pablo-ocampos-b48374381">
+        <LinkedinIcon class="size-4 md:size-6" />
+        LinkedIn
+      </SocialPill>
+      <SocialPill href="https://github.com/Pabl0sk1">
+        <GithubIcon class="size-4 md:size-6" />
+        GitHub
+      </SocialPill>
+      <SocialPill href="https://discordapp.com/users/918699279806255165">
+        <DiscordIcon class="size-4 md:size-6" />
+        Discord
+      </SocialPill>
+      <SocialPill href="mailto:pablo.mk.ocampos@gmail.com">
+        <GmailIcon class="size-4 md:size-6" />
+        Gmail
+      </SocialPill>
+    </nav>
   </div>
-  <h1
-    class="text-4xl font-bold tracking-tight text-gray-800 sm:text-5xl dark:text-white"
-  >
-    Hola! Soy Pablo Ocampos
-  </h1>
-  <p
-    class="mt-6 text-xl text-gray-800 dark:[&>strong]:text-yellow-200 [&>strong]:text-yellow-500 [&>strong]:font-semibold dark:text-gray-300"
-  >
-    <span class="text-blue-400 dark:text-blue-200/75"
-      >+1 año de experiencia.</span
+
+  <!-- Modelo 3D -->
+  <div class="flex-1 w-full md:w-auto">
+    <model-viewer
+      src="/models/desktop/scene.gltf"
+      camera-controls
+      auto-rotate
+      camera-orbit="45deg 75deg 3m"
+      camera-target="0m 0m 0m"
+      shadow-intensity="1"
+      class="w-full md:w-auto h-80 md:h-[500px] rounded-2xl bg-white/10"
     >
-    <span class="text-orange-400 dark:text-yellow-200/75 font-bold">
-      Desarrollador web y de gestión empresarial.
-    </span>
-    <span class="text-red-400 dark:text-red-300/75"
-      >De Alto Paraná, Paraguay.</span
-    >
-    <span class="text-amber-400 dark:text-amber-50/75">
-      Especializado en crear aplicaciones personalizadas únicas.
-    </span>
-  </p>
-  <nav class="flex flex-wrap gap-4 mt-8">
-    <SocialPill href="https://www.linkedin.com/in/pablo-ocampos-b48374381">
-      <LinkedinIcon class="size-4 md:size-6" />
-      LinkedIn
-    </SocialPill>
-    <SocialPill href="https://github.com/Pabl0sk1">
-      <GithubIcon class="size-4 md:size-6" />
-      GitHub
-    </SocialPill>
-    <SocialPill href="https://discordapp.com/users/918699279806255165">
-      <DiscordIcon class="size-4 md:size-6" />
-      Discord
-    </SocialPill>
-    <SocialPill href="mailto:pablo.mk.ocampos@gmail.com">
-      <GmailIcon class="size-4 md:size-6" />
-      Gmail
-    </SocialPill>
-  </nav>
+    </model-viewer>
+  </div>
 </div>
+
+<script
+  type="module"
+  src="https://ajax.googleapis.com/ajax/libs/model-viewer/4.0.0/model-viewer.min.js"
+></script>

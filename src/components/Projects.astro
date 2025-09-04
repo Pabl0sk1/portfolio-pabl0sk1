@@ -190,54 +190,58 @@ const PROJECTS = [
 ];
 ---
 
-<div class="flex flex-col gap-y-16">
+<div
+  class="grid grid-cols-1 md:grid-cols-2 gap-12 max-w-6xl mx-auto mt-12 px-4"
+>
   {
     PROJECTS.map(({ title, description, image, tags, link, github }) => (
-      <article class="flex flex-col space-x-0 space-y-8 group md:flex-row md:space-x-8 md:space-y-0">
-        <div class="w-full md:w-1/2">
-          <div class="relative flex flex-col items-center col-span-6 row-span-5 gap-8 transition duration-500 ease-in-out transform shadow-xl overflow-clip rounded-xl sm:rounded-xl md:group-hover:-translate-y-1 md:group-hover:shadow-2xl lg:border lg:border-gray-800 lg:hover:border-gray-700 lg:hover:bg-gray-800/50">
-            <img
-              src={image}
-              alt="Evolucionando en el mundo de la programación"
-              loading="lazy"
-              class="object-cover object-top w-full h-56 transition duration-500 sm:h-full md:scale-100 md:group-hover:scale-100"
-            />
-          </div>
+      <article class="group relative flex flex-col overflow-hidden rounded-2xl shadow-lg hover:shadow-2xl transition-shadow duration-500">
+        {/* Imagen */}
+        <div class="relative">
+          <img
+            src={image}
+            alt={title}
+            class="w-full h-64 md:h-80 object-cover transition-transform duration-500 group-hover:scale-102"
+          />
         </div>
-        <div class="w-full md:w-1/2 md:max-w-lg">
-          <h3 class="text-2xl font-bold text-gray-800 dark:text-gray-100">
+
+        {/* Contenido */}
+        <div class="p-6 bg-gray-50 dark:bg-gray-900 flex flex-col justify-between h-full">
+          <h3 class="text-2xl font-bold text-gray-800 dark:text-white mb-2">
             {title}
           </h3>
-          <div class="flex flex-wrap mt-2">
-            <ul class="flex flex-wrap gap-x-2">
-              {tags.map((tag) => (
-                <li>
-                  <span
-                    class={`${tag.class} flex select-none gap-x-2 mb-2 rounded-full text-xs py-1 px-2 border items-center hover:scale-105`}
-                  >
-                    <tag.icon class="size-4" />
-                    <span class="text-sm font-medium">{tag.name}</span>
-                  </span>
-                </li>
-              ))}
-            </ul>
-            <div class="mt-2 text-gray-700 dark:text-gray-400">
-              {description}
-            </div>
-            <footer class="flex items-end justify-start mt-4 gap-x-4">
-              {github && (
-                <LinkButton href={github}>
-                  <RepoIcon class="size-4" />
-                  Repositorio
-                </LinkButton>
-              )}
-              {link && (
-                <LinkButton href={link}>
-                  <LinkIcon class="size-4" />
-                  Web
-                </LinkButton>
-              )}
-            </footer>
+          <p class="text-gray-700 dark:text-gray-300 mb-4">{description}</p>
+
+          {/* Tags debajo de la descripción */}
+          <div class="flex flex-wrap gap-2 mb-4">
+            {tags.map((tag) => (
+              <span
+                class={`flex items-center gap-1 px-3 py-1 rounded-full text-xs font-medium ${tag.class} backdrop-blur-sm bg-white/20`}
+              >
+                <tag.icon class="size-4" />
+                {tag.name}
+              </span>
+            ))}
+          </div>
+
+          {/* Botones */}
+          <div class="flex gap-4 mt-auto">
+            {github && (
+              <LinkButton
+                href={github}
+                class="bg-gray-800 dark:bg-gray-700 hover:bg-gray-900 dark:hover:bg-gray-600 transition-colors"
+              >
+                <RepoIcon class="size-4" /> Repositorio
+              </LinkButton>
+            )}
+            {link && (
+              <LinkButton
+                href={link}
+                class="bg-blue-600 dark:bg-blue-500 hover:bg-blue-700 dark:hover:bg-blue-600 transition-colors"
+              >
+                <LinkIcon class="size-4" /> Website
+              </LinkButton>
+            )}
           </div>
         </div>
       </article>
