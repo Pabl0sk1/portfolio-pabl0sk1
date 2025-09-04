@@ -10,56 +10,54 @@ const {} = Astro.props;
   netlify-honeypot="bot-field"
   data-netlify-recaptcha="true"
   enctype="multipart/form-data"
-  class="flex flex-col gap-4 bg-white/5 p-6 rounded-xl shadow-lg"
+  class="flex flex-col gap-4 bg-black/20 dark:bg-white/5 p-6 rounded-xl shadow-lg text-gray-900 dark:text-gray-300"
 >
   <input type="hidden" name="form-name" value="contact" />
   <input type="hidden" name="bot-field" />
 
   <div class="flex flex-col">
-    <label class="text-sm font-medium text-gray-300">Nombre</label>
+    <label class="text-sm font-medium">Nombre</label>
     <input
       type="text"
       name="name"
-      class="mt-2 p-2 rounded-lg bg-white/10 text-white"
+      class="mt-2 p-2 rounded-lg bg-gray-200 text-black dark:bg-white/10 dark:text-white"
       required
     />
   </div>
 
   <div class="flex flex-col">
-    <label class="text-sm font-medium text-gray-300">Correo</label>
+    <label class="text-sm font-medium">Correo</label>
     <input
       type="email"
       name="email"
-      class="mt-2 p-2 rounded-lg bg-white/10 text-white"
+      class="mt-2 p-2 rounded-lg bg-gray-200 text-black dark:bg-white/10 dark:text-white"
       required
     />
   </div>
 
   <div class="flex flex-col">
-    <label class="text-sm font-medium text-gray-300">Asunto</label>
+    <label class="text-sm font-medium">Asunto</label>
     <input
       type="text"
       name="subject"
-      class="mt-2 p-2 rounded-lg bg-white/10 text-white"
+      class="mt-2 p-2 rounded-lg bg-gray-200 text-black dark:bg-white/10 dark:text-white"
       required
     />
   </div>
 
   <div class="flex flex-col">
-    <label class="text-sm font-medium text-gray-300">Mensaje</label>
+    <label class="text-sm font-medium">Mensaje</label>
     <textarea
       name="message"
-      class="mt-2 p-2 rounded-lg bg-white/10 text-white"
+      class="mt-2 p-2 rounded-lg bg-gray-200 text-black dark:bg-white/10 dark:text-white"
       rows="5"
       required></textarea>
   </div>
 
   <div class="flex flex-col">
-    <label class="text-sm font-medium text-gray-300 mb-2"
-      >Adjuntar archivo</label
-    >
+    <label class="text-sm font-medium mb-2">Adjuntar archivo</label>
     <label
-      class="flex justify-between items-center w-full text-sm px-4 py-3 bg-white/10 rounded-lg cursor-pointer border border-dashed border-gray-400 hover:border-blue-400 hover:bg-white/20 transition"
+      class="flex justify-between items-center w-full text-sm px-4 py-3 bg-gray-200 text-black dark:bg-white/10 dark:text-white rounded-lg cursor-pointer border border-dashed border-gray-400 hover:border-blue-400 hover:bg-white/10 transition"
     >
       <span id="file-name" class="truncate">Selecciona un archivo...</span>
       <input
@@ -71,7 +69,7 @@ const {} = Astro.props;
     </label>
   </div>
 
-  <div data-netlify-recaptcha="true" class="mt-4"></div>
+  <div data-netlify-recaptcha="true" class="mt-4 me-2"></div>
 
   <button
     type="submit"
