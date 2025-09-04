@@ -69,7 +69,7 @@ const {} = Astro.props;
     </label>
   </div>
 
-  <div data-netlify-recaptcha="true" class="g-recaptcha mt-4 w-full"></div>
+  <div data-netlify-recaptcha="true" class="mt-4 w-full"></div>
 
   <button
     type="submit"
@@ -78,16 +78,3 @@ const {} = Astro.props;
     Enviar Mensaje
   </button>
 </form>
-
-<style>
-  .g-recaptcha {
-    transform: scale(0.85);
-    transform-origin: 0 0;
-  }
-
-  @media (max-width: 400px) {
-    .g-recaptcha {
-      transform: scale(0.75);
-    }
-  }
-</style>
