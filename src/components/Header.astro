@@ -1,6 +1,7 @@
 ---
 import SunIcon from "./icons/Sun.astro";
 import MoonIcon from "./icons/Moon.astro";
+import ScreenIcon from "./icons/Screen.astro";
 
 const navItems = [
   {
@@ -53,51 +54,55 @@ const navItems = [
       aria-label="Toggle Dark Mode"
       class="ml-2 p-1 cursor-pointer rounded-full bg-white/75 dark:bg-black/45 text-yellow-500 dark:text-blue-800 hover:bg-white dark:hover:bg-black transition"
     >
+      <ScreenIcon
+        id="default-icon"
+        class="w-4 h-4 md:w-5 md:h-5 text-red-400"
+      />
       <SunIcon id="sun-icon" class="w-4 h-4 md:w-5 md:h-5 hidden" />
-      <MoonIcon id="moon-icon" class="w-4 h-4 md:w-5 md:h-5" />
+      <MoonIcon id="moon-icon" class="w-4 h-4 md:w-5 md:h-5 hidden" />
     </button>
   </nav>
 </header>
 
 <script>
-  // Espera a que el contenido se cargue completamente
-  window.addEventListener("load", () => {
-    // Si la URL tiene #top, forzamos el scroll a la parte superior
-    if (window.location.hash === "/") {
-      window.scrollTo(0, 0);
-    }
-  });
+  if (window.location.pathname === "/" && !window.location.hash) {
+    window.scrollTo(0, 0);
+  }
 
   const sections = document.querySelectorAll("section[id]");
   const navLinks = document.querySelectorAll("nav a");
 
+  let currentActiveLink: any = null;
   const observer = new IntersectionObserver(
     (entries) => {
-      let anyVisible = false;
+      let visibleSection: any = null;
 
       entries.forEach((entry) => {
-        const id = entry.target.getAttribute("id");
-        const link = document.querySelector(`nav a[href="/#${id}"]`);
-
         if (entry.isIntersecting) {
-          anyVisible = true;
-          navLinks.forEach((l) =>
-            l.classList.remove("text-blue-800", "dark:text-blue-500")
-          );
-          link?.classList.add("text-blue-800", "dark:text-blue-500");
+          visibleSection = entry.target;
         }
       });
 
-      // Si ninguna sección está visible, limpiamos todos los links
-      if (!anyVisible) {
-        navLinks.forEach((link) =>
-          link.classList.remove("text-blue-800", "dark:text-blue-500")
+      if (visibleSection) {
+        const id = visibleSection.getAttribute("id");
+        const link: any = document.querySelector(`nav a[href="/#${id}"]`);
+        if (link !== currentActiveLink) {
+          currentActiveLink?.classList.remove(
+            "text-blue-800",
+            "dark:text-blue-500"
+          );
+          link.classList.add("text-blue-800", "dark:text-blue-500");
+          currentActiveLink = link;
+        }
+      } else {
+        currentActiveLink?.classList.remove(
+          "text-blue-800",
+          "dark:text-blue-500"
         );
+        currentActiveLink = null;
       }
     },
-    {
-      threshold: 0.5,
-    }
+    { threshold: 0.5 }
   );
 
   sections.forEach((section) => observer.observe(section));
@@ -107,33 +112,57 @@ const navItems = [
   const toggleBtn = document.getElementById("theme-toggle");
   const sunIcon = document.getElementById("sun-icon");
   const moonIcon = document.getElementById("moon-icon");
+  const defaultIcon = document.getElementById("default-icon");
 
-  if (toggleBtn && sunIcon && moonIcon) {
-    toggleBtn.addEventListener("click", () => {
+  if (toggleBtn && sunIcon && moonIcon && defaultIcon) {
+    const applyTheme = (theme: "light" | "dark" | "default") => {
       const html = document.documentElement;
 
-      if (html.classList.contains("dark")) {
+      sunIcon.classList.add("hidden");
+      moonIcon.classList.add("hidden");
+      defaultIcon.classList.add("hidden");
+
+      if (theme === "light") {
         html.classList.remove("dark");
         sunIcon.classList.remove("hidden");
-        moonIcon.classList.add("hidden");
-        localStorage.theme = "light";
-      } else {
+      } else if (theme === "dark") {
         html.classList.add("dark");
-        sunIcon.classList.add("hidden");
         moonIcon.classList.remove("hidden");
-        localStorage.theme = "dark";
+      } else if (theme === "default") {
+        if (window.matchMedia("(prefers-color-scheme: dark)").matches) {
+          html.classList.add("dark");
+        } else {
+          html.classList.remove("dark");
+        }
+        defaultIcon.classList.remove("hidden");
       }
-    });
+    };
 
-    // Preferencia guardada
-    if (localStorage.theme === "dark") {
-      document.documentElement.classList.add("dark");
-      sunIcon.classList.add("hidden");
-      moonIcon.classList.remove("hidden");
-    } else if (localStorage.theme === "light") {
-      document.documentElement.classList.remove("dark");
-      sunIcon.classList.remove("hidden");
-      moonIcon.classList.add("hidden");
+    let savedTheme = localStorage.getItem("theme") as "light" | "dark" | null;
+
+    if (!savedTheme) {
+      applyTheme("default");
+    } else {
+      applyTheme(savedTheme);
     }
+
+    toggleBtn.addEventListener("click", () => {
+      let currentTheme: "light" | "dark" | "default";
+
+      // Detectar estado actual
+      if (!sunIcon.classList.contains("hidden")) currentTheme = "light";
+      else if (!moonIcon.classList.contains("hidden")) currentTheme = "dark";
+      else currentTheme = "default";
+
+      let nextTheme: "light" | "dark" | "default";
+      if (currentTheme === "default") nextTheme = "light";
+      else if (currentTheme === "light") nextTheme = "dark";
+      else nextTheme = "default";
+
+      applyTheme(nextTheme);
+
+      if (nextTheme === "default") localStorage.removeItem("theme");
+      else localStorage.setItem("theme", nextTheme);
+    });
   }
 </script>
