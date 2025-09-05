@@ -24,8 +24,8 @@ const { description, title } = Astro.props;
   </head>
   <body class="relative text-black dark:text-white">
     <div
-      class="absolute top-0 bottom-0 z-[-2] min-h-screen w-full bg-gray-50 dark:bg-gray-950
-      bg-[radial-gradient(ellipse_80%_80%_at_50%_-20%,rgba(217,216,255,0.5),rgba(255,255,255,0.9))]
+      class="absolute top-0 bottom-0 z-[-2] min-h-screen w-full bg-blue-100 dark:bg-gray-950
+      bg-[radial-gradient(ellipse_90%_90%_at_90%_-20%,rgba(217,216,255,0.5),rgba(255,255,255,0.9))]
       dark:bg-[radial-gradient(ellipse_80%_80%_at_50%_-20%,rgba(120,119,198,0.3),rgba(255,255,255,0))]"
     >
     </div>
@@ -96,6 +96,51 @@ const { description, title } = Astro.props;
         background-color: rgba(0, 0, 0, 0.3);
         border-radius: 9999px;
       }
+    }
+  }
+  .animated-bg {
+    background: radial-gradient(
+      circle at 50% 50%,
+      rgba(217, 216, 255, 0.5),
+      rgba(255, 255, 255, 0.9)
+    );
+    background-size: 200% 200%;
+    animation: gradientMove 20s ease infinite;
+  }
+
+  @media (prefers-color-scheme: dark) {
+    .animated-bg {
+      background: radial-gradient(
+        circle at 50% 50%,
+        rgba(120, 119, 198, 0.3),
+        rgba(0, 0, 0, 0)
+      );
+      background-size: 200% 200%;
+      animation: gradientMoveDark 25s ease infinite;
+    }
+  }
+
+  @keyframes gradientMove {
+    0% {
+      background-position: 0% 0%;
+    }
+    50% {
+      background-position: 100% 100%;
+    }
+    100% {
+      background-position: 0% 0%;
+    }
+  }
+
+  @keyframes gradientMoveDark {
+    0% {
+      background-position: 0% 50%;
+    }
+    50% {
+      background-position: 50% 100%;
+    }
+    100% {
+      background-position: 0% 50%;
     }
   }
 </style>
