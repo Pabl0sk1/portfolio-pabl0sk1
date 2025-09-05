@@ -33,10 +33,10 @@ const navItems = [
 ---
 
 <header
-  class="fixed top-0 z-10 flex justify-center items-center w-full mx-auto mt-2"
+  class="fixed top-0 z-50 w-full backdrop-blur-md bg-gray-400/30 dark:bg-gray-800/30 border-b border-gray-300/30 dark:border-gray-700/30"
 >
   <nav
-    class="flex px-3 text-sm sm:text-base font-medium rounded-full text-black dark:text-gray-200 justify-center items-center border bg-gray-400 border-gray-400 dark:bg-gray-800 dark:border-gray-600"
+    class="flex justify-center items-center px-4 py-2 text-sm sm:text-base font-medium text-black dark:text-gray-200"
   >
     {
       navItems.map((link) => (
@@ -52,7 +52,7 @@ const navItems = [
     <button
       id="theme-toggle"
       aria-label="Toggle Dark Mode"
-      class="ml-2 p-1 cursor-pointer rounded-full bg-white/75 dark:bg-black/45 text-yellow-500 dark:text-blue-800 hover:bg-white dark:hover:bg-black transition"
+      class="ml-3 p-2 cursor-pointer rounded-full bg-white/50 dark:bg-black/30 text-yellow-500 dark:text-blue-800 hover:bg-white/70 dark:hover:bg-black/50 transition"
     >
       <ScreenIcon
         id="default-icon"
