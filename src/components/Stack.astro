@@ -19,62 +19,206 @@ import FirestoreIcon from "./icons/Firestore.astro";
 import PostmanIcon from "./icons/Postman.astro";
 import TailwindIcon from "./icons/Tailwind.astro";
 import AstroBuildIcon from "./icons/AstroBuild.astro";
+import TypescriptIcon from "./icons/Typescript.astro";
+import ViteIcon from "./icons/Vite.astro";
+import AngularIcon from "./icons/Angular.astro";
+import LaravelIcon from "./icons/Laravel.astro";
+import NextIcon from "./icons/Next.astro";
+import PrismaIcon from "./icons/Prisma.astro";
+import NetlifyIcon from "./icons/Netlify.astro";
+import VscodeIcon from "./icons/Vscode.astro";
+import EclipseIcon from "./icons/Eclipse.astro";
+import BashIcon from "./icons/Bash.astro";
+import PowershellIcon from "./icons/Powershell.astro";
+import HostingerIcon from "./icons/Hostinger.astro";
+import DbeaverIcon from "./icons/Dbeaver.astro";
+import ClickupIcon from "./icons/Clickup.astro";
 ---
 
-<div class="flex flex-wrap gap-5 md:gap-10 justify-center">
-  <TechBubble
-    Icon={HtmlIcon}
-    label="HTML"
-    link="https://developer.mozilla.org/es/docs/Web/HTML"
-  />
-  <TechBubble
-    Icon={CssIcon}
-    label="CSS"
-    link="https://developer.mozilla.org/es/docs/Web/CSS"
-  />
-  <TechBubble
-    Icon={JavascriptIcon}
-    label="JavaScript"
-    link="https://developer.mozilla.org/es/docs/Web/JavaScript"
-  />
-  <TechBubble Icon={AstroBuildIcon} label="Astro" link="https://astro.build/" />
-  <TechBubble
-    Icon={BootstrapIcon}
-    label="BootStrap"
-    link="https://getbootstrap.com/"
-  />
-  <TechBubble
-    Icon={TailwindIcon}
-    label="Tailwind"
-    link="https://tailwindcss.com/"
-  />
-  <TechBubble Icon={ReactIcon} label="React" link="https://es.react.dev/" />
-  <TechBubble Icon={NodeIcon} label="Node.js" link="https://nodejs.org/en" />
-  <TechBubble Icon={PhpIcon} label="PHP" link="https://www.php.net/" />
-  <TechBubble Icon={JavaIcon} label="Java" link="https://www.java.com/es/" />
-  <TechBubble
-    Icon={SpringbootIcon}
-    label="Spring Boot"
-    link="https://spring.io/projects/spring-boot"
-  />
-  <TechBubble
-    Icon={PostgresqlIcon}
-    label="PostgreSQL"
-    link="https://www.postgresql.org/"
-  />
-  <TechBubble Icon={MysqlIcon} label="MySQL" link="https://www.mysql.com/" />
-  <TechBubble
-    Icon={FirestoreIcon}
-    label="Firebase"
-    link="https://firebase.google.com/"
-  />
-  <TechBubble Icon={GitIcon} label="Git" link="https://git-scm.com/" />
-  <TechBubble Icon={GithubIcon} label="GitHub" link="https://github.com/" />
-  <TechBubble Icon={DockerIcon} label="Docker" link="https://www.docker.com/" />
-  <TechBubble
-    Icon={PostmanIcon}
-    label="Postman"
-    link="https://www.postman.com/"
-  />
-  <TechBubble Icon={N8nIcon} label="n8n" link="https://n8n.io/" />
+<div
+  class="max-w-5xl mx-auto mt-10 divide-black/10 dark:divide-white/10 rounded-xl overflow-hidden space-y-4"
+>
+  <!-- Backend -->
+  <div
+    class="bg-black/5 dark:bg-white/5 px-4 py-5 rounded-xl hover:bg-black/10 dark:hover:bg-white/10 transition divide-y border-b border-black/10 dark:border-white/10"
+  >
+    <h3 class="text-green-400 font-semibold mb-3">Backend</h3>
+    <div class="flex flex-wrap gap-3">
+      <TechBubble
+        Icon={JavaIcon}
+        label="Java"
+        link="https://www.java.com/es/"
+      />
+      <TechBubble
+        Icon={SpringbootIcon}
+        label="Spring Boot"
+        link="https://spring.io/projects/spring-boot"
+      />
+      <TechBubble Icon={PhpIcon} label="PHP" link="https://www.php.net/" />
+      <TechBubble
+        Icon={LaravelIcon}
+        label="Laravel"
+        link="https://laravel.com/"
+      />
+      <TechBubble
+        Icon={NodeIcon}
+        label="Node.js"
+        link="https://nodejs.org/en"
+      />
+    </div>
+  </div>
+
+  <!-- Frontend -->
+  <div
+    class="bg-black/5 dark:bg-white/5 px-4 py-5 rounded-xl hover:bg-black/10 dark:hover:bg-white/10 transition divide-y border-b border-black/10 dark:border-white/10"
+  >
+    <h3 class="text-blue-400 font-semibold mb-3">Frontend</h3>
+    <div class="flex flex-wrap gap-3">
+      <TechBubble
+        Icon={HtmlIcon}
+        label="HTML"
+        link="https://developer.mozilla.org/es/docs/Web/HTML"
+      />
+      <TechBubble
+        Icon={CssIcon}
+        label="CSS"
+        link="https://developer.mozilla.org/es/docs/Web/CSS"
+      />
+      <TechBubble
+        Icon={JavascriptIcon}
+        label="JavaScript"
+        link="https://developer.mozilla.org/es/docs/Web/JavaScript"
+      />
+      <TechBubble
+        Icon={TypescriptIcon}
+        label="TypeScript"
+        link="https://www.typescriptlang.org/"
+      />
+      <TechBubble Icon={ReactIcon} label="React" link="https://es.react.dev/" />
+      <TechBubble
+        Icon={AngularIcon}
+        label="Angular"
+        link="https://angular.io/"
+      />
+      <TechBubble Icon={NextIcon} label="Next.js" link="https://nextjs.org/" />
+      <TechBubble
+        Icon={TailwindIcon}
+        label="Tailwind"
+        link="https://tailwindcss.com/"
+      />
+      <TechBubble
+        Icon={BootstrapIcon}
+        label="Bootstrap"
+        link="https://getbootstrap.com/"
+      />
+    </div>
+  </div>
+
+  <!-- Databases -->
+  <div
+    class="bg-black/5 dark:bg-white/5 px-4 py-5 rounded-xl hover:bg-black/10 dark:hover:bg-white/10 transition divide-y border-b border-black/10 dark:border-white/10"
+  >
+    <h3 class="text-yellow-400 font-semibold mb-3">Databases</h3>
+    <div class="flex flex-wrap gap-3">
+      <TechBubble
+        Icon={PostgresqlIcon}
+        label="PostgreSQL"
+        link="https://www.postgresql.org/"
+      />
+      <TechBubble
+        Icon={MysqlIcon}
+        label="MySQL"
+        link="https://www.mysql.com/"
+      />
+      <TechBubble
+        Icon={FirestoreIcon}
+        label="Firebase"
+        link="https://firebase.google.com/"
+      />
+      <TechBubble
+        Icon={PrismaIcon}
+        label="Prisma"
+        link="https://www.prisma.io/"
+      />
+    </div>
+  </div>
+
+  <!-- DevOps + Cloud + Automation -->
+  <div
+    class="bg-black/5 dark:bg-white/5 px-4 py-5 rounded-xl hover:bg-black/10 dark:hover:bg-white/10 transition divide-y border-b border-black/10 dark:border-white/10"
+  >
+    <h3 class="text-purple-400 font-semibold mb-3">
+      DevOps & Deployment + Cloud & Automation
+    </h3>
+    <div class="flex flex-wrap gap-3">
+      <TechBubble
+        Icon={DockerIcon}
+        label="Docker"
+        link="https://www.docker.com/"
+      />
+      <TechBubble Icon={GitIcon} label="Git" link="https://git-scm.com/" />
+      <TechBubble Icon={GithubIcon} label="GitHub" link="https://github.com/" />
+      <TechBubble
+        Icon={NetlifyIcon}
+        label="Netlify"
+        link="https://www.netlify.com/"
+      />
+      <TechBubble
+        Icon={HostingerIcon}
+        label="Hostinger"
+        link="https://www.hostinger.com/"
+      />
+      <TechBubble Icon={N8nIcon} label="n8n" link="https://n8n.io/" />
+    </div>
+  </div>
+
+  <!-- Tools + Build Tools -->
+  <div
+    class="bg-black/5 dark:bg-white/5 px-4 py-5 rounded-xl hover:bg-black/10 dark:hover:bg-white/10 transition divide-y border-b border-black/10 dark:border-white/10"
+  >
+    <h3 class="text-gray-400 font-semibold mb-3">Tools & Build Tools</h3>
+    <div class="flex flex-wrap gap-3">
+      <TechBubble
+        Icon={PostmanIcon}
+        label="Postman"
+        link="https://www.postman.com/"
+      />
+      <TechBubble
+        Icon={VscodeIcon}
+        label="VS Code"
+        link="https://code.visualstudio.com/"
+      />
+      <TechBubble
+        Icon={EclipseIcon}
+        label="Eclipse"
+        link="https://www.eclipse.org/"
+      />
+      <TechBubble
+        Icon={DbeaverIcon}
+        label="DBeaver"
+        link="https://dbeaver.io/"
+      />
+      <TechBubble
+        Icon={ClickupIcon}
+        label="ClickUp"
+        link="https://clickup.com/"
+      />
+      <TechBubble Icon={ViteIcon} label="Vite" link="https://vitejs.dev/" />
+      <TechBubble
+        Icon={AstroBuildIcon}
+        label="Astro"
+        link="https://astro.build/"
+      />
+      <TechBubble
+        Icon={BashIcon}
+        label="Bash"
+        link="https://www.gnu.org/software/bash/"
+      />
+      <TechBubble
+        Icon={PowershellIcon}
+        label="PowerShell"
+        link="https://aka.ms/powershell"
+      />
+    </div>
+  </div>
 </div>

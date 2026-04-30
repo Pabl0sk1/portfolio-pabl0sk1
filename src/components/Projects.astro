@@ -128,11 +128,12 @@ const TAGS = {
 
 const PROJECTS = [
   {
-    title: "Muebleria",
-    description: "Sistema CRUD con módulos de inventario y registro de ventas.",
+    title: "BioTech",
+    description:
+      "Sistema ERP modular para entorno agroindustrial, enfocado en la gestión de operaciones internas como planificación, horas extras, solicitudes de crédito y control de entidades. Integra datos de sistemas externos y ofrece análisis mediante dashboards para soporte en la toma de decisiones.",
     link: "",
-    github: "https://github.com/Pabl0sk1/muebleria-proyecto",
-    image: "/projects/Muebleria.webp",
+    github: "",
+    image: "/projects/BioTech.webp",
     tags: [
       TAGS.POSTGRESQL,
       TAGS.HTML,
@@ -147,7 +148,7 @@ const PROJECTS = [
   {
     title: "Atelier",
     description:
-      "Sistema integral para negocio local que gestiona compras, ventas y alquileres, con control de inventario, emisión de tickets, generación de informes y autenticación con roles de usuario.",
+      "Sistema de gestión para negocio local que centraliza ventas, compras, inventario y alquileres, permitiendo un mejor control operativo y organización de procesos internos.",
     link: "",
     github: "",
     image: "/projects/Atelier.webp",
@@ -165,10 +166,10 @@ const PROJECTS = [
   {
     title: "Shop Easy",
     description:
-      "Aplicación móvil multiplataforma para gestión de listas de compras con marcado en tiempo real.",
+      "Aplicación móvil para la gestión de listas de compras con sincronización en tiempo real, pensada para mejorar la organización y experiencia del usuario.",
     link: "https://lista-compras-fa747.web.app/",
     github: "https://github.com/Pabl0sk1/lista-compras",
-    image: "/projects/ListaCompras.webp",
+    image: "/projects/ShopEasy.webp",
     tags: [
       TAGS.IONIC,
       TAGS.ANGULAR,
@@ -181,10 +182,10 @@ const PROJECTS = [
   {
     title: "Fast-Food",
     description:
-      "Sitio web atractivo e interactivo para un negocio ficticio de comida rápida. Incluye menú dinámico, secciones informativas, horarios, mapa embebido de ubicación y navegación responsive con swiper.",
+      "Sitio web para negocio de comida rápida con enfoque en experiencia de usuario, navegación interactiva y presentación clara de productos y servicios.",
     link: "https://fast-foodon.netlify.app/",
     github: "https://github.com/Pabl0sk1/fast-food",
-    image: "/projects/Fast-Food.webp",
+    image: "/projects/FastFood.webp",
     tags: [TAGS.HTML, TAGS.JAVASCRIPT, TAGS.CSS],
   },
 ];
@@ -193,7 +194,7 @@ const PROJECTS = [
 <div class="max-w-6xl mx-auto px-4 grid gap-12 md:grid-cols-2">
   {
     PROJECTS.map(({ title, description, image, tags, link, github }) => (
-      <article class="flex flex-col bg-black/10 dark:bg-gray-800 rounded-xl shadow-md overflow-hidden hover:shadow-lg transition-shadow duration-300">
+      <article class="flex flex-col bg-black/10 dark:bg-gray-800 rounded-xl shadow-md overflow-hidden hover:shadow-lg transition-shadow duration-300 border border-black/10 dark:border-white/10">
         {/* Imagen */}
         <div class="relative w-full h-64 md:h-48 overflow-hidden">
           <img

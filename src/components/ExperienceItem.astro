@@ -5,7 +5,7 @@ import RouterIcon from "./icons/Route.astro";
 interface Props {
   title: string;
   company: string;
-  description: string;
+  description: string[];
   link?: string;
   date: string;
   icon?: any;
@@ -55,7 +55,9 @@ const {
   <div
     class="relative flex flex-col gap-2 pb-4 text-gray-600 dark:text-gray-300 md:col-span-3"
   >
-    {description}
+    <ul class="list-disc pl-5 space-y-3 marker:text-blue-400">
+      {description.map((line) => <li class="leading-relaxed">{line}</li>)}
+    </ul>
     {
       link && (
         <LinkInline href={link}>

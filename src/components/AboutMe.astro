@@ -1,7 +1,7 @@
 ---
 const personalImageAlt = "Pablo Ocampos";
 import FileIcon from "./icons/File.astro";
-import LinkButton from "./LinkButton.astro";
+import SocialPill from "./SocialPill.astro";
 ---
 
 <article
@@ -11,49 +11,48 @@ import LinkButton from "./LinkButton.astro";
     class="[&>p]:mb-4 [&>p>strong]:text-blue-500 dark:[&>p>strong]:text-blue-200 [&>p>strong]:font-normal [&>p>strong]:font-mono text-pretty order-2 md:order-1"
   >
     <p>
-      Soy Pablo Ocampos, desarrollador de software con formación en <strong
-        >Análisis de Sistemas</strong
-      > y experiencia en la construcción de <strong
-        >aplicaciones empresariales</strong
-      > utilizando tecnologías como <strong
-        >Java, Spring Boot, React, Bootstrap y SQL</strong
-      >. Me apasiona crear <strong
-        >soluciones eficientes, escalables y seguras que impacten directamente
-        en los procesos de negocio</strong
-      >.
+      Soy Pablo Ocampos, desarrollador de software y analista de sistemas en
+      formación, con experiencia en desarrollo
+      <strong>full stack orientado a sistemas empresariales</strong>,
+      integración de APIs, automatización de procesos y análisis de datos.
     </p>
+
     <p>
-      Actualmente formo parte de <strong>Biosafras Group</strong>, una empresa
-      agroindustrial, donde me desempeño en el <strong
-        >desarrollo y mantenimiento de sistemas empresariales</strong
-      >. Mis responsabilidades incluyen <strong
-        >digitalización de procesos internos, gestión de facturación
-        electrónica, administración de bases de datos en la nube y construcción
-        de plataformas orientadas a la eficiencia y escalabilidad</strong
-      >.
+      Trabajo principalmente con <strong
+        >Java, Spring Boot, React y PostgreSQL</strong
+      >, desarrollando sistemas internos tipo ERP, APIs REST y plataformas
+      orientadas a mejorar la eficiencia operativa en entornos empresariales
+      reales.
     </p>
+
     <p>
-      Previamente, en la <strong>Cooperativa Ayacapé</strong>, participé en
-      proyectos de <strong
-        >automatización de procesos y verificación en tiempo real</strong
-      >, logrando <strong
-        >mejoras en eficiencia operativa y cumplimiento normativo</strong
-      >.
+      Actualmente formo parte de <strong>Biosafras Group</strong>, donde
+      participo en el desarrollo de soluciones internas, integración con
+      sistemas ERP, automatización de procesos con herramientas como n8n y
+      construcción de dashboards de datos para gestión gerencial.
     </p>
+
     <p>
-      Disfruto trabajar en equipos donde se valoran la <strong
-        >comunicación, el aprendizaje constante y la mejora continua</strong
-      >. Creo firmemente que el <strong
-        >detalle, el testing y la innovación tecnológica</strong
-      > son pilares para desarrollar <strong
-        >software que realmente genere valor</strong
-      >.
+      También he trabajado con <strong>PHP, Laravel y MySQL</strong> en desarrollo
+      web y sistemas complementarios, además de integración de datos, mantenimiento
+      de plataformas y soporte técnico en entornos multi-sucursal.
     </p>
-    <div class="mt-6">
-      <LinkButton href={"./(ES)Pablo_Mysskoski_Ocampos_CV_2025.pdf"}>
-        <FileIcon class="size-4" />
-        Curriculum Vitae
-      </LinkButton>
+
+    <p>
+      Me enfoco en construir software <strong
+        >escalable, mantenible y con impacto directo en procesos de negocio</strong
+      >, combinando desarrollo, automatización y análisis para generar valor
+      medible.
+    </p>
+    <div class="flex flex-wrap gap-4 gap-x-10 mt-8">
+      <SocialPill href={"./CV_(ES)"}>
+        <FileIcon class="size-4 md:size-6" />
+        CV (ES)
+      </SocialPill>
+      <SocialPill href={"./CV_(EN)"}>
+        <FileIcon class="size-4 md:size-6" />
+        CV (EN)
+      </SocialPill>
     </div>
   </div>
   <img
