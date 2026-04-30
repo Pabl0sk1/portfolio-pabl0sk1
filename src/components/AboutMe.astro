@@ -1,7 +1,7 @@
 ---
 const personalImageAlt = "Pablo Ocampos";
 import FileIcon from "./icons/File.astro";
-import SocialPill from "./SocialPill.astro";
+import LinkButton from "./LinkButton.astro";
 ---
 
 <article
@@ -45,14 +45,12 @@ import SocialPill from "./SocialPill.astro";
       medible.
     </p>
     <div class="flex flex-wrap gap-4 gap-x-10 mt-8">
-      <SocialPill href={"./CV_(ES)"}>
-        <FileIcon class="size-4 md:size-6" />
-        CV (ES)
-      </SocialPill>
-      <SocialPill href={"./CV_(EN)"}>
-        <FileIcon class="size-4 md:size-6" />
-        CV (EN)
-      </SocialPill>
+      <LinkButton href={"./CV_ES"}>
+        <FileIcon class="size-4 md:size-6" />CV (ES)
+      </LinkButton>
+      <LinkButton href={"./CV_EN"}>
+        <FileIcon class="size-4 md:size-6" />CV (EN)
+      </LinkButton>
     </div>
   </div>
   <img
