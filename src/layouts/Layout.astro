@@ -1,29 +1,145 @@
 ---
-// @ts-ignore
 import "@fontsource-variable/onest";
 import "../styles/global.css";
 import Header from "../components/Header.astro";
 import Footer from "../components/Footer.astro";
+import {
+  SITE_URL,
+  OG_IMAGE,
+  FULL_NAME,
+  JOB_TITLE,
+  EMAIL,
+  LINKEDIN_URL,
+  GITHUB_URL,
+} from "../consts";
+import { LANGUAGES, type Lang } from "../i18n/ui";
+import { getLangFromUrl, localizePath, LOCALE_TAG, HREFLANG } from "../i18n/utils";
 
 interface Props {
   title: string;
   description: string;
+  /** Ruta sin prefijo de idioma. Ej: "/" o "/thanks" */
+  path?: string;
+  /** Evita que buscadores indexen paginas sin valor SEO (gracias, 404) */
+  noindex?: boolean;
 }
 
-const { description, title } = Astro.props;
+const { description, title, path, noindex = false } = Astro.props;
+const lang: Lang = getLangFromUrl(Astro.url);
+
+// ruta "neutra" (sin idioma) para poder generar las alternativas
+const rutaBase =
+  path ?? (Astro.url.pathname.replace(/^\/en(?=\/|$)/, "") || "/");
+
+const canonical = new URL(localizePath(rutaBase, lang), SITE_URL).href;
+const ogImage = new URL(OG_IMAGE, SITE_URL).href;
+
+// hreflang reciprocos: cada version apunta a todas, incluida a si misma
+const alternates = (Object.keys(LANGUAGES) as Lang[]).map((code) => ({
+  hreflang: HREFLANG[code],
+  href: new URL(localizePath(rutaBase, code), SITE_URL).href,
+}));
+
+const personSchema = {
+  "@context": "https://schema.org",
+  "@type": "Person",
+  name: FULL_NAME,
+  jobTitle: JOB_TITLE,
+  email: `mailto:${EMAIL}`,
+  url: SITE_URL,
+  image: ogImage,
+  sameAs: [LINKEDIN_URL, GITHUB_URL],
+  address: {
+    "@type": "PostalAddress",
+    addressLocality: "Hernandarias",
+    addressRegion: "Alto Paraná",
+    addressCountry: "PY",
+  },
+  knowsAbout: [
+    "Java",
+    "Spring Boot",
+    "React",
+    "Python",
+    "FastAPI",
+    "PostgreSQL",
+    "APIs REST",
+    "Automatización de procesos",
+    "Sistemas ERP",
+  ],
+};
 ---
 
 <!doctype html>
-<html lang="es">
+<html lang={lang}>
   <head>
     <meta charset="UTF-8" />
-    <meta name="description" content={description} />
-    <meta name="viewport" content="width=device-width" />
-    <link rel="icon" type="image/x-icon" href="/favicon.ico" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta name="generator" content={Astro.generator} />
+
     <title>{title}</title>
+    <meta name="description" content={description} />
+    <meta name="author" content={FULL_NAME} />
+    <link rel="canonical" href={canonical} />
+    {noindex && <meta name="robots" content="noindex, follow" />}
+
+    {
+      alternates.map((alt) => (
+        <link rel="alternate" hreflang={alt.hreflang} href={alt.href} />
+      ))
+    }
+    <link
+      rel="alternate"
+      hreflang="x-default"
+      href={new URL(localizePath(rutaBase, "es"), SITE_URL).href}
+    />
+
+    <link rel="icon" type="image/x-icon" href="/favicon.ico" />
+
+    <!-- Open Graph: como se ve el enlace en LinkedIn, WhatsApp, Slack... -->
+    <meta property="og:type" content="website" />
+    <meta property="og:site_name" content={FULL_NAME} />
+    <meta property="og:locale" content={LOCALE_TAG[lang]} />
+    <meta property="og:url" content={canonical} />
+    <meta property="og:title" content={title} />
+    <meta property="og:description" content={description} />
+    <meta property="og:image" content={ogImage} />
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="630" />
+    <meta property="og:image:alt" content={`${FULL_NAME} - ${JOB_TITLE}`} />
+
+    <!-- Twitter / X -->
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content={title} />
+    <meta name="twitter:description" content={description} />
+    <meta name="twitter:image" content={ogImage} />
+
+    <script
+      is:inline
+      type="application/ld+json"
+      set:html={JSON.stringify(personSchema)}
+    />
+
+    {/* Bloqueante y en el head a proposito: aplica el tema ANTES del primer
+        pintado. Si esto se difiere, la pagina parpadea en claro antes de
+        pasar a oscuro. */}
+    <script is:inline>
+      (function () {
+        try {
+          var saved = localStorage.getItem("theme");
+          var isDark =
+            saved === "dark" ||
+            (saved === null &&
+              window.matchMedia("(prefers-color-scheme: dark)").matches);
+          var root = document.documentElement;
+          root.classList.toggle("dark", isDark);
+          root.style.colorScheme = isDark ? "dark" : "light";
+        } catch (e) {
+          /* localStorage bloqueado (modo privado): se usa el tema claro */
+        }
+      })();
+    </script>
   </head>
-  <body class="relative text-black dark:text-white">
+  <body class="relative text-black dark:text-white bg-blue-50 dark:bg-gray-950">
     <div
       class="absolute top-0 bottom-0 z-[-2] min-h-screen w-full bg-blue-100 dark:bg-gray-950
       bg-[radial-gradient(ellipse_90%_90%_at_90%_-20%,rgba(217,216,255,0.5),rgba(255,255,255,0.9))]
@@ -37,111 +153,29 @@ const { description, title } = Astro.props;
 </html>
 
 <style is:global>
-  :root {
-    color-scheme: light dark;
-  }
   html {
     font-family: "Onest Variable", system-ui, sans-serif;
     scroll-behavior: smooth;
   }
+
   body {
-    background-color: rgb(17, 17, 17, 0.9);
     display: flex;
     flex-direction: column;
     min-height: 100vh;
     overscroll-behavior: none;
   }
+
   @media (prefers-reduced-motion: reduce) {
     html {
       scroll-behavior: auto;
     }
-  }
-  #header-nav {
-    animation: blur linear both 0.5s;
-    animation-timeline: scroll();
-    animation-range: 0 500px;
-  }
-  @keyframes blur {
-    to {
-      backdrop-filter: blur(20px);
-      border-width: 1px;
-      border-color: rgba(0, 0, 0);
-      padding: 0.25rem 0.75rem;
-      display: flex;
-      flex-direction: row;
-      align-items: center;
-      background-color: rgb(229, 229, 229);
-      border-radius: 9999px;
-    }
-  }
-  @media (prefers-color-scheme: dark) {
-    @keyframes blur {
-      from {
-        border: 0px;
-      }
-      to {
-        box-shadow:
-          0px 5px 50px -5px rgba(0, 0, 0, 0.1),
-          0px 0px 0 1px rgba(0, 0, 0, 0.3);
-        background: rgba(0, 0, 0, 0.3);
-        backdrop-filter: blur(20px);
-        border-width: 1px;
-        border-color: rgba(0, 0, 0);
-        padding-left: 0.75rem;
-        padding-right: 0.75rem;
-        padding-top: 0.25rem;
-        padding-bottom: 0.25rem;
-        display: flex;
-        flex-direction: row;
-        align-items: center;
-        background-color: rgba(0, 0, 0, 0.3);
-        border-radius: 9999px;
-      }
-    }
-  }
-  .animated-bg {
-    background: radial-gradient(
-      circle at 50% 50%,
-      rgba(217, 216, 255, 0.5),
-      rgba(255, 255, 255, 0.9)
-    );
-    background-size: 200% 200%;
-    animation: gradientMove 20s ease infinite;
-  }
 
-  @media (prefers-color-scheme: dark) {
-    .animated-bg {
-      background: radial-gradient(
-        circle at 50% 50%,
-        rgba(120, 119, 198, 0.3),
-        rgba(0, 0, 0, 0)
-      );
-      background-size: 200% 200%;
-      animation: gradientMoveDark 25s ease infinite;
-    }
-  }
-
-  @keyframes gradientMove {
-    0% {
-      background-position: 0% 0%;
-    }
-    50% {
-      background-position: 100% 100%;
-    }
-    100% {
-      background-position: 0% 0%;
-    }
-  }
-
-  @keyframes gradientMoveDark {
-    0% {
-      background-position: 0% 50%;
-    }
-    50% {
-      background-position: 50% 100%;
-    }
-    100% {
-      background-position: 0% 50%;
+    *,
+    *::before,
+    *::after {
+      animation-duration: 0.01ms !important;
+      animation-iteration-count: 1 !important;
+      transition-duration: 0.01ms !important;
     }
   }
 </style>

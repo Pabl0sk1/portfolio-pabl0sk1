@@ -1,0 +1,6 @@
+User-agent: *
+Allow: /
+Disallow: /thanks
+Disallow: /en/thanks
+
+Sitemap: https://portfolio-pabl0sk1.netlify.app/sitemap-index.xml

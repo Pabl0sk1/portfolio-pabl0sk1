@@ -1,0 +1,71 @@
+---
+/**
+ * Cuerpo de la portada, compartido por la version espanola (/) y la
+ * inglesa (/en/). Los textos salen del idioma que detecta cada componente
+ * a partir de la URL, asi que no hace falta duplicar el marcado.
+ */
+import Container from "./Container.astro";
+import BriefCaseIcon from "./icons/Briefcase.astro";
+import CodeIcon from "./icons/Code.astro";
+import TechFlowIcon from "./icons/TechFlow.astro";
+import UserIcon from "./icons/User.astro";
+import ContactIcon from "./icons/Contact.astro";
+import Experience from "./Experience.astro";
+import Projects from "./Projects.astro";
+import Stack from "./Stack.astro";
+import AboutMe from "./AboutMe.astro";
+import Hero from "./Hero.astro";
+import TitleSection from "./TitleSection.astro";
+import SendToMe from "./SendToMe.astro";
+import { getLangFromUrl, useTranslations } from "../i18n/utils";
+
+const lang = getLangFromUrl(Astro.url);
+const t = useTranslations(lang);
+---
+
+<main class="px-4">
+  <Container class="py-16 md:py-36">
+    <Hero />
+  </Container>
+  <div class="space-y-24">
+    <Container id="experiencia">
+      <TitleSection>
+        <BriefCaseIcon class="size-8" />
+        {t("section.experience")}
+      </TitleSection>
+      <Experience />
+    </Container>
+
+    <Container id="proyectos">
+      <TitleSection>
+        <CodeIcon class="size-8" />
+        {t("section.projects")}
+      </TitleSection>
+      <Projects />
+    </Container>
+
+    <Container id="stack">
+      <TitleSection>
+        <TechFlowIcon class="size-8" />
+        {t("section.stack")}
+      </TitleSection>
+      <Stack />
+    </Container>
+
+    <Container id="sobre-mi">
+      <TitleSection>
+        <UserIcon class="size-8" />
+        {t("section.about")}
+      </TitleSection>
+      <AboutMe />
+    </Container>
+
+    <Container id="contactar">
+      <TitleSection>
+        <ContactIcon class="size-8" />
+        {t("section.contact")}
+      </TitleSection>
+      <SendToMe />
+    </Container>
+  </div>
+</main>
