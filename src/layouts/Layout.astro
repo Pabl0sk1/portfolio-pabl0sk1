@@ -144,35 +144,59 @@ const personSchema = {
   </head>
   <body class="relative text-black dark:text-white bg-blue-50 dark:bg-gray-950">
     <div
-      class="absolute top-0 bottom-0 z-[-2] min-h-screen w-full bg-blue-100 dark:bg-gray-950
+      class="fixed inset-0 z-[-2] w-full bg-blue-100 dark:bg-gray-950
       bg-[radial-gradient(ellipse_90%_90%_at_90%_-20%,rgba(217,216,255,0.5),rgba(255,255,255,0.9))]
       dark:bg-[radial-gradient(ellipse_80%_80%_at_50%_-20%,rgba(120,119,198,0.3),rgba(255,255,255,0))]"
     >
     </div>
     <Header />
-    <slot />
-    <Footer />
+    {/* El scroll vive aqui y no en el <body> a proposito: asi la barra
+        pertenece a este contenedor, que arranca justo debajo del header.
+        La barra del documento la pinta el navegador a lo alto completo y no
+        hay CSS que la recorte. */}
+    <div id="scroll-area">
+      <slot />
+      <Footer />
+    </div>
   </body>
 </html>
 
 <style is:global>
   :root {
-    /* alto del header fijo: lo usa el scrollbar para no pasar por debajo */
-    --header-h: 53px;
+    /* alto del header fijo. Son valores de partida para evitar un salto al
+       cargar; el script del header los corrige con la medida real. */
+    --header-h: 46px;
+  }
+
+  @media (min-width: 640px) {
+    :root {
+      --header-h: 52px;
+    }
   }
 
   html {
     font-family: "Onest Variable", system-ui, sans-serif;
-    scroll-behavior: smooth;
-    /* reserva el hueco del scrollbar para que la pagina no salte al aparecer */
-    scrollbar-gutter: stable;
+    height: 100%;
   }
 
+  /* el documento no scrollea: lo hace #scroll-area */
   body {
+    height: 100%;
+    overflow: hidden;
+  }
+
+  #scroll-area {
+    position: fixed;
+    inset: 0;
+    overflow-y: auto;
+    overflow-x: hidden;
+    /* el hueco inicial lo da el padding, no la posicion: asi el contenido
+       sigue pasando por detras del header y el efecto cristal se mantiene */
+    padding-top: var(--header-h);
+    scroll-behavior: smooth;
+    overscroll-behavior: none;
     display: flex;
     flex-direction: column;
-    min-height: 100vh;
-    overscroll-behavior: none;
   }
 
   /* --- Scrollbar propio ------------------------------------------------ */
@@ -183,28 +207,32 @@ const personSchema = {
   @supports not selector(::-webkit-scrollbar) {
     html {
       scrollbar-width: thin;
-      scrollbar-color: rgb(59 130 246 / 0.55) transparent;
+      scrollbar-color: rgb(59 130 246 / 0.55) rgb(15 23 42 / 0.09);
     }
 
     html.dark {
-      scrollbar-color: rgb(96 165 250 / 0.5) transparent;
+      scrollbar-color: rgb(96 165 250 / 0.5) rgb(255 255 255 / 0.08);
     }
   }
 
   /* Chrome, Edge, Safari */
   ::-webkit-scrollbar {
-    width: 10px;
-    height: 10px;
+    width: 8px;
+    height: 8px;
   }
 
   ::-webkit-scrollbar-track {
-    background: transparent;
+    background: rgb(15 23 42 / 0.09);
   }
 
-  /* Solo la barra de la pagina arranca por debajo del header fijo.
-     Va atada a `html` a proposito: una regla universal con un reset para el
-     resto tendria mas especificidad y acabaria anulando este margen. */
-  html::-webkit-scrollbar-track {
+  html.dark ::-webkit-scrollbar-track {
+    background: rgb(255 255 255 / 0.08);
+  }
+
+  /* Aqui si funciona: es la barra de un elemento, no la del documento.
+     Chrome ignora este margen en la barra de la ventana pero lo respeta en
+     un contenedor con overflow propio. */
+  #scroll-area::-webkit-scrollbar-track {
     margin-top: var(--header-h);
   }
 
@@ -214,16 +242,11 @@ const personSchema = {
       rgb(59 130 246 / 0.75),
       rgb(79 70 229 / 0.75)
     );
-    border-radius: 9999px;
-    /* el borde transparente adelgaza el pulgar y lo separa del borde */
-    border: 2px solid transparent;
-    background-clip: padding-box;
     cursor: pointer;
   }
 
   ::-webkit-scrollbar-thumb:hover {
     background: linear-gradient(180deg, rgb(37 99 235), rgb(67 56 202));
-    background-clip: padding-box;
     cursor: pointer;
   }
 
@@ -233,12 +256,10 @@ const personSchema = {
       rgb(96 165 250 / 0.7),
       rgb(129 140 248 / 0.7)
     );
-    background-clip: padding-box;
   }
 
   html.dark ::-webkit-scrollbar-thumb:hover {
     background: linear-gradient(180deg, rgb(96 165 250), rgb(129 140 248));
-    background-clip: padding-box;
   }
 
   ::-webkit-scrollbar-corner {
@@ -246,7 +267,7 @@ const personSchema = {
   }
 
   @media (prefers-reduced-motion: reduce) {
-    html {
+    #scroll-area {
       scroll-behavior: auto;
     }
 

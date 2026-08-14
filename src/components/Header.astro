@@ -50,7 +50,7 @@ const tooltipClass =
 ---
 
 <header
-  class="fixed top-0 z-50 w-full backdrop-blur-md bg-gray-200/60 dark:bg-gray-800/30 border-b border-gray-300/30 dark:border-gray-700/30"
+  class="fixed top-0 z-50 w-full backdrop-blur-md bg-gray-200/60 dark:bg-gray-800/30 border-b border-gray-400/70 dark:border-gray-600/60"
 >
   <nav
     id="main-nav"
@@ -163,6 +163,9 @@ const tooltipClass =
   );
   const ACTIVE = ["text-blue-800", "dark:text-blue-400"];
   const header = document.querySelector("header");
+  // quien scrollea es el contenedor, no la ventana: la barra tiene que nacer
+  // por debajo del header y para eso el area de scroll empieza ahi
+  const scroller = document.getElementById("scroll-area");
 
   let currentActiveLink: HTMLAnchorElement | null = null;
 
@@ -183,6 +186,11 @@ const tooltipClass =
   let linea = 0;
   const recalcularLinea = () => {
     const alturaHeader = header?.getBoundingClientRect().height ?? 0;
+    // el alto real del header alimenta la posicion del area de scroll
+    document.documentElement.style.setProperty(
+      "--header-h",
+      `${Math.round(alturaHeader)}px`
+    );
     const margenScroll = sections.length
       ? parseFloat(getComputedStyle(sections[0]).scrollMarginTop) || 0
       : 0;
@@ -192,8 +200,9 @@ const tooltipClass =
   const updateActiveSection = () => {
     // al final de la pagina gana la ultima seccion: si no, una seccion corta
     // al pie nunca llegaria a cruzar la linea
-    const alFinal =
-      window.innerHeight + window.scrollY >= document.body.scrollHeight - 2;
+    const alFinal = scroller
+      ? scroller.scrollTop + scroller.clientHeight >= scroller.scrollHeight - 2
+      : false;
 
     const actual = alFinal
       ? sections.at(-1)
@@ -228,7 +237,7 @@ const tooltipClass =
     onScroll();
   };
 
-  window.addEventListener("scroll", onScroll, { passive: true });
+  scroller?.addEventListener("scroll", onScroll, { passive: true });
   window.addEventListener("resize", onResize, { passive: true });
 
   recalcularLinea();
@@ -243,7 +252,7 @@ const tooltipClass =
     if (destino.pathname !== window.location.pathname) return;
 
     event.preventDefault();
-    window.scrollTo({
+    scroller?.scrollTo({
       top: 0,
       behavior: window.matchMedia("(prefers-reduced-motion: reduce)").matches
         ? "auto"
