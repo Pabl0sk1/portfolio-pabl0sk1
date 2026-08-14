@@ -22,3 +22,8 @@ pnpm-debug.log*
 
 # jetbrains setting folder
 .idea/
+
+# CV: contiene el teléfono, que no está publicado en el sitio, y este
+# repositorio es público. Los archivos viven en cv/ localmente.
+# Para versionarlos igualmente, borrar esta línea (el teléfono quedará público).
+cv/
