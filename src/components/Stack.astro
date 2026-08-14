@@ -34,6 +34,7 @@ import DbeaverIcon from "./icons/Dbeaver.astro";
 import ClickupIcon from "./icons/Clickup.astro";
 import PythonIcon from "./icons/Python.astro";
 import FastApiIcon from "./icons/FastApi.astro";
+import SqliteIcon from "./icons/Sqlite.astro";
 import ClaudeIcon from "./icons/Claude.astro";
 import ChatGptIcon from "./icons/ChatGpt.astro";
 import GeminiIcon from "./icons/Gemini.astro";
@@ -43,56 +44,49 @@ import { getLangFromUrl, useTranslations } from "../i18n/utils";
 const lang = getLangFromUrl(Astro.url);
 const t = useTranslations(lang);
 
+// Agrupado por nivel real y no por tipo, a proposito: asi no se da a entender
+// que algo se domina mas de lo que es cierto. Dentro de cada nivel se ordena
+// backend -> frontend -> datos -> infraestructura.
 const CATEGORIES = [
   {
-    title: t("stack.backend"),
-    color: "text-green-600 dark:text-green-400",
+    title: t("stack.main"),
+    note: t("stack.mainNote"),
+    color: "text-emerald-600 dark:text-emerald-400",
+    accent: "ring-emerald-500/30 bg-emerald-500/5",
     items: [
-      { label: "Java", icon: JavaIcon, link: "https://www.java.com/es/" },
-      {
-        label: "Spring Boot",
-        icon: SpringbootIcon,
-        link: "https://spring.io/projects/spring-boot",
-      },
       { label: "Python", icon: PythonIcon, link: "https://www.python.org/" },
       {
         label: "FastAPI",
         icon: FastApiIcon,
         link: "https://fastapi.tiangolo.com/",
       },
-      { label: "PHP", icon: PhpIcon, link: "https://www.php.net/" },
-      { label: "Laravel", icon: LaravelIcon, link: "https://laravel.com/" },
-      { label: "Node.js", icon: NodeIcon, link: "https://nodejs.org/es" },
+      { label: "React", icon: ReactIcon, link: "https://react.dev/" },
+      {
+        label: "Tailwind",
+        icon: TailwindIcon,
+        link: "https://tailwindcss.com/",
+      },
+      { label: "Node.js", icon: NodeIcon, link: "https://nodejs.org/" },
+      {
+        label: "PostgreSQL",
+        icon: PostgresqlIcon,
+        link: "https://www.postgresql.org/",
+      },
+      { label: "Docker", icon: DockerIcon, link: "https://www.docker.com/" },
+      { label: "Git", icon: GitIcon, link: "https://git-scm.com/" },
     ],
   },
   {
-    title: t("stack.frontend"),
+    title: t("stack.secondary"),
+    note: t("stack.secondaryNote"),
     color: "text-blue-600 dark:text-blue-400",
+    accent: "ring-blue-500/25 bg-blue-500/5",
     items: [
-      {
-        label: "HTML",
-        icon: HtmlIcon,
-        link: "https://developer.mozilla.org/es/docs/Web/HTML",
-      },
-      {
-        label: "CSS",
-        icon: CssIcon,
-        link: "https://developer.mozilla.org/es/docs/Web/CSS",
-      },
-      {
-        label: "JavaScript",
-        icon: JavascriptIcon,
-        link: "https://developer.mozilla.org/es/docs/Web/JavaScript",
-      },
-      {
-        label: "TypeScript",
-        icon: TypescriptIcon,
-        link: "https://www.typescriptlang.org/",
-      },
-      { label: "React", icon: ReactIcon, link: "https://es.react.dev/" },
+      { label: "PHP", icon: PhpIcon, link: "https://www.php.net/" },
+      { label: "Laravel", icon: LaravelIcon, link: "https://laravel.com/" },
+      { label: "MySQL", icon: MysqlIcon, link: "https://www.mysql.com/" },
       { label: "Angular", icon: AngularIcon, link: "https://angular.dev/" },
       { label: "Next.js", icon: NextIcon, link: "https://nextjs.org/" },
-      { label: "Tailwind", icon: TailwindIcon, link: "https://tailwindcss.com/" },
       {
         label: "Bootstrap",
         icon: BootstrapIcon,
@@ -101,15 +95,38 @@ const CATEGORIES = [
     ],
   },
   {
-    title: t("stack.databases"),
-    color: "text-yellow-600 dark:text-yellow-400",
+    title: t("stack.other"),
+    note: t("stack.otherNote"),
+    color: "text-gray-600 dark:text-gray-400",
+    accent: "ring-black/10 dark:ring-white/10",
     items: [
+      { label: "Java", icon: JavaIcon, link: "https://www.java.com/" },
       {
-        label: "PostgreSQL",
-        icon: PostgresqlIcon,
-        link: "https://www.postgresql.org/",
+        label: "Spring Boot",
+        icon: SpringbootIcon,
+        link: "https://spring.io/projects/spring-boot",
       },
-      { label: "MySQL", icon: MysqlIcon, link: "https://www.mysql.com/" },
+      {
+        label: "TypeScript",
+        icon: TypescriptIcon,
+        link: "https://www.typescriptlang.org/",
+      },
+      {
+        label: "JavaScript",
+        icon: JavascriptIcon,
+        link: "https://developer.mozilla.org/docs/Web/JavaScript",
+      },
+      {
+        label: "HTML",
+        icon: HtmlIcon,
+        link: "https://developer.mozilla.org/docs/Web/HTML",
+      },
+      {
+        label: "CSS",
+        icon: CssIcon,
+        link: "https://developer.mozilla.org/docs/Web/CSS",
+      },
+      { label: "SQLite", icon: SqliteIcon, link: "https://www.sqlite.org/" },
       {
         label: "Firebase",
         icon: FirestoreIcon,
@@ -118,11 +135,12 @@ const CATEGORIES = [
     ],
   },
   {
-    title: t("stack.devops"),
+    title: t("stack.tools"),
+    note: t("stack.toolsNote"),
     color: "text-purple-600 dark:text-purple-400",
+    accent: "ring-black/10 dark:ring-white/10",
     items: [
-      { label: "Docker", icon: DockerIcon, link: "https://www.docker.com/" },
-      { label: "Git", icon: GitIcon, link: "https://git-scm.com/" },
+      { label: "n8n", icon: N8nIcon, link: "https://n8n.io/" },
       { label: "GitHub", icon: GithubIcon, link: "https://github.com/" },
       { label: "Netlify", icon: NetlifyIcon, link: "https://www.netlify.com/" },
       {
@@ -130,23 +148,6 @@ const CATEGORIES = [
         icon: HostingerIcon,
         link: "https://www.hostinger.com/",
       },
-      { label: "n8n", icon: N8nIcon, link: "https://n8n.io/" },
-    ],
-  },
-  {
-    title: t("stack.ai"),
-    color: "text-rose-600 dark:text-rose-400",
-    items: [
-      { label: "Claude", icon: ClaudeIcon, link: "https://claude.ai/" },
-      { label: "ChatGPT", icon: ChatGptIcon, link: "https://chatgpt.com/" },
-      { label: "Gemini", icon: GeminiIcon, link: "https://gemini.google.com/" },
-      { label: "DeepSeek", icon: DeepSeekIcon, link: "https://www.deepseek.com/" },
-    ],
-  },
-  {
-    title: t("stack.tools"),
-    color: "text-gray-600 dark:text-gray-400",
-    items: [
       { label: "Postman", icon: PostmanIcon, link: "https://www.postman.com/" },
       {
         label: "VS Code",
@@ -163,20 +164,50 @@ const CATEGORIES = [
         icon: BashIcon,
         link: "https://www.gnu.org/software/bash/",
       },
-      { label: "PowerShell", icon: PowershellIcon, link: "https://aka.ms/powershell" },
+      {
+        label: "PowerShell",
+        icon: PowershellIcon,
+        link: "https://aka.ms/powershell",
+      },
+    ],
+  },
+  {
+    title: t("stack.ai"),
+    note: t("stack.aiNote"),
+    color: "text-rose-600 dark:text-rose-400",
+    accent: "ring-black/10 dark:ring-white/10",
+    items: [
+      { label: "Claude", icon: ClaudeIcon, link: "https://claude.ai/" },
+      { label: "ChatGPT", icon: ChatGptIcon, link: "https://chatgpt.com/" },
+      { label: "Gemini", icon: GeminiIcon, link: "https://gemini.google.com/" },
+      {
+        label: "DeepSeek",
+        icon: DeepSeekIcon,
+        link: "https://www.deepseek.com/",
+      },
     ],
   },
 ];
 ---
 
-<div class="max-w-5xl mx-auto mt-10 rounded-xl overflow-hidden space-y-4">
+<div class="max-w-5xl mx-auto mt-10 space-y-4">
   {
-    CATEGORIES.map(({ title, color, items }) => (
-      <div class="bg-black/5 dark:bg-white/5 px-4 py-5 rounded-xl hover:bg-black/10 dark:hover:bg-white/10 transition border-b border-black/10 dark:border-white/10">
-        <h3 class={`${color} font-semibold mb-3`}>{title}</h3>
+    CATEGORIES.map(({ title, note, color, accent, items }) => (
+      <div
+        class={`px-4 py-5 rounded-xl ring-1 transition hover:bg-black/5 dark:hover:bg-white/5 ${accent}`}
+      >
+        <h3 class={`${color} font-semibold`}>{title}</h3>
+        <p class="text-xs text-gray-600 dark:text-gray-400 mb-3 mt-0.5">
+          {note}
+        </p>
         <div class="flex flex-wrap gap-3">
           {items.map(({ label, icon, link }) => (
-            <TechBubble Icon={icon} label={label} link={link} visitLabel={t("stack.visit")} />
+            <TechBubble
+              Icon={icon}
+              label={label}
+              link={link}
+              visitLabel={t("stack.visit")}
+            />
           ))}
         </div>
       </div>

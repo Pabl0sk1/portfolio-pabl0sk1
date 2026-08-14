@@ -149,19 +149,19 @@ export const projects: Record<Lang, ProjectEntry[]> = {
 
 export const aboutMe: Record<Lang, string[]> = {
   es: [
-    "Soy Pablo Ocampos, desarrollador de software y analista de sistemas en formación, con experiencia en desarrollo <strong>full stack orientado a sistemas empresariales</strong>, integración de APIs, automatización de procesos y análisis de datos.",
-    "Trabajo principalmente con <strong>Java, Spring Boot, React y PostgreSQL</strong>, desarrollando sistemas internos tipo ERP, APIs REST y plataformas orientadas a mejorar la eficiencia operativa en entornos empresariales reales.",
-    "Durante poco más de un año en <strong>Biosafras Group</strong> construí desde cero un sistema interno tipo Mini ERP, integré la operación con Versat ERP, automaticé procesos con n8n en servidor propio y desarrollé dashboards de facturación en Power BI para la gestión gerencial.",
-    "Actualmente estoy <strong>abierto a nuevas oportunidades</strong> y cursando el 9.º semestre de la Licenciatura en Análisis de Sistemas en la Universidad Nacional del Este.",
-    "Me enfoco en construir software <strong>escalable, mantenible y con impacto directo en procesos de negocio</strong>, combinando desarrollo, automatización y análisis para generar valor medible.",
+    "Soy Pablo Ocampos, desarrollador de software y analista de sistemas en formación. Me dedico a construir <strong>sistemas de gestión para empresas</strong>: la clase de software que un equipo usa todos los días para trabajar.",
+    "Mi stack principal es <strong>Python con FastAPI</strong> en el backend y <strong>React, PostgreSQL y Docker</strong> en el resto. Con eso diseño APIs REST, modelo bases de datos y despliego lo que construyo.",
+    "Trabajo los proyectos <strong>de punta a punta</strong>: entiendo primero el proceso de negocio, después escribo el código, y me hago cargo del despliegue y del soporte. Me interesa tanto que el sistema funcione como que la persona que lo usa no tenga que pelearse con él.",
+    "Disfruto especialmente de <strong>automatizar lo repetitivo</strong> y de convertir datos dispersos en reportes que sirvan para decidir. Suele ser donde menos código hace falta para el mayor impacto.",
+    "Actualmente estoy <strong>abierto a nuevas oportunidades</strong>, en modalidad remota o presencial, y cursando el 9.º semestre de la Licenciatura en Análisis de Sistemas en la Universidad Nacional del Este.",
   ],
 
   en: [
-    "I'm Pablo Ocampos, a software developer and systems analyst in training, with experience in <strong>full stack development for enterprise systems</strong>, API integration, process automation and data analysis.",
-    "I work mainly with <strong>Java, Spring Boot, React and PostgreSQL</strong>, building internal ERP-style systems, REST APIs and platforms aimed at improving operational efficiency in real business environments.",
-    "Over a little more than a year at <strong>Biosafras Group</strong> I built an internal Mini ERP system from scratch, integrated operations with Versat ERP, automated processes with a self-hosted n8n instance, and developed Power BI billing dashboards for management.",
-    "I'm currently <strong>open to new opportunities</strong> and in my 9th semester of a Systems Analysis degree at Universidad Nacional del Este.",
-    "I focus on building software that is <strong>scalable, maintainable and has direct impact on business processes</strong>, combining development, automation and analysis to create measurable value.",
+    "I'm Pablo Ocampos, a software developer and systems analyst in training. I build <strong>business management systems</strong>: the kind of software a team relies on every day to get their work done.",
+    "My core stack is <strong>Python with FastAPI</strong> on the backend and <strong>React, PostgreSQL and Docker</strong> across the rest. That's what I use to design REST APIs, model databases and ship what I build.",
+    "I take projects <strong>end to end</strong>: I start by understanding the business process, then write the code, and I own the deployment and the support that follows. I care as much about the system working as about the person using it not having to fight with it.",
+    "I particularly enjoy <strong>automating the repetitive</strong> and turning scattered data into reports people can actually decide on. That's usually where the least code buys the most impact.",
+    "I'm currently <strong>open to new opportunities</strong>, remote or on-site, and in my 9th semester of a Systems Analysis degree at Universidad Nacional del Este.",
   ],
 };
 

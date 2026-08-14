@@ -25,5 +25,5 @@ export const DISCORD_URL = "https://discordapp.com/users/918699279806255165";
 export const SITE_TITLE =
   "Pablo Ocampos - Desarrollador Full Stack y Analista de Sistemas";
 export const SITE_DESCRIPTION =
-  "Desarrollador Full Stack en Paraguay especializado en sistemas empresariales tipo ERP, APIs REST con Java y Spring Boot, integración de sistemas y automatización de procesos.";
+  "Desarrollador Full Stack en Paraguay especializado en Python y FastAPI, APIs REST, React y PostgreSQL. Sistemas empresariales tipo ERP, integración de sistemas y automatización de procesos.";
 export const OG_IMAGE = "/og-image.png";

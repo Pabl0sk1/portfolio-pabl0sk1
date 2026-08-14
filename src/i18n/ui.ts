@@ -16,7 +16,7 @@ export const ui = {
   es: {
     "meta.title": "Pablo Ocampos - Desarrollador Full Stack y Analista de Sistemas",
     "meta.description":
-      "Desarrollador Full Stack en Paraguay especializado en sistemas empresariales tipo ERP, APIs REST con Java y Spring Boot, integración de sistemas y automatización de procesos.",
+      "Desarrollador Full Stack en Paraguay especializado en Python y FastAPI, APIs REST, React y PostgreSQL. Sistemas empresariales tipo ERP, integración de sistemas y automatización de procesos.",
 
     "nav.label": "Navegación principal",
     "nav.experience": "Experiencia",
@@ -63,12 +63,16 @@ export const ui = {
     "projects.website": "Website",
     "projects.imageAlt": "Captura de pantalla del proyecto",
 
-    "stack.backend": "Backend",
-    "stack.frontend": "Frontend",
-    "stack.databases": "Bases de datos",
-    "stack.devops": "DevOps, Cloud y Automatización",
+    "stack.main": "Stack principal",
+    "stack.mainNote": "Lo que uso a diario y donde estoy más fuerte",
+    "stack.secondary": "Stack secundario",
+    "stack.secondaryNote": "Trabajo con soltura, con menos horas de vuelo",
+    "stack.other": "También he trabajado con",
+    "stack.otherNote": "Experiencia real en proyectos, sin ser mi foco actual",
     "stack.ai": "Asistentes de IA",
+    "stack.aiNote": "Apoyo en el día a día de desarrollo",
     "stack.tools": "Herramientas",
+    "stack.toolsNote": "Entorno de trabajo habitual",
     "stack.visit": "Ir al sitio oficial de",
 
     "form.name": "Nombre",
@@ -102,7 +106,7 @@ export const ui = {
   en: {
     "meta.title": "Pablo Ocampos - Full Stack Developer and Systems Analyst",
     "meta.description":
-      "Full Stack Developer based in Paraguay, specialised in enterprise ERP-style systems, REST APIs with Java and Spring Boot, systems integration and process automation.",
+      "Full Stack Developer based in Paraguay, specialised in Python and FastAPI, REST APIs, React and PostgreSQL. Enterprise ERP-style systems, systems integration and process automation. Open to remote work.",
 
     "nav.label": "Main navigation",
     "nav.experience": "Experience",
@@ -149,12 +153,16 @@ export const ui = {
     "projects.website": "Website",
     "projects.imageAlt": "Screenshot of the project",
 
-    "stack.backend": "Backend",
-    "stack.frontend": "Frontend",
-    "stack.databases": "Databases",
-    "stack.devops": "DevOps, Cloud and Automation",
+    "stack.main": "Core stack",
+    "stack.mainNote": "What I use daily and where I'm strongest",
+    "stack.secondary": "Secondary stack",
+    "stack.secondaryNote": "Comfortable with, fewer hours logged",
+    "stack.other": "Also worked with",
+    "stack.otherNote": "Real project experience, not my current focus",
     "stack.ai": "AI Assistants",
+    "stack.aiNote": "Day-to-day development support",
     "stack.tools": "Tools",
+    "stack.toolsNote": "My usual working environment",
     "stack.visit": "Go to the official site of",
 
     "form.name": "Name",
