@@ -1,6 +1,10 @@
 ---
 import LinkInline from "./LinkInline.astro";
 import RouterIcon from "./icons/Route.astro";
+import { getLangFromUrl, useTranslations } from "../i18n/utils";
+
+const lang = getLangFromUrl(Astro.url);
+const t = useTranslations(lang);
 
 interface Props {
   title: string;
@@ -8,6 +12,7 @@ interface Props {
   description: string[];
   link?: string;
   date: string;
+  location?: string;
   icon?: any;
   logo: string;
 }
@@ -18,6 +23,7 @@ const {
   description,
   link,
   date,
+  location,
   icon: Icon,
   logo,
 } = Astro.props;
@@ -35,19 +41,32 @@ const {
       >
       <img
         src={logo}
-        alt={`Logo de ${company}`}
+        alt={`${t("experience.logoAlt")} ${company}`}
+        width="144"
+        height="144"
+        loading="lazy"
+        decoding="async"
         class="w-32 h-32 p-1 bg-white/20 md:w-36 md:h-36 rounded-xl shadow-lg object-contain"
       />
       <div class="text-center">
-        <h3 class="text-2xl font-bold text-blue-400">{title}</h3>
+        <h3 class="text-xl md:text-2xl font-bold text-blue-600 dark:text-blue-400">
+          {title}
+        </h3>
         <h4
           class="flex items-center justify-center gap-2 font-semibold text-lg text-gray-600 dark:text-white mt-1"
         >
-          {company}<Icon class="w-5 h-5" />
+          {company}{Icon && <Icon class="w-5 h-5" />}
         </h4>
         <time class="block text-sm text-gray-600/80 dark:text-white/80 mt-1"
           >{date}</time
         >
+        {
+          location && (
+            <span class="block text-sm text-gray-600/70 dark:text-white/70">
+              {location}
+            </span>
+          )
+        }
       </div>
     </div>
   </div>
@@ -61,7 +80,7 @@ const {
     {
       link && (
         <LinkInline href={link}>
-          Saber más <RouterIcon class="ml-4" />
+          {t("experience.more")} <RouterIcon class="ml-4" />
         </LinkInline>
       )
     }

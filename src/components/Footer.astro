@@ -1,6 +1,14 @@
 ---
-const currentYear = new Date().getFullYear();
 import LinkedInIcon from "./icons/LinkedIn.astro";
+import GithubIcon from "./icons/GitHub.astro";
+import GmailIcon from "./icons/Gmail.astro";
+import { LINKEDIN_URL, GITHUB_URL, EMAIL, SHORT_NAME } from "../consts";
+import { getLangFromUrl, useTranslations } from "../i18n/utils";
+
+const lang = getLangFromUrl(Astro.url);
+const t = useTranslations(lang);
+
+const currentYear = new Date().getFullYear();
 ---
 
 <footer
@@ -12,18 +20,35 @@ import LinkedInIcon from "./icons/LinkedIn.astro";
     <!-- Texto -->
     <span class="text-sm text-zinc-700/90 dark:text-zinc-300/90">
       © <span class="font-semibold">{currentYear}</span> ·
-      <span class="font-semibold">Pablo Ocampos</span> · Algunos derechos reservados
+      <span class="font-semibold">{SHORT_NAME}</span> · {t("footer.rights")}
     </span>
 
     <!-- Redes -->
     <div class="flex gap-4">
       <a
-        href="https://www.linkedin.com/in/pablo-m-ocampos-b48374381/"
+        href={LINKEDIN_URL}
         target="_blank"
+        rel="noopener noreferrer"
         class="p-2 rounded-full transition-transform hover:scale-125 hover:bg-gray-300 dark:hover:bg-gray-700"
-        aria-label="LinkedIn"
+        aria-label={t("footer.linkedin")}
       >
         <LinkedInIcon class="w-5 h-5" />
+      </a>
+      <a
+        href={GITHUB_URL}
+        target="_blank"
+        rel="noopener noreferrer"
+        class="p-2 rounded-full transition-transform hover:scale-125 hover:bg-gray-300 dark:hover:bg-gray-700"
+        aria-label={t("footer.github")}
+      >
+        <GithubIcon class="w-5 h-5" />
+      </a>
+      <a
+        href={`mailto:${EMAIL}`}
+        class="p-2 rounded-full transition-transform hover:scale-125 hover:bg-gray-300 dark:hover:bg-gray-700"
+        aria-label={t("footer.email")}
+      >
+        <GmailIcon class="w-5 h-5" />
       </a>
     </div>
   </div>
