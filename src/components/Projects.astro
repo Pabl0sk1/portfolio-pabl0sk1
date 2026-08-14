@@ -87,13 +87,13 @@ const rutaCaso = (ruta: string) =>
               {(link || caseStudy) && (
                 <div class="flex flex-wrap items-center gap-3 mt-3">
                   {caseStudy && (
-                    <a
+                    <LinkButton
                       href={rutaCaso(caseStudy)}
-                      class="inline-flex items-center gap-2 px-3 py-1.5 text-sm font-semibold rounded-xl bg-blue-600 text-white hover:bg-blue-500 transition focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-blue-600"
+                      external={false}
+                      class="text-sm px-3 py-1"
                     >
-                      <RouterIcon class="w-4 h-4" />
-                      {t("projects.caseStudy")}
-                    </a>
+                      <RouterIcon class="w-4 h-4" /> {t("projects.caseStudy")}
+                    </LinkButton>
                   )}
                   {link && (
                     <LinkButton href={link} class="text-sm px-3 py-1">

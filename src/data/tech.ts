@@ -54,6 +54,11 @@ export const TECH = {
   html: { label: "HTML", link: "https://developer.mozilla.org/docs/Web/HTML", tier: "also" },
   css: { label: "CSS", link: "https://developer.mozilla.org/docs/Web/CSS", tier: "also" },
   sqlite: { label: "SQLite", link: "https://www.sqlite.org/", tier: "also" },
+  tkinter: {
+    label: "Tkinter",
+    link: "https://docs.python.org/3/library/tkinter.html",
+    tier: "also",
+  },
   firebase: { label: "Firebase", link: "https://firebase.google.com/", tier: "also" },
   ionic: { label: "Ionic", link: "https://ionicframework.com/", tier: "also" },
   sass: { label: "SASS", link: "https://sass-lang.com/", tier: "also" },
@@ -98,6 +103,7 @@ export const TIER_ORDER: Record<Tier, TechKey[]> = {
     "html",
     "css",
     "sqlite",
+    "tkinter",
     "firebase",
   ],
   learning: ["laravel", "next"],
@@ -139,5 +145,6 @@ export const TAG_COLOR: Partial<Record<TechKey, string>> = {
   postgresql: "text-blue-500",
   mysql: "text-blue-500",
   sqlite: "text-sky-700",
+  tkinter: "text-blue-600",
   docker: "text-blue-400",
 };

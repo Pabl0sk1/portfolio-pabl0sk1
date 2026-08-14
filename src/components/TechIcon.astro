@@ -26,6 +26,7 @@ import NodeIcon from "./icons/Node.astro";
 import PostgresqlIcon from "./icons/Postgresql.astro";
 import MysqlIcon from "./icons/Mysql.astro";
 import SqliteIcon from "./icons/Sqlite.astro";
+import TkinterIcon from "./icons/Tkinter.astro";
 import FirestoreIcon from "./icons/Firestore.astro";
 import IonicIcon from "./icons/Ionic.astro";
 import DockerIcon from "./icons/Docker.astro";
@@ -75,6 +76,7 @@ const ICONS: Record<TechKey, any> = {
   html: HtmlIcon,
   css: CssIcon,
   sqlite: SqliteIcon,
+  tkinter: TkinterIcon,
   firebase: FirestoreIcon,
   ionic: IonicIcon,
   sass: SassIcon,
@@ -102,4 +104,6 @@ const ICONS: Record<TechKey, any> = {
 const Icon = ICONS[tech];
 ---
 
-<Icon class={className} />
+{/* Decorativo a proposito: el icono siempre va junto a su etiqueta visible.
+    Sin esto se lee dos veces, porque los iconos llevan un <title> propio. */}
+<Icon class={className} aria-hidden="true" />

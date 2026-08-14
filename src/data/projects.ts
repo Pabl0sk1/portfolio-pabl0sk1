@@ -51,7 +51,7 @@ export const PROJECTS: Project[] = [
     image: "/projects/StockPro.webp",
     link: "",
     caseStudy: "",
-    tags: ["python", "sqlite"],
+    tags: ["python", "tkinter", "sqlite"],
     transversal: ["git"],
   },
   {
