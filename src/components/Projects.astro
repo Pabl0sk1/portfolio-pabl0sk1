@@ -12,235 +12,152 @@ import SpringbootIcon from "./icons/Springboot.astro";
 import PostgresqlIcon from "./icons/Postgresql.astro";
 import FirestoreIcon from "./icons/Firestore.astro";
 import IonicIcon from "./icons/Ionic.astro";
-import TailwindIcon from "./icons/Tailwind.astro";
-import AstroIcon from "./icons/AstroBuild.astro";
-import ViteIcon from "./icons/Vite.astro";
-import MysqlIcon from "./icons/Mysql.astro";
-import MongodbIcon from "./icons/Mongodb.astro";
 import PythonIcon from "./icons/Python.astro";
-import DjangoIcon from "./icons/Django.astro";
+import FastApiIcon from "./icons/FastApi.astro";
+import DockerIcon from "./icons/Docker.astro";
+import SqliteIcon from "./icons/Sqlite.astro";
+import TailwindIcon from "./icons/Tailwind.astro";
 import LinkIcon from "./icons/Link.astro";
-import RepoIcon from "./icons/Repo.astro";
 import LinkButton from "./LinkButton.astro";
+import { getLangFromUrl, useTranslations } from "../i18n/utils";
+import { projects as projectsText } from "../i18n/content";
+
+const lang = getLangFromUrl(Astro.url);
+const t = useTranslations(lang);
+
+const TAG_CLASS = "bg-black/85 dark:bg-white";
 
 const TAGS = {
-  ASTROBUILD: {
-    name: "Astro",
-    class: "bg-black/85 dark:bg-white text-orange-500",
-    icon: AstroIcon,
-  },
-  VITE: {
-    name: "Vite",
-    class: "bg-black/85 dark:bg-white text-violet-500",
-    icon: ViteIcon,
-  },
-  HTML: {
-    name: "HTML",
-    class: "bg-black/85 dark:bg-white text-red-500",
-    icon: HtmlIcon,
-  },
-  CSS: {
-    name: "CSS",
-    class: "bg-black/85 dark:bg-white text-violet-500",
-    icon: CssIcon,
-  },
+  HTML: { name: "HTML", class: `${TAG_CLASS} text-red-500`, icon: HtmlIcon },
+  CSS: { name: "CSS", class: `${TAG_CLASS} text-violet-500`, icon: CssIcon },
+  SASS: { name: "SASS", class: `${TAG_CLASS} text-pink-500`, icon: SassIcon },
   BOOTSTRAP: {
     name: "Bootstrap",
-    class: "bg-black/85 dark:bg-white text-violet-500",
+    class: `${TAG_CLASS} text-violet-500`,
     icon: BootstrapIcon,
   },
   TAILWIND: {
     name: "Tailwind",
-    class: "bg-black/85 dark:bg-white text-sky-500",
+    class: `${TAG_CLASS} text-sky-500`,
     icon: TailwindIcon,
-  },
-  SASS: {
-    name: "SASS",
-    class: "bg-black/85 dark:bg-white text-pink-500",
-    icon: SassIcon,
   },
   JAVASCRIPT: {
     name: "JavaScript",
-    class: "bg-black/85 dark:bg-white text-yellow-500",
+    class: `${TAG_CLASS} text-yellow-500`,
     icon: JavascriptIcon,
   },
   TYPESCRIPT: {
     name: "TypeScript",
-    class: "bg-black/85 dark:bg-white text-blue-500",
+    class: `${TAG_CLASS} text-blue-500`,
     icon: TypescriptIcon,
   },
-  REACT: {
-    name: "React",
-    class: "bg-black/85 dark:bg-white text-sky-500",
-    icon: ReactIcon,
-  },
+  REACT: { name: "React", class: `${TAG_CLASS} text-sky-500`, icon: ReactIcon },
   ANGULAR: {
     name: "Angular",
-    class: "bg-black/85 dark:bg-white text-red-500",
+    class: `${TAG_CLASS} text-red-500`,
     icon: AngularIcon,
   },
   PYTHON: {
     name: "Python",
-    class: "bg-black/85 dark:bg-white text-blue-500",
+    class: `${TAG_CLASS} text-blue-500`,
     icon: PythonIcon,
   },
-  DJANGO: {
-    name: "Django",
-    class: "bg-black/85 dark:bg-white text-green-500",
-    icon: DjangoIcon,
+  FASTAPI: {
+    name: "FastAPI",
+    class: `${TAG_CLASS} text-teal-500`,
+    icon: FastApiIcon,
   },
-  JAVA: {
-    name: "Java",
-    class: "bg-black/85 dark:bg-white text-amber-500",
-    icon: JavaIcon,
-  },
+  JAVA: { name: "Java", class: `${TAG_CLASS} text-amber-500`, icon: JavaIcon },
   SPRINGBOOT: {
     name: "Spring Boot",
-    class: "bg-black/85 dark:bg-white text-green-500",
+    class: `${TAG_CLASS} text-green-500`,
     icon: SpringbootIcon,
   },
-  IONIC: {
-    name: "Ionic",
-    class: "bg-black/85 dark:bg-white text-blue-500",
-    icon: IonicIcon,
-  },
+  IONIC: { name: "Ionic", class: `${TAG_CLASS} text-blue-500`, icon: IonicIcon },
   FIREBASE: {
     name: "Firebase",
-    class: "bg-black/85 dark:bg-white text-yellow-500",
+    class: `${TAG_CLASS} text-yellow-500`,
     icon: FirestoreIcon,
   },
   POSTGRESQL: {
     name: "PostgreSQL",
-    class: "bg-black/85 dark:bg-white text-blue-500",
+    class: `${TAG_CLASS} text-blue-500`,
     icon: PostgresqlIcon,
   },
-  MYSQL: {
-    name: "MySQL",
-    class: "bg-black/85 dark:bg-white text-blue-500",
-    icon: MysqlIcon,
+  SQLITE: {
+    name: "SQLite",
+    class: `${TAG_CLASS} text-sky-700`,
+    icon: SqliteIcon,
   },
-  MONGODB: {
-    name: "MongoDB",
-    class: "bg-black/85 dark:bg-white text-green-500",
-    icon: MongodbIcon,
+  DOCKER: {
+    name: "Docker",
+    class: `${TAG_CLASS} text-blue-400`,
+    icon: DockerIcon,
   },
 };
 
-const PROJECTS = [
-  {
-    title: "BioTech",
-    description:
-      "Sistema ERP modular para entorno agroindustrial, enfocado en la gestión de operaciones internas como planificación, horas extras, solicitudes de crédito y control de entidades. Integra datos de sistemas externos y ofrece análisis mediante dashboards para soporte en la toma de decisiones.",
-    link: "",
-    github: "",
-    image: "/projects/BioTech.webp",
-    tags: [
-      TAGS.POSTGRESQL,
-      TAGS.HTML,
-      TAGS.JAVASCRIPT,
-      TAGS.REACT,
-      TAGS.CSS,
-      TAGS.BOOTSTRAP,
-      TAGS.JAVA,
-      TAGS.SPRINGBOOT,
-    ],
-  },
-  {
-    title: "Atelier",
-    description:
-      "Sistema de gestión para negocio local que centraliza ventas, compras, inventario y alquileres, permitiendo un mejor control operativo y organización de procesos internos.",
-    link: "",
-    github: "",
-    image: "/projects/Atelier.webp",
-    tags: [
-      TAGS.POSTGRESQL,
-      TAGS.HTML,
-      TAGS.JAVASCRIPT,
-      TAGS.REACT,
-      TAGS.CSS,
-      TAGS.BOOTSTRAP,
-      TAGS.JAVA,
-      TAGS.SPRINGBOOT,
-    ],
-  },
-  {
-    title: "Shop Easy",
-    description:
-      "Aplicación móvil para la gestión de listas de compras con sincronización en tiempo real, pensada para mejorar la organización y experiencia del usuario.",
-    link: "https://lista-compras-fa747.web.app/",
-    github: "https://github.com/Pabl0sk1/lista-compras",
-    image: "/projects/ShopEasy.webp",
-    tags: [
-      TAGS.IONIC,
-      TAGS.ANGULAR,
-      TAGS.FIREBASE,
-      TAGS.TYPESCRIPT,
-      TAGS.HTML,
-      TAGS.SASS,
-    ],
-  },
-  {
-    title: "Fast-Food",
-    description:
-      "Sitio web para negocio de comida rápida con enfoque en experiencia de usuario, navegación interactiva y presentación clara de productos y servicios.",
-    link: "https://fast-foodon.netlify.app/",
-    github: "https://github.com/Pabl0sk1/fast-food",
-    image: "/projects/FastFood.webp",
-    tags: [TAGS.HTML, TAGS.JAVASCRIPT, TAGS.CSS],
-  },
+// lo traducible viene del diccionario; aqui solo lo que no cambia de idioma
+const META = [
+  { link: "", image: "/projects/Faro.webp", tags: [TAGS.PYTHON, TAGS.FASTAPI, TAGS.POSTGRESQL, TAGS.REACT, TAGS.TAILWIND, TAGS.DOCKER] },
+  { link: "", image: "/projects/Timon.webp", tags: [TAGS.PYTHON, TAGS.FASTAPI, TAGS.POSTGRESQL, TAGS.REACT, TAGS.TAILWIND, TAGS.DOCKER] },
+  { link: "", image: "/projects/StockPro.webp", tags: [TAGS.PYTHON, TAGS.SQLITE] },
+  { link: "", image: "/projects/BioTech.webp", tags: [TAGS.JAVA, TAGS.SPRINGBOOT, TAGS.POSTGRESQL, TAGS.REACT, TAGS.JAVASCRIPT, TAGS.BOOTSTRAP] },
+  { link: "", image: "/projects/Atelier.webp", tags: [TAGS.JAVA, TAGS.SPRINGBOOT, TAGS.POSTGRESQL, TAGS.REACT, TAGS.JAVASCRIPT, TAGS.BOOTSTRAP] },
+  { link: "https://shopeasy-app.web.app/", image: "/projects/ShopEasy.webp", tags: [TAGS.IONIC, TAGS.ANGULAR, TAGS.FIREBASE, TAGS.TYPESCRIPT, TAGS.HTML, TAGS.SASS] },
 ];
+
+const PROJECTS = projectsText[lang].map((p, i) => ({ ...p, ...META[i] }));
 ---
 
 <div class="max-w-6xl mx-auto px-4 grid gap-12 md:grid-cols-2">
   {
-    PROJECTS.map(({ title, description, image, tags, link, github }) => (
-      <article class="flex flex-col bg-black/10 dark:bg-gray-800 rounded-xl shadow-md overflow-hidden hover:shadow-lg transition-shadow duration-300 border border-black/10 dark:border-white/10">
-        {/* Imagen */}
-        <div class="relative w-full h-64 md:h-48 overflow-hidden">
-          <img
-            src={image}
-            alt={`Captura ${title}`}
-            class="w-full h-full object-cover transition-transform duration-300 ease-in-out hover:scale-105"
-            loading="lazy"
-            decoding="async"
-          />
-        </div>
-
-        {/* Contenido */}
-        <div class="p-4 flex flex-col justify-between gap-3">
-          <h3 class="text-xl md:text-2xl font-bold text-blue-800 dark:text-blue-200">
-            {title}
-          </h3>
-          <p class="text-gray-700 dark:text-gray-300 text-sm">{description}</p>
-
-          {/* Tags */}
-          <div class="flex flex-wrap justify-center gap-2 mt-2">
-            {tags.map((tag) => (
-              <span
-                class={`flex items-center gap-1 px-2 py-1 md:px-3 md:py-1.5 text-[10px] md:text-sm font-medium rounded-full 
-                  transition-all duration-200 ease-in-out ${tag.class} md:hover:scale-105 md:hover:shadow-md md:hover:bg-opacity-20`}
-              >
-                <tag.icon class="w-4 h-4 md:w-5 md:h-5" />
-                {tag.name}
-              </span>
-            ))}
+    PROJECTS.map(({ title, description, image, tags, link }) => (
+        <article class="flex flex-col bg-black/10 dark:bg-gray-800 rounded-xl shadow-md overflow-hidden hover:shadow-lg transition-shadow duration-300 border border-black/10 dark:border-white/10">
+          {/* Imagen */}
+          <div class="relative w-full h-64 md:h-48 overflow-hidden">
+            <img
+              src={image}
+              alt={`${t("projects.imageAlt")} ${title}`}
+              width="640"
+              height="360"
+              class="w-full h-full object-cover object-top transition-transform duration-300 ease-in-out hover:scale-105"
+              loading="lazy"
+              decoding="async"
+            />
           </div>
 
-          {/* Botones */}
-          <div class="flex gap-3 mt-3">
-            {github && (
-              <LinkButton href={github} class="text-sm px-3 py-1">
-                <RepoIcon class="w-4 h-4" /> Repositorio
-              </LinkButton>
-            )}
+          {/* Contenido */}
+          <div class="p-4 flex flex-col justify-between gap-3 grow">
+            <h3 class="text-xl md:text-2xl font-bold text-blue-800 dark:text-blue-200">
+              {title}
+            </h3>
+            <p class="text-gray-700 dark:text-gray-300 text-sm grow">
+              {description}
+            </p>
+
+            {/* Tags */}
+            <div class="flex flex-wrap justify-center gap-2 mt-2">
+              {tags.map((tag) => (
+                <span
+                  class={`flex items-center gap-1 px-2 py-1 md:px-3 md:py-1.5 text-[10px] md:text-sm font-medium rounded-full
+                  transition-all duration-200 ease-in-out ${tag.class} md:hover:scale-105 md:hover:shadow-md`}
+                >
+                  <tag.icon class="w-4 h-4 md:w-5 md:h-5" />
+                  {tag.name}
+                </span>
+              ))}
+            </div>
+
+            {/* Enlace al sitio, solo en los proyectos que tienen uno publico */}
             {link && (
-              <LinkButton href={link} class="text-sm px-3 py-1">
-                <LinkIcon class="w-4 h-4" /> Website
-              </LinkButton>
+              <div class="flex flex-wrap items-center gap-3 mt-3">
+                <LinkButton href={link} class="text-sm px-3 py-1">
+                  <LinkIcon class="w-4 h-4" /> {t("projects.website")}
+                </LinkButton>
+              </div>
             )}
           </div>
-        </div>
-      </article>
-    ))
+        </article>
+      ))
   }
 </div>
