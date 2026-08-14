@@ -3,6 +3,7 @@ import SunIcon from "./icons/Sun.astro";
 import MoonIcon from "./icons/Moon.astro";
 import ScreenIcon from "./icons/Screen.astro";
 import HomeIcon from "./icons/Home.astro";
+import CommandPalette from "./CommandPalette.astro";
 import type { Lang } from "../i18n/ui";
 import {
   getLangFromUrl,
@@ -89,6 +90,7 @@ const tooltipClass =
     </div>
 
     <div class="flex items-center gap-0.5 sm:gap-2 shrink-0">
+      <CommandPalette />
       {/* Cambio de idioma: es un enlace real, no un boton, porque navega
           a otra URL y asi los buscadores lo siguen */}
       <div class="relative group shrink-0">

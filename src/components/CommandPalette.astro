@@ -1,0 +1,376 @@
+---
+/**
+ * Paleta de comandos (Cmd/Ctrl + K).
+ * Salta a secciones, abre proyectos, filtra por tecnologia y cambia tema o
+ * idioma. Los datos se inyectan ya traducidos desde el servidor para no
+ * duplicar el diccionario en el cliente.
+ */
+import { getLangFromUrl, useTranslations, switchLangPath, otherLang } from "../i18n/utils";
+import { projects as projectsText } from "../i18n/content";
+import { PROJECTS } from "../data/projects";
+import { TECH } from "../data/tech";
+import { contarPorTech } from "../data/projects";
+import type { TechKey } from "../data/tech";
+
+const lang = getLangFromUrl(Astro.url);
+const t = useTranslations(lang);
+const cuenta = contarPorTech();
+
+const esHome = ["/", "/en", "/en/"].includes(Astro.url.pathname.replace(/\/$/, "") || "/");
+const home = lang === "es" ? "/" : "/en/";
+
+const secciones = [
+  { id: "experiencia", label: t("nav.experience") },
+  { id: "proyectos", label: t("nav.projects") },
+  { id: "stack", label: t("nav.stack") },
+  { id: "sobre-mi", label: t("nav.about") },
+  { id: "contactar", label: t("nav.contact") },
+];
+
+const proyectos = projectsText[lang].map((texto, i) => ({
+  slug: PROJECTS[i].slug,
+  label: texto.title,
+  caseStudy: PROJECTS[i].caseStudy
+    ? lang === "en"
+      ? "/en" + PROJECTS[i].caseStudy.replace("/proyectos/", "/projects/")
+      : PROJECTS[i].caseStudy
+    : "",
+}));
+
+// solo las que tienen proyectos: filtrar por una sin uso no llevaria a nada
+const tecnologias = (Object.keys(TECH) as TechKey[])
+  .filter((k) => (cuenta[k] ?? 0) > 0)
+  .map((k) => ({ key: k, label: TECH[k].label, n: cuenta[k] ?? 0 }));
+
+const datos = {
+  esHome,
+  home,
+  langHref: switchLangPath(Astro.url.pathname, lang),
+  otherLang: otherLang(lang),
+  secciones,
+  proyectos,
+  tecnologias,
+  textos: {
+    groupNav: t("cmd.groupNav"),
+    groupProjects: t("cmd.groupProjects"),
+    groupTech: t("cmd.groupTech"),
+    groupActions: t("cmd.groupActions"),
+    caseStudy: t("projects.caseStudy"),
+    filterBy: t("cmd.filterBy"),
+    theme: t("cmd.theme"),
+    language: t("cmd.language"),
+    top: t("header.home"),
+    empty: t("cmd.empty"),
+    projectsWord: t("stack.projects"),
+  },
+};
+---
+
+<button
+  id="cmd-open"
+  type="button"
+  aria-keyshortcuts="Control+K Meta+K"
+  class="hidden md:inline-flex items-center gap-2 rounded-lg bg-white/50 dark:bg-black/30 ring-1 ring-black/10 dark:ring-white/10 px-2.5 py-1.5 text-xs text-gray-600 dark:text-gray-300 hover:bg-white dark:hover:bg-black/60 hover:ring-blue-500/40 transition cursor-pointer focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-blue-600"
+>
+  <svg class="w-3.5 h-3.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
+    <circle cx="11" cy="11" r="7"></circle><path d="m20 20-3.5-3.5" stroke-linecap="round"></path>
+  </svg>
+  <span>{t("cmd.open")}</span>
+  <kbd
+    class="ml-1 rounded border border-black/15 dark:border-white/20 px-1.5 py-0.5 font-sans text-[10px] font-semibold"
+    >⌘K</kbd
+  >
+</button>
+
+<div
+  id="cmd-overlay"
+  hidden
+  class="fixed inset-0 z-[100] bg-black/50 backdrop-blur-sm px-4 pt-[12vh]"
+>
+  <div
+    id="cmd-dialog"
+    role="dialog"
+    aria-modal="true"
+    aria-labelledby="cmd-label"
+    class="mx-auto w-full max-w-xl overflow-hidden rounded-2xl bg-white dark:bg-gray-900 shadow-2xl ring-1 ring-black/10 dark:ring-white/10"
+  >
+    <h2 id="cmd-label" class="sr-only">{t("cmd.title")}</h2>
+
+    <div class="flex items-center gap-3 border-b border-black/10 dark:border-white/10 px-4">
+      <svg class="w-4 h-4 shrink-0 text-gray-500" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
+        <circle cx="11" cy="11" r="7"></circle><path d="m20 20-3.5-3.5" stroke-linecap="round"></path>
+      </svg>
+      <input
+        id="cmd-input"
+        type="text"
+        role="combobox"
+        aria-expanded="true"
+        aria-controls="cmd-list"
+        aria-autocomplete="list"
+        autocomplete="off"
+        spellcheck="false"
+        placeholder={t("cmd.placeholder")}
+        class="w-full bg-transparent py-4 text-base text-gray-900 dark:text-white placeholder:text-gray-500 focus:outline-none"
+      />
+      <kbd
+        class="hidden sm:block shrink-0 rounded border border-black/15 dark:border-white/20 px-1.5 py-0.5 text-[10px] font-semibold text-gray-500"
+        >ESC</kbd
+      >
+    </div>
+
+    <ul id="cmd-list" role="listbox" aria-label={t("cmd.title")} class="max-h-[55vh] overflow-y-auto p-2"></ul>
+
+    <p id="cmd-empty" hidden class="px-4 py-8 text-center text-sm text-gray-500">
+      {t("cmd.empty")}
+    </p>
+
+    <div
+      class="flex items-center gap-4 border-t border-black/10 dark:border-white/10 px-4 py-2 text-[11px] text-gray-500"
+    >
+      <span><kbd class="font-sans font-semibold">↑↓</kbd> {t("cmd.hintMove")}</span>
+      <span><kbd class="font-sans font-semibold">↵</kbd> {t("cmd.hintSelect")}</span>
+      <span><kbd class="font-sans font-semibold">esc</kbd> {t("cmd.hintClose")}</span>
+    </div>
+  </div>
+</div>
+
+<script id="cmd-data" type="application/json" is:inline set:html={JSON.stringify(datos)} />
+
+<script>
+  type Item = {
+    id: string;
+    label: string;
+    grupo: string;
+    hint?: string;
+    accion: () => void;
+  };
+
+  const datos = JSON.parse(
+    document.getElementById("cmd-data")?.textContent || "{}"
+  );
+  const T = datos.textos ?? {};
+
+  const overlay = document.getElementById("cmd-overlay");
+  const dialogo = document.getElementById("cmd-dialog");
+  const input = document.getElementById("cmd-input") as HTMLInputElement | null;
+  const lista = document.getElementById("cmd-list");
+  const vacio = document.getElementById("cmd-empty");
+  const abrir = document.getElementById("cmd-open");
+
+  if (overlay && input && lista) {
+    let indice = 0;
+    let visibles: Item[] = [];
+    let ultimoFoco: HTMLElement | null = null;
+
+    /** Ir a una seccion: si no estamos en la portada, navegar primero */
+    const irASeccion = (id: string) => {
+      if (datos.esHome) {
+        document.getElementById(id)?.scrollIntoView({
+          behavior: window.matchMedia("(prefers-reduced-motion: reduce)").matches
+            ? "auto"
+            : "smooth",
+          block: "start",
+        });
+      } else {
+        location.href = `${datos.home.replace(/\/$/, "")}/#${id}`;
+      }
+    };
+
+    const filtrarPorTech = (key: string) => {
+      if (!datos.esHome) {
+        location.href = `${datos.home}?tech=${key}#proyectos`;
+        return;
+      }
+      document
+        .querySelector<HTMLButtonElement>(`[data-tech-filter="${key}"]`)
+        ?.click();
+    };
+
+    const items: Item[] = [
+      ...datos.secciones.map((s: any) => ({
+        id: `sec-${s.id}`,
+        label: s.label,
+        grupo: T.groupNav,
+        accion: () => irASeccion(s.id),
+      })),
+
+      ...datos.proyectos.flatMap((p: any) => {
+        const base: Item[] = [
+          {
+            id: `proj-${p.slug}`,
+            label: p.label,
+            grupo: T.groupProjects,
+            accion: () => irASeccion("proyectos"),
+          },
+        ];
+        if (p.caseStudy) {
+          base.push({
+            id: `case-${p.slug}`,
+            label: `${p.label} — ${T.caseStudy}`,
+            grupo: T.groupProjects,
+            accion: () => (location.href = p.caseStudy),
+          });
+        }
+        return base;
+      }),
+
+      ...datos.tecnologias.map((tec: any) => ({
+        id: `tech-${tec.key}`,
+        label: `${T.filterBy} ${tec.label}`,
+        hint: `${tec.n} ${T.projectsWord}`,
+        grupo: T.groupTech,
+        accion: () => filtrarPorTech(tec.key),
+      })),
+
+      {
+        id: "act-theme",
+        label: T.theme,
+        grupo: T.groupActions,
+        accion: () => document.getElementById("theme-toggle")?.click(),
+      },
+      {
+        id: "act-lang",
+        label: `${T.language}: ${String(datos.otherLang).toUpperCase()}`,
+        grupo: T.groupActions,
+        accion: () => (location.href = datos.langHref),
+      },
+      {
+        id: "act-top",
+        label: T.top,
+        grupo: T.groupActions,
+        accion: () =>
+          document.getElementById("scroll-area")?.scrollTo({ top: 0, behavior: "smooth" }),
+      },
+    ];
+
+    /** Coincidencia simple por subcadena, sin distinguir acentos ni mayusculas */
+    const normalizar = (s: string) =>
+      s.normalize("NFD").replace(/[̀-ͯ]/g, "").toLowerCase();
+
+    const render = () => {
+      const q = normalizar(input.value.trim());
+      visibles = q
+        ? items.filter((i) => normalizar(i.label).includes(q))
+        : items;
+
+      indice = Math.min(indice, Math.max(0, visibles.length - 1));
+      lista.innerHTML = "";
+
+      let grupoActual = "";
+      visibles.forEach((item, i) => {
+        if (item.grupo !== grupoActual) {
+          grupoActual = item.grupo;
+          const cabecera = document.createElement("li");
+          cabecera.setAttribute("role", "presentation");
+          cabecera.className =
+            "px-3 pt-3 pb-1 text-[11px] font-semibold uppercase tracking-wide text-gray-500";
+          cabecera.textContent = item.grupo;
+          lista.appendChild(cabecera);
+        }
+
+        const li = document.createElement("li");
+        li.id = `cmd-opt-${i}`;
+        li.setAttribute("role", "option");
+        li.setAttribute("aria-selected", String(i === indice));
+        li.className =
+          "flex items-center justify-between gap-3 rounded-lg px-3 py-2 text-sm cursor-pointer " +
+          (i === indice
+            ? "bg-blue-600 text-white"
+            : "text-gray-800 dark:text-gray-200 hover:bg-black/5 dark:hover:bg-white/5");
+
+        const texto = document.createElement("span");
+        texto.textContent = item.label;
+        li.appendChild(texto);
+
+        if (item.hint) {
+          const hint = document.createElement("span");
+          hint.className =
+            "shrink-0 text-[11px] " +
+            (i === indice ? "text-white/80" : "text-gray-500");
+          hint.textContent = item.hint;
+          li.appendChild(hint);
+        }
+
+        li.addEventListener("click", () => ejecutar(i));
+        li.addEventListener("mousemove", () => {
+          if (indice !== i) {
+            indice = i;
+            render();
+          }
+        });
+
+        lista.appendChild(li);
+      });
+
+      if (vacio) vacio.hidden = visibles.length > 0;
+      input.setAttribute(
+        "aria-activedescendant",
+        visibles.length ? `cmd-opt-${indice}` : ""
+      );
+      lista.querySelector('[aria-selected="true"]')?.scrollIntoView({ block: "nearest" });
+    };
+
+    const abrirPaleta = () => {
+      ultimoFoco = document.activeElement as HTMLElement;
+      overlay.hidden = false;
+      input.value = "";
+      indice = 0;
+      render();
+      input.focus();
+    };
+
+    const cerrar = () => {
+      overlay.hidden = true;
+      ultimoFoco?.focus();
+    };
+
+    const ejecutar = (i: number) => {
+      const item = visibles[i];
+      if (!item) return;
+      cerrar();
+      item.accion();
+    };
+
+    abrir?.addEventListener("click", abrirPaleta);
+    input.addEventListener("input", () => {
+      indice = 0;
+      render();
+    });
+
+    // atajo global
+    document.addEventListener("keydown", (e) => {
+      if ((e.metaKey || e.ctrlKey) && e.key.toLowerCase() === "k") {
+        e.preventDefault();
+        overlay.hidden ? abrirPaleta() : cerrar();
+      }
+    });
+
+    // teclado dentro de la paleta
+    overlay.addEventListener("keydown", (e) => {
+      if (e.key === "Escape") {
+        e.preventDefault();
+        cerrar();
+      } else if (e.key === "ArrowDown") {
+        e.preventDefault();
+        indice = (indice + 1) % Math.max(1, visibles.length);
+        render();
+      } else if (e.key === "ArrowUp") {
+        e.preventDefault();
+        indice = (indice - 1 + visibles.length) % Math.max(1, visibles.length);
+        render();
+      } else if (e.key === "Enter") {
+        e.preventDefault();
+        ejecutar(indice);
+      } else if (e.key === "Tab") {
+        // el foco no debe escaparse del dialogo
+        e.preventDefault();
+        input.focus();
+      }
+    });
+
+    // clic fuera del cuadro
+    overlay.addEventListener("mousedown", (e) => {
+      if (!dialogo?.contains(e.target as Node)) cerrar();
+    });
+  }
+</script>
