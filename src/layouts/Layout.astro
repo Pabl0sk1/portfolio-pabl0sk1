@@ -199,7 +199,12 @@ const personSchema = {
 
   ::-webkit-scrollbar-track {
     background: transparent;
-    /* arranca por debajo del header fijo en vez de correr por detras */
+  }
+
+  /* Solo la barra de la pagina arranca por debajo del header fijo.
+     Va atada a `html` a proposito: una regla universal con un reset para el
+     resto tendria mas especificidad y acabaria anulando este margen. */
+  html::-webkit-scrollbar-track {
     margin-top: var(--header-h);
   }
 
@@ -236,11 +241,6 @@ const personSchema = {
 
   ::-webkit-scrollbar-corner {
     background: transparent;
-  }
-
-  /* los contenedores con scroll propio no deben recortar su pista */
-  *:not(html)::-webkit-scrollbar-track {
-    margin-top: 0;
   }
 
   @media (prefers-reduced-motion: reduce) {

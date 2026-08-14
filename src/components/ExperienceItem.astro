@@ -15,6 +15,8 @@ interface Props {
   location?: string;
   icon?: any;
   logo: string;
+  /** Variante del logo para tema oscuro; si falta se usa `logo` en ambos */
+  logoDark?: string;
 }
 
 const {
@@ -26,6 +28,7 @@ const {
   location,
   icon: Icon,
   logo,
+  logoDark,
 } = Astro.props;
 ---
 
@@ -41,6 +44,8 @@ const {
       <span class="text-blue-400 absolute -left-[42px] rounded-full text-5xl"
         >&bull;</span
       >
+      {/* dos <img> y no <picture>: el tema se controla por la clase .dark,
+          que las media query de prefers-color-scheme no verian */}
       <img
         src={logo}
         alt={`${t("experience.logoAlt")} ${company}`}
@@ -48,8 +53,24 @@ const {
         height="144"
         loading="lazy"
         decoding="async"
-        class="w-32 h-32 p-1 bg-white/20 md:w-36 md:h-36 rounded-xl shadow-lg object-contain"
+        class:list={[
+          "w-32 h-32 p-1 bg-white/20 md:w-36 md:h-36 rounded-xl shadow-lg object-contain",
+          logoDark && "dark:hidden",
+        ]}
       />
+      {
+        logoDark && (
+          <img
+            src={logoDark}
+            alt={`${t("experience.logoAlt")} ${company}`}
+            width="144"
+            height="144"
+            loading="lazy"
+            decoding="async"
+            class="hidden dark:block w-32 h-32 p-1 bg-white/10 md:w-36 md:h-36 rounded-xl shadow-lg object-contain"
+          />
+        )
+      }
       <div class="text-center">
         <h3 class="text-xl md:text-2xl font-bold text-blue-600 dark:text-blue-400">
           {title}

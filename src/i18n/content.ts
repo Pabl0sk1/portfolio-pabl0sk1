@@ -43,7 +43,7 @@ export const experience: Record<Lang, ExperienceEntry[]> = {
         "Implementé n8n en servidor propio con dominio dedicado y construí flujos de automatización que redujeron tareas manuales y mejoraron la eficiencia operativa.",
         "Construí un módulo de acceso para clientes sobre la web institucional en WordPress, con lógica y vistas en PHP, permitiendo la descarga de facturas integradas desde datos de Versat ERP.",
         "Desarrollé un dashboard avanzado en Power BI sobre facturación, con gráficos dinámicos, mapas interactivos y filtros para la toma de decisiones gerenciales.",
-        "Brindé soporte técnico y funcional a usuarios de múltiples sucursales, gestionando conectividad, equipos y coordinación con proveedores externos.",
+        "Contenericé y desplegué los sistemas con Docker en servidor propio, y brindé soporte técnico y funcional a usuarios de múltiples sucursales, gestionando conectividad, equipos y coordinación con proveedores externos.",
       ],
     },
     {
@@ -88,7 +88,7 @@ export const experience: Record<Lang, ExperienceEntry[]> = {
         "Deployed n8n on a self-managed server with a dedicated domain and built automation flows that cut manual work and improved operational efficiency.",
         "Built a client portal on top of the company's WordPress site, with logic and views in PHP, letting customers download invoices generated from Versat ERP data.",
         "Developed an advanced Power BI billing dashboard with dynamic charts, interactive maps and filters to support management decisions.",
-        "Provided technical and functional support to users across multiple branches, handling connectivity, hardware and coordination with external vendors.",
+        "Containerised and deployed the systems with Docker on a self-managed server, and provided technical and functional support to users across multiple branches, handling connectivity, hardware and vendor coordination.",
       ],
     },
     {
@@ -127,7 +127,7 @@ export const projects: Record<Lang, ProjectEntry[]> = {
     {
       title: "BioTech",
       description:
-        "Sistema ERP modular para entorno agroindustrial, enfocado en la gestión de operaciones internas como planificación, horas extras, solicitudes de crédito y control de entidades. Integra datos de sistemas externos y ofrece análisis mediante dashboards para soporte en la toma de decisiones.",
+        "Sistema ERP modular para entorno agroindustrial, enfocado en la gestión de operaciones internas como planificación, horas extras, solicitudes de crédito y control de entidades. Integra datos de sistemas externos, ofrece análisis mediante dashboards y está desplegado íntegramente en contenedores Docker.",
     },
     {
       title: "Atelier",
@@ -160,7 +160,7 @@ export const projects: Record<Lang, ProjectEntry[]> = {
     {
       title: "BioTech",
       description:
-        "Modular ERP system for an agro-industrial company, focused on internal operations such as planning, overtime, credit requests and entity management. It pulls data from external systems and provides dashboards to support decision-making.",
+        "Modular ERP system for an agro-industrial company, focused on internal operations such as planning, overtime, credit requests and entity management. It pulls data from external systems, provides dashboards for decision-making and is deployed entirely in Docker containers.",
     },
     {
       title: "Atelier",
