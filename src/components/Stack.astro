@@ -2,7 +2,7 @@
 import TechBubble from "./TechBubble.astro";
 import { getLangFromUrl, useTranslations } from "../i18n/utils";
 import { TECH, TIER_ORDER, type Tier } from "../data/tech";
-import { contarPorTech } from "../data/projects";
+import { contarPorTech, esTransversal } from "../data/projects";
 
 const lang = getLangFromUrl(Astro.url);
 const t = useTranslations(lang);
@@ -76,7 +76,9 @@ const GRUPOS: {
               link={TECH[key].link}
               visitLabel={t("stack.visit")}
               usos={cuenta[key] ?? 0}
+              transversal={esTransversal(key)}
               filterLabel={t("stack.filterLabel")}
+              transversalLabel={t("stack.transversalLabel")}
               projectsWord={
                 (cuenta[key] ?? 0) === 1 ? t("stack.project") : t("stack.projects")
               }

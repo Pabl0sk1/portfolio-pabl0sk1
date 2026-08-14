@@ -13,12 +13,25 @@ interface Props {
   link: string;
   visitLabel: string;
   usos: number;
+  /** aparece en casi todos los proyectos: se marca distinto para no dar a
+      entender que caracteriza a ninguno */
+  transversal: boolean;
   filterLabel: string;
+  transversalLabel: string;
   projectsWord: string;
 }
 
-const { tech, label, link, visitLabel, usos, filterLabel, projectsWord } =
-  Astro.props;
+const {
+  tech,
+  label,
+  link,
+  visitLabel,
+  usos,
+  transversal,
+  filterLabel,
+  transversalLabel,
+  projectsWord,
+} = Astro.props;
 
 const esFiltro = usos > 0;
 
@@ -44,15 +57,22 @@ const etiqueta =
       type="button"
       data-tech-filter={tech}
       aria-pressed="false"
-      title={`${filterLabel} ${label}`}
+      title={
+        transversal
+          ? `${transversalLabel} (${usos} ${projectsWord})`
+          : `${filterLabel} ${label}`
+      }
       aria-label={`${filterLabel} ${label} (${usos} ${projectsWord})`}
       class={base + interactivo}
     >
       <TechIcon tech={tech} class="w-7 h-7" />
       <span class={etiqueta}>{label}</span>
       <span
-        class="absolute -top-1.5 -right-1.5 grid place-items-center min-w-5 h-5 px-1 rounded-full
-        bg-blue-600 text-white text-[10px] font-bold shadow ring-2 ring-gray-100 dark:ring-gray-900"
+        class:list={[
+          "absolute -top-1.5 -right-1.5 grid place-items-center min-w-5 h-5 px-1 rounded-full",
+          "text-white text-[10px] font-bold shadow ring-2 ring-gray-100 dark:ring-gray-900",
+          transversal ? "bg-slate-500" : "bg-blue-600",
+        ]}
       >
         {usos}
       </span>

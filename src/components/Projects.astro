@@ -45,10 +45,10 @@ const rutaCaso = (ruta: string) =>
   <div class="grid gap-12 md:grid-cols-2">
     {
       TARJETAS.map(
-        ({ title, description, image, tags, link, slug, caseStudy }) => (
+        ({ title, description, image, tags, transversal, link, slug, caseStudy }) => (
           <article
             data-project={slug}
-            data-tags={tags.join(" ")}
+            data-tags={[...tags, ...transversal].join(" ")}
             class="flex flex-col bg-black/10 dark:bg-gray-800 rounded-xl shadow-md overflow-hidden hover:shadow-lg transition-shadow duration-300 border border-black/10 dark:border-white/10"
           >
             <div class="relative w-full h-64 md:h-48 overflow-hidden">

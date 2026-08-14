@@ -15,7 +15,15 @@ export interface Project {
   link: string;
   /** ruta del caso de estudio, sin prefijo de idioma; vacio si no hay */
   caseStudy: string;
+  /** lo que caracteriza al proyecto; se muestra como etiquetas de color */
   tags: TechKey[];
+  /**
+   * Usado tambien, pero transversal a casi todo: no distingue al proyecto.
+   * Va en una linea discreta en vez de como etiqueta, porque "HTML" junto a
+   * "Row-Level Security" no aporta nada y llena la tarjeta de ruido.
+   * Cuenta igual para el contador y para el filtro.
+   */
+  transversal: TechKey[];
 }
 
 export const PROJECTS: Project[] = [
@@ -25,6 +33,7 @@ export const PROJECTS: Project[] = [
     link: "",
     caseStudy: "/proyectos/faro",
     tags: ["python", "fastapi", "postgresql", "react", "tailwind", "docker"],
+    transversal: ["git", "html", "css"],
   },
   {
     slug: "timon",
@@ -32,6 +41,7 @@ export const PROJECTS: Project[] = [
     link: "",
     caseStudy: "",
     tags: ["python", "fastapi", "postgresql", "react", "tailwind", "docker"],
+    transversal: ["git", "html", "css"],
   },
   {
     slug: "stockpro",
@@ -39,6 +49,7 @@ export const PROJECTS: Project[] = [
     link: "",
     caseStudy: "",
     tags: ["python", "sqlite"],
+    transversal: ["git"],
   },
   {
     slug: "biotech",
@@ -46,6 +57,7 @@ export const PROJECTS: Project[] = [
     link: "",
     caseStudy: "",
     tags: ["java", "springboot", "postgresql", "react", "javascript", "bootstrap", "docker"],
+    transversal: ["git", "html", "css"],
   },
   {
     slug: "atelier",
@@ -53,13 +65,15 @@ export const PROJECTS: Project[] = [
     link: "",
     caseStudy: "",
     tags: ["java", "springboot", "postgresql", "react", "javascript", "bootstrap"],
+    transversal: ["git", "html", "css"],
   },
   {
     slug: "shopeasy",
     image: "/projects/ShopEasy.webp",
     link: "https://shopeasy-app.web.app/",
     caseStudy: "",
-    tags: ["ionic", "angular", "firebase", "typescript", "html", "sass"],
+    tags: ["ionic", "angular", "firebase", "typescript", "sass"],
+    transversal: ["git", "html", "css"],
   },
 ];
 
@@ -67,7 +81,16 @@ export const PROJECTS: Project[] = [
 export function contarPorTech(): Partial<Record<TechKey, number>> {
   const cuenta: Partial<Record<TechKey, number>> = {};
   for (const p of PROJECTS) {
-    for (const t of p.tags) cuenta[t] = (cuenta[t] ?? 0) + 1;
+    for (const t of [...p.tags, ...p.transversal]) {
+      cuenta[t] = (cuenta[t] ?? 0) + 1;
+    }
   }
   return cuenta;
+}
+
+/** Tecnologias que aparecen solo como transversales, nunca como caracteristicas */
+export function esTransversal(tech: TechKey): boolean {
+  const enTags = PROJECTS.some((p) => p.tags.includes(tech));
+  const enTransversal = PROJECTS.some((p) => p.transversal.includes(tech));
+  return enTransversal && !enTags;
 }

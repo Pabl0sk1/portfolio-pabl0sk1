@@ -78,8 +78,9 @@ export const ui = {
     "stack.tools": "Herramientas",
     "stack.toolsNote": "Entorno de trabajo habitual",
     "stack.visit": "Ir al sitio oficial de",
-    "stack.hint": "Pulsa una tecnología con contador para ver en qué proyectos la usé.",
+    "stack.hint": "Pulsa una tecnología con contador para ver en qué proyectos la usé. Las marcadas en gris las uso de forma transversal.",
     "stack.filterLabel": "Ver proyectos con",
+    "stack.transversalLabel": "Lo uso en prácticamente todo",
     "stack.project": "proyecto",
     "stack.projects": "proyectos",
 
@@ -177,8 +178,9 @@ export const ui = {
     "stack.tools": "Tools",
     "stack.toolsNote": "My usual working environment",
     "stack.visit": "Go to the official site of",
-    "stack.hint": "Click a technology with a counter to see which projects use it.",
+    "stack.hint": "Click a technology with a counter to see which projects use it. The ones marked in grey are used across the board.",
     "stack.filterLabel": "See projects using",
+    "stack.transversalLabel": "I use it across practically everything",
     "stack.project": "project",
     "stack.projects": "projects",
 
