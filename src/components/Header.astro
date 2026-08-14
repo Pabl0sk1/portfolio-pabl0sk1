@@ -2,167 +2,327 @@
 import SunIcon from "./icons/Sun.astro";
 import MoonIcon from "./icons/Moon.astro";
 import ScreenIcon from "./icons/Screen.astro";
+import HomeIcon from "./icons/Home.astro";
+import type { Lang } from "../i18n/ui";
+import {
+  getLangFromUrl,
+  useTranslations,
+  localizePath,
+  switchLangPath,
+  otherLang,
+} from "../i18n/utils";
 
+const lang: Lang = getLangFromUrl(Astro.url);
+const t = useTranslations(lang);
+
+const home = localizePath("/", lang);
 const navItems = [
-  {
-    title: "Experiencia",
-    label: "experiencia",
-    url: "/#experiencia",
-  },
-  {
-    title: "Proyectos",
-    label: "proyectos",
-    url: "/#proyectos",
-  },
-  {
-    title: "Stack",
-    label: "stack",
-    url: "/#stack",
-  },
-  {
-    title: "Sobre mí",
-    label: "sobre-mi",
-    url: "/#sobre-mi",
-  },
-  {
-    title: "Contactar",
-    label: "contactar",
-    url: "/#contactar",
-  },
+  { title: t("nav.experience"), id: "experiencia" },
+  { title: t("nav.projects"), id: "proyectos" },
+  { title: t("nav.stack"), id: "stack" },
+  { title: t("nav.about"), id: "sobre-mi" },
+  { title: t("nav.contact"), id: "contactar" },
 ];
+
+const otro = otherLang(lang);
+const langHref = switchLangPath(Astro.url.pathname, lang);
+
+// Forma y hover compartidos por los botones de icono. Sin color de texto:
+// el del tema lo pone cada icono (sol amarillo, luna azul).
+const iconButtonBase =
+  "grid place-items-center size-7 md:size-9 shrink-0 cursor-pointer rounded-full " +
+  "bg-white/50 dark:bg-black/30 ring-1 ring-black/5 dark:ring-white/10 " +
+  "transition duration-200 hover:bg-white dark:hover:bg-black/60 " +
+  "hover:ring-blue-500/40 dark:hover:ring-blue-400/40 hover:scale-110 hover:shadow-md " +
+  "active:scale-95 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-blue-600";
+
+const neutralButtonClass = `${iconButtonBase} text-gray-700 dark:text-gray-200 hover:text-blue-700 dark:hover:text-blue-300`;
+
+// Tooltip propio: el `title` nativo tarda ~1s en salir y no se puede estilar.
+// Se usa `group-has-[:focus-visible]` y no `group-focus-within` para que NO se
+// quede pegado despues de hacer clic (el boton conserva el foco tras pulsarlo).
+const tooltipClass =
+  "pointer-events-none absolute top-full mt-2 z-10 whitespace-nowrap rounded-md " +
+  "bg-gray-900 dark:bg-gray-100 px-2 py-1 text-xs font-medium text-white dark:text-gray-900 " +
+  "shadow-lg opacity-0 translate-y-1 transition duration-150 " +
+  "group-hover:opacity-100 group-hover:translate-y-0 " +
+  "group-has-[:focus-visible]:opacity-100 group-has-[:focus-visible]:translate-y-0";
 ---
 
 <header
-  class="fixed top-0 z-50 w-full backdrop-blur-md bg-gray-400/30 dark:bg-gray-800/30 border-b border-gray-300/30 dark:border-gray-700/30"
+  class="fixed top-0 z-50 w-full backdrop-blur-md bg-gray-200/60 dark:bg-gray-800/30 border-b border-gray-300/30 dark:border-gray-700/30"
 >
   <nav
-    class="flex justify-center items-center px-4 py-2 text-sm sm:text-base font-medium text-black dark:text-gray-200"
+    id="main-nav"
+    aria-label={t("nav.label")}
+    class="flex items-center justify-between gap-0.5 sm:gap-3 max-w-6xl mx-auto px-1 sm:px-4 py-2 text-sm sm:text-base font-medium text-black dark:text-gray-200"
   >
-    {
-      navItems.map((link) => (
+    <div class="relative group shrink-0">
+      <a
+        id="brand-home"
+        href={home}
+        aria-label={t("header.home")}
+        title={t("header.home")}
+        class={neutralButtonClass}
+      >
+        <HomeIcon class="w-4 h-4 md:w-5 md:h-5" />
+      </a>
+      <span role="tooltip" class={tooltipClass}>{t("header.home")}</span>
+    </div>
+
+    <div class="flex items-center">
+      {
+        navItems.map((link) => (
+          <a
+            href={`${home === "/" ? "" : home}/#${link.id}`.replace("//", "/")}
+            class="relative block font-semibold px-0.5 sm:px-1 md:px-2 py-2 text-[10px] sm:text-sm whitespace-nowrap transition hover:text-blue-800 dark:hover:text-blue-400 focus-visible:outline-2 focus-visible:outline-blue-600 rounded"
+          >
+            {link.title}
+          </a>
+        ))
+      }
+    </div>
+
+    <div class="flex items-center gap-0.5 sm:gap-2 shrink-0">
+      {/* Cambio de idioma: es un enlace real, no un boton, porque navega
+          a otra URL y asi los buscadores lo siguen */}
+      <div class="relative group shrink-0">
         <a
-          href={link.url}
-          aria-label={link.label}
-          class="relative block font-semibold px-1 md:px-2 py-2 text-xs sm:text-sm text-[10px] transition hover:text-blue-800 dark:hover:text-blue-500"
+          id="lang-switch"
+          href={langHref}
+          hreflang={otro}
+          aria-label={t("header.lang")}
+          title={t("header.lang")}
+          class={`${neutralButtonClass} text-[10px] md:text-xs font-bold uppercase`}
         >
-          {link.title}
+          {otro}
         </a>
-      ))
-    }
-    <button
-      id="theme-toggle"
-      aria-label="Toggle Dark Mode"
-      class="ml-3 p-2 cursor-pointer rounded-full bg-white/50 dark:bg-black/30 text-yellow-500 dark:text-blue-800 hover:bg-white/70 dark:hover:bg-black/50 transition"
-    >
-      <ScreenIcon
-        id="default-icon"
-        class="w-4 h-4 md:w-5 md:h-5 text-red-400"
-      />
-      <SunIcon id="sun-icon" class="w-4 h-4 md:w-5 md:h-5 hidden" />
-      <MoonIcon id="moon-icon" class="w-4 h-4 md:w-5 md:h-5 hidden" />
-    </button>
+        <span role="tooltip" class={tooltipClass}>
+          {t("header.lang.tooltip")}
+        </span>
+      </div>
+
+      <div class="relative group shrink-0">
+        <button
+          id="theme-toggle"
+          type="button"
+          aria-label={t("header.theme")}
+          class={iconButtonBase}
+        >
+          <ScreenIcon
+            id="default-icon"
+            class="w-4 h-4 md:w-5 md:h-5 hidden text-red-400"
+          />
+          <SunIcon
+            id="sun-icon"
+            class="w-4 h-4 md:w-5 md:h-5 hidden text-yellow-500"
+          />
+          <MoonIcon
+            id="moon-icon"
+            class="w-4 h-4 md:w-5 md:h-5 hidden text-blue-400"
+          />
+        </button>
+        <span id="theme-tooltip" role="tooltip" class={`${tooltipClass} right-0`}>
+          {t("header.theme.system")}
+        </span>
+      </div>
+    </div>
   </nav>
 </header>
 
+{/* Los textos del selector de tema se inyectan como datos para que el script
+    los use sin duplicar el diccionario en el cliente */}
+<script
+  id="theme-i18n"
+  type="application/json"
+  is:inline
+  set:html={JSON.stringify({
+    system: t("header.theme.system"),
+    light: t("header.theme.light"),
+    dark: t("header.theme.dark"),
+    systemFull: t("header.theme.systemFull"),
+    lightFull: t("header.theme.lightFull"),
+    darkFull: t("header.theme.darkFull"),
+  })}
+/>
+
 <script>
-  if (window.location.pathname === "/" && !window.location.hash) {
-    window.scrollTo(0, 0);
-  }
-
-  const sections = document.querySelectorAll("section[id]");
-  const navLinks = document.querySelectorAll("nav a");
-
-  let currentActiveLink: any = null;
-  const observer = new IntersectionObserver(
-    (entries) => {
-      let visibleSection: any = null;
-
-      entries.forEach((entry) => {
-        if (entry.isIntersecting) {
-          visibleSection = entry.target;
-        }
-      });
-
-      if (visibleSection) {
-        const id = visibleSection.getAttribute("id");
-        const link: any = document.querySelector(`nav a[href="/#${id}"]`);
-        if (link !== currentActiveLink) {
-          currentActiveLink?.classList.remove(
-            "text-blue-800",
-            "dark:text-blue-500"
-          );
-          link.classList.add("text-blue-800", "dark:text-blue-500");
-          currentActiveLink = link;
-        }
-      } else {
-        currentActiveLink?.classList.remove(
-          "text-blue-800",
-          "dark:text-blue-500"
-        );
-        currentActiveLink = null;
-      }
-    },
-    { threshold: 0.5 }
+  // --- Resaltado de la seccion visible -------------------------------------
+  // Se calcula por geometria y NO con un threshold de visibilidad: una seccion
+  // mas alta que la pantalla nunca puede tener el 50% visible a la vez, asi que
+  // un `threshold: 0.5` no llega a dispararse nunca en movil.
+  const sections = Array.from(
+    document.querySelectorAll<HTMLElement>("section[id]")
   );
+  const ACTIVE = ["text-blue-800", "dark:text-blue-400"];
+  const header = document.querySelector("header");
 
-  sections.forEach((section) => observer.observe(section));
+  let currentActiveLink: HTMLAnchorElement | null = null;
+
+  const setActive = (link: HTMLAnchorElement | null) => {
+    if (link === currentActiveLink) return;
+
+    currentActiveLink?.classList.remove(...ACTIVE);
+    currentActiveLink?.removeAttribute("aria-current");
+    link?.classList.add(...ACTIVE);
+    link?.setAttribute("aria-current", "true");
+    currentActiveLink = link;
+  };
+
+  // La linea de deteccion tiene que quedar POR DEBAJO del punto donde aterriza
+  // la seccion al pulsar un enlace del menu (su scroll-margin-top). Si no, al
+  // hacer clic la seccion recien llegada todavia no cuenta y se queda pintada
+  // la anterior hasta que sigas bajando.
+  let linea = 0;
+  const recalcularLinea = () => {
+    const alturaHeader = header?.getBoundingClientRect().height ?? 0;
+    const margenScroll = sections.length
+      ? parseFloat(getComputedStyle(sections[0]).scrollMarginTop) || 0
+      : 0;
+    linea = Math.max(alturaHeader + 16, margenScroll + 8);
+  };
+
+  const updateActiveSection = () => {
+    // al final de la pagina gana la ultima seccion: si no, una seccion corta
+    // al pie nunca llegaria a cruzar la linea
+    const alFinal =
+      window.innerHeight + window.scrollY >= document.body.scrollHeight - 2;
+
+    const actual = alFinal
+      ? sections.at(-1)
+      : sections.filter((s) => s.getBoundingClientRect().top <= linea).at(-1);
+
+    if (!actual) {
+      setActive(null); // estamos en el hero, sin seccion
+      return;
+    }
+
+    // se limita a #main-nav: el Hero tambien tiene un <nav> con enlaces
+    setActive(
+      document.querySelector<HTMLAnchorElement>(
+        `#main-nav a[href$="#${actual.id}"]`
+      )
+    );
+  };
+
+  // rAF para no recalcular mas de una vez por frame durante el scroll
+  let pendiente = false;
+  const onScroll = () => {
+    if (pendiente) return;
+    pendiente = true;
+    requestAnimationFrame(() => {
+      pendiente = false;
+      updateActiveSection();
+    });
+  };
+
+  const onResize = () => {
+    recalcularLinea();
+    onScroll();
+  };
+
+  window.addEventListener("scroll", onScroll, { passive: true });
+  window.addEventListener("resize", onResize, { passive: true });
+
+  recalcularLinea();
+  updateActiveSection();
+
+  // --- El icono de casa vuelve al inicio -----------------------------------
+  // Si ya estamos en la portada, se sube con scroll suave en vez de recargar.
+  const brand = document.getElementById("brand-home") as HTMLAnchorElement | null;
+
+  brand?.addEventListener("click", (event) => {
+    const destino = new URL(brand.href);
+    if (destino.pathname !== window.location.pathname) return;
+
+    event.preventDefault();
+    window.scrollTo({
+      top: 0,
+      behavior: window.matchMedia("(prefers-reduced-motion: reduce)").matches
+        ? "auto"
+        : "smooth",
+    });
+
+    // quita el #hash para que recargar no salte a la ultima seccion
+    history.replaceState(null, "", window.location.pathname);
+    setActive(null);
+  });
 </script>
 
 <script>
+  // --- Selector de tema: sistema -> claro -> oscuro -> sistema --------------
+  // El tema ya fue aplicado por el script inline del <head>; aqui solo se
+  // sincronizan los iconos y se gestionan los clics.
+  type Theme = "light" | "dark" | "system";
+
   const toggleBtn = document.getElementById("theme-toggle");
-  const sunIcon = document.getElementById("sun-icon");
-  const moonIcon = document.getElementById("moon-icon");
-  const defaultIcon = document.getElementById("default-icon");
+  const icons: Record<Theme, HTMLElement | null> = {
+    light: document.getElementById("sun-icon"),
+    dark: document.getElementById("moon-icon"),
+    system: document.getElementById("default-icon"),
+  };
 
-  if (toggleBtn && sunIcon && moonIcon && defaultIcon) {
-    const applyTheme = (theme: "light" | "dark" | "default") => {
-      const html = document.documentElement;
+  // textos ya traducidos por el servidor
+  const textos = JSON.parse(
+    document.getElementById("theme-i18n")?.textContent || "{}"
+  );
 
-      sunIcon.classList.add("hidden");
-      moonIcon.classList.add("hidden");
-      defaultIcon.classList.add("hidden");
+  if (toggleBtn && icons.light && icons.dark && icons.system) {
+    const media = window.matchMedia("(prefers-color-scheme: dark)");
 
-      if (theme === "light") {
-        html.classList.remove("dark");
-        sunIcon.classList.remove("hidden");
-      } else if (theme === "dark") {
-        html.classList.add("dark");
-        moonIcon.classList.remove("hidden");
-      } else if (theme === "default") {
-        if (window.matchMedia("(prefers-color-scheme: dark)").matches) {
-          html.classList.add("dark");
-        } else {
-          html.classList.remove("dark");
-        }
-        defaultIcon.classList.remove("hidden");
-      }
+    const readTheme = (): Theme => {
+      const saved = localStorage.getItem("theme");
+      return saved === "light" || saved === "dark" ? saved : "system";
     };
 
-    let savedTheme = localStorage.getItem("theme") as "light" | "dark" | null;
+    const applyTheme = (theme: Theme) => {
+      const isDark = theme === "dark" || (theme === "system" && media.matches);
+      const root = document.documentElement;
 
-    if (!savedTheme) {
-      applyTheme("default");
-    } else {
-      applyTheme(savedTheme);
-    }
+      root.classList.toggle("dark", isDark);
+      root.style.colorScheme = isDark ? "dark" : "light";
+
+      for (const [name, icon] of Object.entries(icons)) {
+        icon?.classList.toggle("hidden", name !== theme);
+      }
+
+      // descriptivo para lectores de pantalla, breve para el tooltip visual
+      const largos: Record<Theme, string> = {
+        system: textos.systemFull,
+        light: textos.lightFull,
+        dark: textos.darkFull,
+      };
+      const cortos: Record<Theme, string> = {
+        system: textos.system,
+        light: textos.light,
+        dark: textos.dark,
+      };
+
+      toggleBtn.setAttribute("aria-label", largos[theme]);
+      const tooltip = document.getElementById("theme-tooltip");
+      if (tooltip) tooltip.textContent = cortos[theme];
+    };
+
+    const NEXT: Record<Theme, Theme> = {
+      system: "light",
+      light: "dark",
+      dark: "system",
+    };
+
+    applyTheme(readTheme());
 
     toggleBtn.addEventListener("click", () => {
-      let currentTheme: "light" | "dark" | "default";
+      const next = NEXT[readTheme()];
 
-      // Detectar estado actual
-      if (!sunIcon.classList.contains("hidden")) currentTheme = "light";
-      else if (!moonIcon.classList.contains("hidden")) currentTheme = "dark";
-      else currentTheme = "default";
+      if (next === "system") localStorage.removeItem("theme");
+      else localStorage.setItem("theme", next);
 
-      let nextTheme: "light" | "dark" | "default";
-      if (currentTheme === "default") nextTheme = "light";
-      else if (currentTheme === "light") nextTheme = "dark";
-      else nextTheme = "default";
+      applyTheme(next);
+    });
 
-      applyTheme(nextTheme);
-
-      if (nextTheme === "default") localStorage.removeItem("theme");
-      else localStorage.setItem("theme", nextTheme);
+    // si el usuario esta en modo "sistema", seguir los cambios del SO en vivo
+    media.addEventListener("change", () => {
+      if (readTheme() === "system") applyTheme("system");
     });
   }
 </script>
