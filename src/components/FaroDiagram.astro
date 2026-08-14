@@ -1,0 +1,167 @@
+---
+/**
+ * Diagrama de arquitectura de Faro.
+ * SVG en linea y con currentColor para que siga el tema sin cargar imagenes
+ * ni depender de librerias. Los textos entran por props para que funcione en
+ * los dos idiomas.
+ */
+interface Props {
+  lang: "es" | "en";
+}
+
+const { lang } = Astro.props;
+
+const T = {
+  es: {
+    navegador: "Navegador",
+    app: "App React",
+    pwa: "PWA fichaje",
+    kiosko: "Kiosko facial",
+    kioskoNota: "el vector, no la foto",
+    proxy: "Caddy",
+    proxyNota: "HTTPS automático",
+    api: "FastAPI",
+    apiNota: "JWT · MFA · RBAC",
+    db: "PostgreSQL 15",
+    dbNota: "Row-Level Security",
+    tenantA: "Empresa A",
+    tenantB: "Empresa B",
+    aislamiento: "Aislamiento aplicado por la base, no por la aplicación",
+    titulo: "Diagrama de arquitectura de Faro",
+  },
+  en: {
+    navegador: "Browser",
+    app: "React app",
+    pwa: "Check-in PWA",
+    kiosko: "Face kiosk",
+    kioskoNota: "vector, not the photo",
+    proxy: "Caddy",
+    proxyNota: "automatic HTTPS",
+    api: "FastAPI",
+    apiNota: "JWT · MFA · RBAC",
+    db: "PostgreSQL 15",
+    dbNota: "Row-Level Security",
+    tenantA: "Company A",
+    tenantB: "Company B",
+    aislamiento: "Isolation enforced by the database, not the application",
+    titulo: "Faro architecture diagram",
+  },
+}[lang];
+---
+
+<figure class="mt-8">
+  <div
+    class="overflow-x-auto rounded-xl ring-1 ring-black/10 dark:ring-white/10 bg-white/60 dark:bg-white/5 p-4"
+  >
+    <svg
+      viewBox="0 0 820 400"
+      role="img"
+      aria-label={T.titulo}
+      class="w-full min-w-[680px] h-auto text-gray-800 dark:text-gray-200"
+    >
+      <defs>
+        <marker
+          id="flecha"
+          viewBox="0 0 10 10"
+          refX="9"
+          refY="5"
+          markerWidth="6"
+          markerHeight="6"
+          orient="auto-start-reverse"
+        >
+          <path d="M 0 0 L 10 5 L 0 10 z" fill="currentColor" opacity="0.55"></path>
+        </marker>
+      </defs>
+
+      {/* Los tres clientes entran al proxy: los de arriba y abajo con un codo
+          para no cruzarse ni quedar apuntando al vacio */}
+      <g
+        stroke="currentColor"
+        stroke-opacity="0.5"
+        stroke-width="1.5"
+        marker-end="url(#flecha)"
+        fill="none"
+        stroke-linejoin="round"
+      >
+        <path d="M 150 96 H 200 Q 212 96 212 108 V 178 Q 212 190 224 190 H 264"
+        ></path>
+        <path d="M 150 190 H 264"></path>
+        <path d="M 150 287 H 200 Q 212 287 212 275 V 202 Q 212 190 224 190 H 264"
+        ></path>
+        <path d="M 396 190 H 464"></path>
+        <path d="M 596 190 H 656"></path>
+      </g>
+
+      <!-- Clientes -->
+      <g>
+        <rect
+          x="12" y="66" width="138" height="60" rx="10"
+          fill="currentColor" fill-opacity="0.06"
+          stroke="currentColor" stroke-opacity="0.25"></rect>
+        <text x="81" y="92" text-anchor="middle" font-size="15" font-weight="600" fill="currentColor">{T.navegador}</text>
+        <text x="81" y="110" text-anchor="middle" font-size="12" fill="currentColor" opacity="0.7">{T.app}</text>
+
+        <rect
+          x="12" y="160" width="138" height="60" rx="10"
+          fill="currentColor" fill-opacity="0.06"
+          stroke="currentColor" stroke-opacity="0.25"></rect>
+        <text x="81" y="195" text-anchor="middle" font-size="15" font-weight="600" fill="currentColor">{T.pwa}</text>
+
+        <rect
+          x="12" y="254" width="138" height="66" rx="10"
+          fill="currentColor" fill-opacity="0.06"
+          stroke="currentColor" stroke-opacity="0.25"></rect>
+        <text x="81" y="280" text-anchor="middle" font-size="15" font-weight="600" fill="currentColor">{T.kiosko}</text>
+        <text x="81" y="300" text-anchor="middle" font-size="11" fill="currentColor" opacity="0.7">{T.kioskoNota}</text>
+      </g>
+
+      <!-- Proxy -->
+      <g>
+        <rect
+          x="270" y="150" width="126" height="80" rx="10"
+          fill="#3b82f6" fill-opacity="0.12"
+          stroke="#3b82f6" stroke-opacity="0.45"></rect>
+        <text x="333" y="184" text-anchor="middle" font-size="15" font-weight="600" fill="currentColor">{T.proxy}</text>
+        <text x="333" y="204" text-anchor="middle" font-size="11" fill="currentColor" opacity="0.7">{T.proxyNota}</text>
+      </g>
+
+      <!-- API -->
+      <g>
+        <rect
+          x="470" y="150" width="126" height="80" rx="10"
+          fill="#14b8a6" fill-opacity="0.14"
+          stroke="#14b8a6" stroke-opacity="0.5"></rect>
+        <text x="533" y="184" text-anchor="middle" font-size="15" font-weight="600" fill="currentColor">{T.api}</text>
+        <text x="533" y="204" text-anchor="middle" font-size="11" fill="currentColor" opacity="0.7">{T.apiNota}</text>
+      </g>
+
+      <!-- Base de datos -->
+      <g>
+        <rect
+          x="662" y="120" width="146" height="140" rx="10"
+          fill="#6366f1" fill-opacity="0.14"
+          stroke="#6366f1" stroke-opacity="0.5"></rect>
+        <text x="735" y="150" text-anchor="middle" font-size="15" font-weight="600" fill="currentColor">{T.db}</text>
+        <text x="735" y="169" text-anchor="middle" font-size="11" fill="currentColor" opacity="0.75">{T.dbNota}</text>
+
+        <rect x="678" y="182" width="114" height="30" rx="6"
+          fill="currentColor" fill-opacity="0.08"
+          stroke="currentColor" stroke-opacity="0.2"></rect>
+        <text x="735" y="202" text-anchor="middle" font-size="12" fill="currentColor" opacity="0.85">{T.tenantA}</text>
+
+        <rect x="678" y="218" width="114" height="30" rx="6"
+          fill="currentColor" fill-opacity="0.08"
+          stroke="currentColor" stroke-opacity="0.2"></rect>
+        <text x="735" y="238" text-anchor="middle" font-size="12" fill="currentColor" opacity="0.85">{T.tenantB}</text>
+      </g>
+
+      <text
+        x="735" y="290" text-anchor="middle" font-size="11"
+        fill="currentColor" opacity="0.6">{T.aislamiento.split(",")[0]},</text>
+      <text
+        x="735" y="306" text-anchor="middle" font-size="11"
+        fill="currentColor" opacity="0.6">{T.aislamiento.split(",")[1]?.trim()}</text>
+    </svg>
+  </div>
+  <figcaption class="sr-only">{T.titulo}</figcaption>
+</figure>

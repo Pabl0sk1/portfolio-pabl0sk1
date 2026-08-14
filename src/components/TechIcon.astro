@@ -1,0 +1,105 @@
+---
+/**
+ * Unico sitio donde una clave de tecnologia se asocia a su icono.
+ * Los iconos son componentes .astro y no se pueden importar desde un .ts,
+ * asi que el mapa vive aqui y tanto Stack como Projects lo reutilizan.
+ */
+import type { TechKey } from "../data/tech";
+
+import HtmlIcon from "./icons/Html.astro";
+import CssIcon from "./icons/Css.astro";
+import SassIcon from "./icons/Sass.astro";
+import BootstrapIcon from "./icons/Bootstrap.astro";
+import JavascriptIcon from "./icons/Javascript.astro";
+import TypescriptIcon from "./icons/Typescript.astro";
+import ReactIcon from "./icons/React.astro";
+import AngularIcon from "./icons/Angular.astro";
+import NextIcon from "./icons/Next.astro";
+import TailwindIcon from "./icons/Tailwind.astro";
+import PythonIcon from "./icons/Python.astro";
+import FastApiIcon from "./icons/FastApi.astro";
+import JavaIcon from "./icons/Java.astro";
+import SpringbootIcon from "./icons/Springboot.astro";
+import PhpIcon from "./icons/Php.astro";
+import LaravelIcon from "./icons/Laravel.astro";
+import NodeIcon from "./icons/Node.astro";
+import PostgresqlIcon from "./icons/Postgresql.astro";
+import MysqlIcon from "./icons/Mysql.astro";
+import SqliteIcon from "./icons/Sqlite.astro";
+import FirestoreIcon from "./icons/Firestore.astro";
+import IonicIcon from "./icons/Ionic.astro";
+import DockerIcon from "./icons/Docker.astro";
+import GitIcon from "./icons/Git.astro";
+import GithubIcon from "./icons/GitHub.astro";
+import NetlifyIcon from "./icons/Netlify.astro";
+import HostingerIcon from "./icons/Hostinger.astro";
+import N8nIcon from "./icons/n8n.astro";
+import PostmanIcon from "./icons/Postman.astro";
+import VscodeIcon from "./icons/Vscode.astro";
+import EclipseIcon from "./icons/Eclipse.astro";
+import DbeaverIcon from "./icons/Dbeaver.astro";
+import ClickupIcon from "./icons/Clickup.astro";
+import ViteIcon from "./icons/Vite.astro";
+import AstroBuildIcon from "./icons/AstroBuild.astro";
+import BashIcon from "./icons/Bash.astro";
+import PowershellIcon from "./icons/Powershell.astro";
+import ClaudeIcon from "./icons/Claude.astro";
+import ChatGptIcon from "./icons/ChatGpt.astro";
+import GeminiIcon from "./icons/Gemini.astro";
+import DeepSeekIcon from "./icons/DeepSeek.astro";
+
+interface Props {
+  tech: TechKey;
+  class?: string;
+}
+
+const { tech, class: className } = Astro.props;
+
+const ICONS: Record<TechKey, any> = {
+  python: PythonIcon,
+  fastapi: FastApiIcon,
+  react: ReactIcon,
+  tailwind: TailwindIcon,
+  node: NodeIcon,
+  postgresql: PostgresqlIcon,
+  docker: DockerIcon,
+  git: GitIcon,
+  java: JavaIcon,
+  springboot: SpringbootIcon,
+  php: PhpIcon,
+  mysql: MysqlIcon,
+  angular: AngularIcon,
+  bootstrap: BootstrapIcon,
+  typescript: TypescriptIcon,
+  javascript: JavascriptIcon,
+  html: HtmlIcon,
+  css: CssIcon,
+  sqlite: SqliteIcon,
+  firebase: FirestoreIcon,
+  ionic: IonicIcon,
+  sass: SassIcon,
+  laravel: LaravelIcon,
+  next: NextIcon,
+  n8n: N8nIcon,
+  github: GithubIcon,
+  netlify: NetlifyIcon,
+  hostinger: HostingerIcon,
+  postman: PostmanIcon,
+  vscode: VscodeIcon,
+  eclipse: EclipseIcon,
+  dbeaver: DbeaverIcon,
+  clickup: ClickupIcon,
+  vite: ViteIcon,
+  astro: AstroBuildIcon,
+  bash: BashIcon,
+  powershell: PowershellIcon,
+  claude: ClaudeIcon,
+  chatgpt: ChatGptIcon,
+  gemini: GeminiIcon,
+  deepseek: DeepSeekIcon,
+};
+
+const Icon = ICONS[tech];
+---
+
+<Icon class={className} />

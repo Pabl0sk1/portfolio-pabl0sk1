@@ -28,12 +28,40 @@ export function otherLang(lang: Lang): Lang {
 }
 
 /**
+ * Rutas cuyo segmento se traduce. Sin esto, el selector de idioma llevaria de
+ * /proyectos/faro a /en/proyectos/faro, que no existe.
+ * Se guardan sin el prefijo de idioma.
+ */
+const RUTAS_EQUIVALENTES: Record<Lang, string>[] = [
+  { es: "/proyectos/faro", en: "/projects/faro" },
+];
+
+/**
+ * Version localizada de una ruta, teniendo en cuenta los segmentos que se
+ * traducen. La ruta de entrada se escribe siempre en su forma espanola.
+ *   pathForLang("/proyectos/faro", "en") -> "/en/projects/faro"
+ *   pathForLang("/thanks", "en")         -> "/en/thanks"
+ */
+export function pathForLang(rutaEs: string, lang: Lang): string {
+  const limpia = rutaEs.replace(/\/$/, "") || "/";
+  const equivalente = RUTAS_EQUIVALENTES.find((r) => r.es === limpia)?.[lang];
+  return localizePath(equivalente ?? limpia, lang);
+}
+
+/**
  * Misma pagina en el otro idioma, conservando la ruta.
- * "/en/thanks" -> "/thanks"   |   "/thanks" -> "/en/thanks"
+ * "/en/thanks" -> "/thanks"   |   "/proyectos/faro" -> "/en/projects/faro"
  */
 export function switchLangPath(pathname: string, lang: Lang): string {
-  const sinPrefijo = pathname.replace(/^\/en(?=\/|$)/, "") || "/";
-  return localizePath(sinPrefijo, otherLang(lang));
+  const sinPrefijo =
+    (pathname.replace(/^\/en(?=\/|$)/, "") || "/").replace(/\/$/, "") || "/";
+  const destino = otherLang(lang);
+
+  const equivalente = RUTAS_EQUIVALENTES.find(
+    (r) => r[lang] === sinPrefijo
+  )?.[destino];
+
+  return localizePath(equivalente ?? sinPrefijo, destino);
 }
 
 /** Codigo de idioma completo para og:locale y hreflang. */

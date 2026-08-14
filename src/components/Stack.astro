@@ -1,212 +1,85 @@
 ---
 import TechBubble from "./TechBubble.astro";
-import HtmlIcon from "./icons/Html.astro";
-import JavascriptIcon from "./icons/Javascript.astro";
-import CssIcon from "./icons/Css.astro";
-import ReactIcon from "./icons/React.astro";
-import JavaIcon from "./icons/Java.astro";
-import SpringbootIcon from "./icons/Springboot.astro";
-import BootstrapIcon from "./icons/Bootstrap.astro";
-import NodeIcon from "./icons/Node.astro";
-import PostgresqlIcon from "./icons/Postgresql.astro";
-import MysqlIcon from "./icons/Mysql.astro";
-import GitIcon from "./icons/Git.astro";
-import GithubIcon from "./icons/GitHub.astro";
-import N8nIcon from "./icons/n8n.astro";
-import PhpIcon from "./icons/Php.astro";
-import DockerIcon from "./icons/Docker.astro";
-import FirestoreIcon from "./icons/Firestore.astro";
-import PostmanIcon from "./icons/Postman.astro";
-import TailwindIcon from "./icons/Tailwind.astro";
-import AstroBuildIcon from "./icons/AstroBuild.astro";
-import TypescriptIcon from "./icons/Typescript.astro";
-import ViteIcon from "./icons/Vite.astro";
-import AngularIcon from "./icons/Angular.astro";
-import LaravelIcon from "./icons/Laravel.astro";
-import NextIcon from "./icons/Next.astro";
-import NetlifyIcon from "./icons/Netlify.astro";
-import VscodeIcon from "./icons/Vscode.astro";
-import EclipseIcon from "./icons/Eclipse.astro";
-import BashIcon from "./icons/Bash.astro";
-import PowershellIcon from "./icons/Powershell.astro";
-import HostingerIcon from "./icons/Hostinger.astro";
-import DbeaverIcon from "./icons/Dbeaver.astro";
-import ClickupIcon from "./icons/Clickup.astro";
-import PythonIcon from "./icons/Python.astro";
-import FastApiIcon from "./icons/FastApi.astro";
-import SqliteIcon from "./icons/Sqlite.astro";
-import ClaudeIcon from "./icons/Claude.astro";
-import ChatGptIcon from "./icons/ChatGpt.astro";
-import GeminiIcon from "./icons/Gemini.astro";
-import DeepSeekIcon from "./icons/DeepSeek.astro";
 import { getLangFromUrl, useTranslations } from "../i18n/utils";
+import { TECH, TIER_ORDER, type Tier } from "../data/tech";
+import { contarPorTech } from "../data/projects";
 
 const lang = getLangFromUrl(Astro.url);
 const t = useTranslations(lang);
 
+const cuenta = contarPorTech();
+
 // Agrupado por nivel real y no por tipo, a proposito: asi no se da a entender
-// que algo se domina mas de lo que es cierto. El orden dentro de "tambien
-// trabajo con" sigue la evidencia: primero lo que mas proyectos respalda.
-const CATEGORIES = [
+// que algo se domina mas de lo que es cierto.
+const GRUPOS: {
+  tier: Tier;
+  title: string;
+  note: string;
+  color: string;
+  accent: string;
+}[] = [
   {
+    tier: "main",
     title: t("stack.main"),
     note: t("stack.mainNote"),
     color: "text-emerald-600 dark:text-emerald-400",
     accent: "ring-emerald-500/30 bg-emerald-500/5",
-    items: [
-      { label: "Python", icon: PythonIcon, link: "https://www.python.org/" },
-      {
-        label: "FastAPI",
-        icon: FastApiIcon,
-        link: "https://fastapi.tiangolo.com/",
-      },
-      { label: "React", icon: ReactIcon, link: "https://react.dev/" },
-      {
-        label: "Tailwind",
-        icon: TailwindIcon,
-        link: "https://tailwindcss.com/",
-      },
-      { label: "Node.js", icon: NodeIcon, link: "https://nodejs.org/" },
-      {
-        label: "PostgreSQL",
-        icon: PostgresqlIcon,
-        link: "https://www.postgresql.org/",
-      },
-      { label: "Docker", icon: DockerIcon, link: "https://www.docker.com/" },
-      { label: "Git", icon: GitIcon, link: "https://git-scm.com/" },
-    ],
   },
   {
+    tier: "also",
     title: t("stack.also"),
     note: t("stack.alsoNote"),
     color: "text-blue-600 dark:text-blue-400",
     accent: "ring-blue-500/25 bg-blue-500/5",
-    items: [
-      { label: "Java", icon: JavaIcon, link: "https://www.java.com/" },
-      {
-        label: "Spring Boot",
-        icon: SpringbootIcon,
-        link: "https://spring.io/projects/spring-boot",
-      },
-      { label: "PHP", icon: PhpIcon, link: "https://www.php.net/" },
-      { label: "MySQL", icon: MysqlIcon, link: "https://www.mysql.com/" },
-      { label: "Angular", icon: AngularIcon, link: "https://angular.dev/" },
-      {
-        label: "Bootstrap",
-        icon: BootstrapIcon,
-        link: "https://getbootstrap.com/",
-      },
-      {
-        label: "TypeScript",
-        icon: TypescriptIcon,
-        link: "https://www.typescriptlang.org/",
-      },
-      {
-        label: "JavaScript",
-        icon: JavascriptIcon,
-        link: "https://developer.mozilla.org/docs/Web/JavaScript",
-      },
-      {
-        label: "HTML",
-        icon: HtmlIcon,
-        link: "https://developer.mozilla.org/docs/Web/HTML",
-      },
-      {
-        label: "CSS",
-        icon: CssIcon,
-        link: "https://developer.mozilla.org/docs/Web/CSS",
-      },
-      { label: "SQLite", icon: SqliteIcon, link: "https://www.sqlite.org/" },
-      {
-        label: "Firebase",
-        icon: FirestoreIcon,
-        link: "https://firebase.google.com/",
-      },
-    ],
   },
   {
+    tier: "learning",
     title: t("stack.learning"),
     note: t("stack.learningNote"),
     color: "text-amber-600 dark:text-amber-400",
     accent: "ring-amber-500/20 bg-amber-500/5",
-    items: [
-      { label: "Laravel", icon: LaravelIcon, link: "https://laravel.com/" },
-      { label: "Next.js", icon: NextIcon, link: "https://nextjs.org/" },
-    ],
   },
   {
+    tier: "tool",
     title: t("stack.tools"),
     note: t("stack.toolsNote"),
     color: "text-purple-600 dark:text-purple-400",
     accent: "ring-black/10 dark:ring-white/10",
-    items: [
-      { label: "n8n", icon: N8nIcon, link: "https://n8n.io/" },
-      { label: "GitHub", icon: GithubIcon, link: "https://github.com/" },
-      { label: "Netlify", icon: NetlifyIcon, link: "https://www.netlify.com/" },
-      {
-        label: "Hostinger",
-        icon: HostingerIcon,
-        link: "https://www.hostinger.com/",
-      },
-      { label: "Postman", icon: PostmanIcon, link: "https://www.postman.com/" },
-      {
-        label: "VS Code",
-        icon: VscodeIcon,
-        link: "https://code.visualstudio.com/",
-      },
-      { label: "Eclipse", icon: EclipseIcon, link: "https://www.eclipse.org/" },
-      { label: "DBeaver", icon: DbeaverIcon, link: "https://dbeaver.io/" },
-      { label: "ClickUp", icon: ClickupIcon, link: "https://clickup.com/" },
-      { label: "Vite", icon: ViteIcon, link: "https://vite.dev/" },
-      { label: "Astro", icon: AstroBuildIcon, link: "https://astro.build/" },
-      {
-        label: "Bash",
-        icon: BashIcon,
-        link: "https://www.gnu.org/software/bash/",
-      },
-      {
-        label: "PowerShell",
-        icon: PowershellIcon,
-        link: "https://aka.ms/powershell",
-      },
-    ],
   },
   {
+    tier: "ai",
     title: t("stack.ai"),
     note: t("stack.aiNote"),
     color: "text-rose-600 dark:text-rose-400",
     accent: "ring-black/10 dark:ring-white/10",
-    items: [
-      { label: "Claude", icon: ClaudeIcon, link: "https://claude.ai/" },
-      { label: "ChatGPT", icon: ChatGptIcon, link: "https://chatgpt.com/" },
-      { label: "Gemini", icon: GeminiIcon, link: "https://gemini.google.com/" },
-      {
-        label: "DeepSeek",
-        icon: DeepSeekIcon,
-        link: "https://www.deepseek.com/",
-      },
-    ],
   },
 ];
 ---
 
 <div class="max-w-5xl mx-auto mt-10 space-y-4">
+  <p class="text-sm text-gray-600 dark:text-gray-400">
+    {t("stack.hint")}
+  </p>
+
   {
-    CATEGORIES.map(({ title, note, color, accent, items }) => (
+    GRUPOS.map(({ tier, title, note, color, accent }) => (
       <div
         class={`px-4 py-5 rounded-xl ring-1 transition hover:bg-black/5 dark:hover:bg-white/5 ${accent}`}
       >
         <h3 class={`${color} font-semibold`}>{title}</h3>
-        <p class="text-xs text-gray-600 dark:text-gray-400 mb-3 mt-0.5">
-          {note}
-        </p>
+        <p class="text-xs text-gray-600 dark:text-gray-400 mb-3 mt-0.5">{note}</p>
         <div class="flex flex-wrap gap-3">
-          {items.map(({ label, icon, link }) => (
+          {TIER_ORDER[tier].map((key) => (
             <TechBubble
-              Icon={icon}
-              label={label}
-              link={link}
+              tech={key}
+              label={TECH[key].label}
+              link={TECH[key].link}
               visitLabel={t("stack.visit")}
+              usos={cuenta[key] ?? 0}
+              filterLabel={t("stack.filterLabel")}
+              projectsWord={
+                (cuenta[key] ?? 0) === 1 ? t("stack.project") : t("stack.projects")
+              }
             />
           ))}
         </div>

@@ -1,0 +1,17 @@
+---
+import Layout from "../../../layouts/Layout.astro";
+import CaseStudyView from "../../../components/CaseStudy.astro";
+import { getLangFromUrl } from "../../../i18n/utils";
+import { caseStudies } from "../../../i18n/casestudy";
+
+const lang = getLangFromUrl(Astro.url);
+const caso = caseStudies[lang].faro;
+---
+
+<Layout
+  title={caso.metaTitle}
+  description={caso.metaDescription}
+  path="/proyectos/faro"
+>
+  <CaseStudyView caso={caso} lang={lang} />
+</Layout>

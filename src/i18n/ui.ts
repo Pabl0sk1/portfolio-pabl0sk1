@@ -61,7 +61,11 @@ export const ui = {
     "experience.logoAlt": "Logo de",
 
     "projects.website": "Website",
+    "projects.caseStudy": "Ver cómo se construyó",
     "projects.imageAlt": "Captura de pantalla del proyecto",
+    "projects.filterActive": "Mostrando {n} proyectos que usan {tech}",
+    "projects.clearFilter": "Ver todos",
+    "projects.noResults": "Ningún proyecto usa esa tecnología.",
 
     "stack.main": "Stack principal",
     "stack.mainNote": "Lo que uso a diario y donde estoy más fuerte",
@@ -74,6 +78,10 @@ export const ui = {
     "stack.tools": "Herramientas",
     "stack.toolsNote": "Entorno de trabajo habitual",
     "stack.visit": "Ir al sitio oficial de",
+    "stack.hint": "Pulsa una tecnología con contador para ver en qué proyectos la usé.",
+    "stack.filterLabel": "Ver proyectos con",
+    "stack.project": "proyecto",
+    "stack.projects": "proyectos",
 
     "form.name": "Nombre",
     "form.email": "Correo",
@@ -152,7 +160,11 @@ export const ui = {
     "experience.logoAlt": "Logo of",
 
     "projects.website": "Website",
+    "projects.caseStudy": "See how it was built",
     "projects.imageAlt": "Screenshot of the project",
+    "projects.filterActive": "Showing {n} projects using {tech}",
+    "projects.clearFilter": "Show all",
+    "projects.noResults": "No project uses that technology.",
 
     "stack.main": "Core stack",
     "stack.mainNote": "What I use daily and where I'm strongest",
@@ -165,6 +177,10 @@ export const ui = {
     "stack.tools": "Tools",
     "stack.toolsNote": "My usual working environment",
     "stack.visit": "Go to the official site of",
+    "stack.hint": "Click a technology with a counter to see which projects use it.",
+    "stack.filterLabel": "See projects using",
+    "stack.project": "project",
+    "stack.projects": "projects",
 
     "form.name": "Name",
     "form.email": "Email",

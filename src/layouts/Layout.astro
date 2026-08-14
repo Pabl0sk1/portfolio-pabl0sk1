@@ -13,7 +13,12 @@ import {
   GITHUB_URL,
 } from "../consts";
 import { LANGUAGES, type Lang } from "../i18n/ui";
-import { getLangFromUrl, localizePath, LOCALE_TAG, HREFLANG } from "../i18n/utils";
+import {
+  getLangFromUrl,
+  pathForLang,
+  LOCALE_TAG,
+  HREFLANG,
+} from "../i18n/utils";
 
 interface Props {
   title: string;
@@ -31,13 +36,13 @@ const lang: Lang = getLangFromUrl(Astro.url);
 const rutaBase =
   path ?? (Astro.url.pathname.replace(/^\/en(?=\/|$)/, "") || "/");
 
-const canonical = new URL(localizePath(rutaBase, lang), SITE_URL).href;
+const canonical = new URL(pathForLang(rutaBase, lang), SITE_URL).href;
 const ogImage = new URL(OG_IMAGE, SITE_URL).href;
 
 // hreflang reciprocos: cada version apunta a todas, incluida a si misma
 const alternates = (Object.keys(LANGUAGES) as Lang[]).map((code) => ({
   hreflang: HREFLANG[code],
-  href: new URL(localizePath(rutaBase, code), SITE_URL).href,
+  href: new URL(pathForLang(rutaBase, code), SITE_URL).href,
 }));
 
 const personSchema = {
@@ -93,7 +98,7 @@ const personSchema = {
     <link
       rel="alternate"
       hreflang="x-default"
-      href={new URL(localizePath(rutaBase, "es"), SITE_URL).href}
+      href={new URL(pathForLang(rutaBase, "es"), SITE_URL).href}
     />
 
     <link rel="icon" type="image/x-icon" href="/favicon.ico" />

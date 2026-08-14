@@ -1,163 +1,208 @@
 ---
-import HtmlIcon from "./icons/Html.astro";
-import CssIcon from "./icons/Css.astro";
-import SassIcon from "./icons/Sass.astro";
-import BootstrapIcon from "./icons/Bootstrap.astro";
-import JavascriptIcon from "./icons/Javascript.astro";
-import JavaIcon from "./icons/Java.astro";
-import TypescriptIcon from "./icons/Typescript.astro";
-import ReactIcon from "./icons/React.astro";
-import AngularIcon from "./icons/Angular.astro";
-import SpringbootIcon from "./icons/Springboot.astro";
-import PostgresqlIcon from "./icons/Postgresql.astro";
-import FirestoreIcon from "./icons/Firestore.astro";
-import IonicIcon from "./icons/Ionic.astro";
-import PythonIcon from "./icons/Python.astro";
-import FastApiIcon from "./icons/FastApi.astro";
-import DockerIcon from "./icons/Docker.astro";
-import SqliteIcon from "./icons/Sqlite.astro";
-import TailwindIcon from "./icons/Tailwind.astro";
 import LinkIcon from "./icons/Link.astro";
+import RouterIcon from "./icons/Route.astro";
 import LinkButton from "./LinkButton.astro";
-import { getLangFromUrl, useTranslations } from "../i18n/utils";
+import TechIcon from "./TechIcon.astro";
+import { getLangFromUrl, useTranslations, localizePath } from "../i18n/utils";
 import { projects as projectsText } from "../i18n/content";
+import { PROJECTS } from "../data/projects";
+import { TECH, TAG_COLOR } from "../data/tech";
 
 const lang = getLangFromUrl(Astro.url);
 const t = useTranslations(lang);
 
-const TAG_CLASS = "bg-black/85 dark:bg-white";
+// el texto sale del diccionario y el resto de data/projects.ts, en el mismo orden
+const TARJETAS = projectsText[lang].map((texto, i) => ({
+  ...texto,
+  ...PROJECTS[i],
+}));
 
-const TAGS = {
-  HTML: { name: "HTML", class: `${TAG_CLASS} text-red-500`, icon: HtmlIcon },
-  CSS: { name: "CSS", class: `${TAG_CLASS} text-violet-500`, icon: CssIcon },
-  SASS: { name: "SASS", class: `${TAG_CLASS} text-pink-500`, icon: SassIcon },
-  BOOTSTRAP: {
-    name: "Bootstrap",
-    class: `${TAG_CLASS} text-violet-500`,
-    icon: BootstrapIcon,
-  },
-  TAILWIND: {
-    name: "Tailwind",
-    class: `${TAG_CLASS} text-sky-500`,
-    icon: TailwindIcon,
-  },
-  JAVASCRIPT: {
-    name: "JavaScript",
-    class: `${TAG_CLASS} text-yellow-500`,
-    icon: JavascriptIcon,
-  },
-  TYPESCRIPT: {
-    name: "TypeScript",
-    class: `${TAG_CLASS} text-blue-500`,
-    icon: TypescriptIcon,
-  },
-  REACT: { name: "React", class: `${TAG_CLASS} text-sky-500`, icon: ReactIcon },
-  ANGULAR: {
-    name: "Angular",
-    class: `${TAG_CLASS} text-red-500`,
-    icon: AngularIcon,
-  },
-  PYTHON: {
-    name: "Python",
-    class: `${TAG_CLASS} text-blue-500`,
-    icon: PythonIcon,
-  },
-  FASTAPI: {
-    name: "FastAPI",
-    class: `${TAG_CLASS} text-teal-500`,
-    icon: FastApiIcon,
-  },
-  JAVA: { name: "Java", class: `${TAG_CLASS} text-amber-500`, icon: JavaIcon },
-  SPRINGBOOT: {
-    name: "Spring Boot",
-    class: `${TAG_CLASS} text-green-500`,
-    icon: SpringbootIcon,
-  },
-  IONIC: { name: "Ionic", class: `${TAG_CLASS} text-blue-500`, icon: IonicIcon },
-  FIREBASE: {
-    name: "Firebase",
-    class: `${TAG_CLASS} text-yellow-500`,
-    icon: FirestoreIcon,
-  },
-  POSTGRESQL: {
-    name: "PostgreSQL",
-    class: `${TAG_CLASS} text-blue-500`,
-    icon: PostgresqlIcon,
-  },
-  SQLITE: {
-    name: "SQLite",
-    class: `${TAG_CLASS} text-sky-700`,
-    icon: SqliteIcon,
-  },
-  DOCKER: {
-    name: "Docker",
-    class: `${TAG_CLASS} text-blue-400`,
-    icon: DockerIcon,
-  },
-};
-
-// lo traducible viene del diccionario; aqui solo lo que no cambia de idioma
-const META = [
-  { link: "", image: "/projects/Faro.webp", tags: [TAGS.PYTHON, TAGS.FASTAPI, TAGS.POSTGRESQL, TAGS.REACT, TAGS.TAILWIND, TAGS.DOCKER] },
-  { link: "", image: "/projects/Timon.webp", tags: [TAGS.PYTHON, TAGS.FASTAPI, TAGS.POSTGRESQL, TAGS.REACT, TAGS.TAILWIND, TAGS.DOCKER] },
-  { link: "", image: "/projects/StockPro.webp", tags: [TAGS.PYTHON, TAGS.SQLITE] },
-  { link: "", image: "/projects/BioTech.webp", tags: [TAGS.JAVA, TAGS.SPRINGBOOT, TAGS.POSTGRESQL, TAGS.REACT, TAGS.JAVASCRIPT, TAGS.BOOTSTRAP, TAGS.DOCKER] },
-  { link: "", image: "/projects/Atelier.webp", tags: [TAGS.JAVA, TAGS.SPRINGBOOT, TAGS.POSTGRESQL, TAGS.REACT, TAGS.JAVASCRIPT, TAGS.BOOTSTRAP] },
-  { link: "https://shopeasy-app.web.app/", image: "/projects/ShopEasy.webp", tags: [TAGS.IONIC, TAGS.ANGULAR, TAGS.FIREBASE, TAGS.TYPESCRIPT, TAGS.HTML, TAGS.SASS] },
-];
-
-const PROJECTS = projectsText[lang].map((p, i) => ({ ...p, ...META[i] }));
+// la ruta del caso de estudio se traduce: /proyectos/faro -> /en/projects/faro
+const rutaCaso = (ruta: string) =>
+  lang === "en"
+    ? localizePath(ruta.replace("/proyectos/", "/projects/"), "en")
+    : ruta;
 ---
 
-<div class="max-w-6xl mx-auto px-4 grid gap-12 md:grid-cols-2">
-  {
-    PROJECTS.map(({ title, description, image, tags, link }) => (
-        <article class="flex flex-col bg-black/10 dark:bg-gray-800 rounded-xl shadow-md overflow-hidden hover:shadow-lg transition-shadow duration-300 border border-black/10 dark:border-white/10">
-          {/* Imagen */}
-          <div class="relative w-full h-64 md:h-48 overflow-hidden">
-            <img
-              src={image}
-              alt={`${t("projects.imageAlt")} ${title}`}
-              width="640"
-              height="360"
-              class="w-full h-full object-cover object-top transition-transform duration-300 ease-in-out hover:scale-105"
-              loading="lazy"
-              decoding="async"
-            />
-          </div>
+<div id="projects-grid" class="max-w-6xl mx-auto px-4">
+  {/* Aviso del filtro activo; el script lo muestra y lo rellena */}
+  <div
+    id="filter-bar"
+    hidden
+    data-template={t("projects.filterActive")}
+    class="mb-8 flex flex-wrap items-center gap-3 rounded-xl bg-blue-500/10 ring-1 ring-blue-500/30 px-4 py-3"
+  >
+    <span id="filter-text" class="text-sm text-gray-800 dark:text-gray-200"></span>
+    <button
+      type="button"
+      id="filter-clear"
+      class="ml-auto text-sm font-semibold text-blue-700 dark:text-blue-300 underline underline-offset-2 hover:no-underline cursor-pointer focus-visible:outline-2 focus-visible:outline-blue-600 rounded"
+    >
+      {t("projects.clearFilter")}
+    </button>
+  </div>
 
-          {/* Contenido */}
-          <div class="p-4 flex flex-col justify-between gap-3 grow">
-            <h3 class="text-xl md:text-2xl font-bold text-blue-800 dark:text-blue-200">
-              {title}
-            </h3>
-            <p class="text-gray-700 dark:text-gray-300 text-sm grow">
-              {description}
-            </p>
-
-            {/* Tags */}
-            <div class="flex flex-wrap justify-center gap-2 mt-2">
-              {tags.map((tag) => (
-                <span
-                  class={`flex items-center gap-1 px-2 py-1 md:px-3 md:py-1.5 text-[10px] md:text-sm font-medium rounded-full
-                  transition-all duration-200 ease-in-out ${tag.class} md:hover:scale-105 md:hover:shadow-md`}
-                >
-                  <tag.icon class="w-4 h-4 md:w-5 md:h-5" />
-                  {tag.name}
-                </span>
-              ))}
+  <div class="grid gap-12 md:grid-cols-2">
+    {
+      TARJETAS.map(
+        ({ title, description, image, tags, link, slug, caseStudy }) => (
+          <article
+            data-project={slug}
+            data-tags={tags.join(" ")}
+            class="flex flex-col bg-black/10 dark:bg-gray-800 rounded-xl shadow-md overflow-hidden hover:shadow-lg transition-shadow duration-300 border border-black/10 dark:border-white/10"
+          >
+            <div class="relative w-full h-64 md:h-48 overflow-hidden">
+              <img
+                src={image}
+                alt={`${t("projects.imageAlt")} ${title}`}
+                width="640"
+                height="360"
+                class="w-full h-full object-cover object-top transition-transform duration-300 ease-in-out hover:scale-105"
+                loading="lazy"
+                decoding="async"
+              />
             </div>
 
-            {/* Enlace al sitio, solo en los proyectos que tienen uno publico */}
-            {link && (
-              <div class="flex flex-wrap items-center gap-3 mt-3">
-                <LinkButton href={link} class="text-sm px-3 py-1">
-                  <LinkIcon class="w-4 h-4" /> {t("projects.website")}
-                </LinkButton>
+            <div class="p-4 flex flex-col justify-between gap-3 grow">
+              <h3 class="text-xl md:text-2xl font-bold text-blue-800 dark:text-blue-200">
+                {title}
+              </h3>
+              <p class="text-gray-700 dark:text-gray-300 text-sm grow">
+                {description}
+              </p>
+
+              <div class="flex flex-wrap justify-center gap-2 mt-2">
+                {tags.map((key) => (
+                  <span
+                    class={`flex items-center gap-1 px-2 py-1 md:px-3 md:py-1.5 text-[10px] md:text-sm font-medium rounded-full
+                    transition-all duration-200 ease-in-out bg-black/85 dark:bg-white ${TAG_COLOR[key] ?? ""}
+                    md:hover:scale-105 md:hover:shadow-md`}
+                  >
+                    <TechIcon tech={key} class="w-4 h-4 md:w-5 md:h-5" />
+                    {TECH[key].label}
+                  </span>
+                ))}
               </div>
-            )}
-          </div>
-        </article>
-      ))
-  }
+
+              {(link || caseStudy) && (
+                <div class="flex flex-wrap items-center gap-3 mt-3">
+                  {caseStudy && (
+                    <a
+                      href={rutaCaso(caseStudy)}
+                      class="inline-flex items-center gap-2 px-3 py-1.5 text-sm font-semibold rounded-xl bg-blue-600 text-white hover:bg-blue-500 transition focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-blue-600"
+                    >
+                      <RouterIcon class="w-4 h-4" />
+                      {t("projects.caseStudy")}
+                    </a>
+                  )}
+                  {link && (
+                    <LinkButton href={link} class="text-sm px-3 py-1">
+                      <LinkIcon class="w-4 h-4" /> {t("projects.website")}
+                    </LinkButton>
+                  )}
+                </div>
+              )}
+            </div>
+          </article>
+        )
+      )
+    }
+  </div>
+
+  <p
+    id="filter-empty"
+    hidden
+    class="text-center text-gray-600 dark:text-gray-400 py-10"
+  >
+    {t("projects.noResults")}
+  </p>
 </div>
+
+<script>
+  // --- Filtrado de proyectos por tecnologia --------------------------------
+  // El estado vive en la URL (?tech=python) para que el filtro se pueda
+  // compartir y para que el boton atras del navegador funcione.
+  const barra = document.getElementById("filter-bar");
+  const texto = document.getElementById("filter-text");
+  const vacio = document.getElementById("filter-empty");
+  const limpiar = document.getElementById("filter-clear");
+
+  const botones = Array.from(
+    document.querySelectorAll<HTMLButtonElement>("[data-tech-filter]")
+  );
+  const tarjetas = Array.from(
+    document.querySelectorAll<HTMLElement>("[data-project]")
+  );
+
+  if (botones.length && tarjetas.length) {
+    const plantilla = barra?.dataset.template ?? "";
+
+    const aplicar = (tech: string | null, hacerScroll: boolean) => {
+      let visibles = 0;
+
+      for (const card of tarjetas) {
+        const tags = (card.dataset.tags ?? "").split(" ");
+        const mostrar = !tech || tags.includes(tech);
+        card.hidden = !mostrar;
+        if (mostrar) visibles++;
+      }
+
+      for (const b of botones) {
+        b.setAttribute("aria-pressed", String(b.dataset.techFilter === tech));
+      }
+
+      if (barra && texto) {
+        barra.hidden = !tech;
+        if (tech) {
+          const etiqueta =
+            botones
+              .find((b) => b.dataset.techFilter === tech)
+              ?.querySelector("span")?.textContent ?? tech;
+          texto.textContent = plantilla
+            .replace("{n}", String(visibles))
+            .replace("{tech}", etiqueta);
+        }
+      }
+
+      if (vacio) vacio.hidden = visibles > 0;
+
+      if (hacerScroll) {
+        document.getElementById("proyectos")?.scrollIntoView({
+          behavior: window.matchMedia("(prefers-reduced-motion: reduce)").matches
+            ? "auto"
+            : "smooth",
+          block: "start",
+        });
+      }
+    };
+
+    const leerUrl = () => new URL(location.href).searchParams.get("tech");
+
+    const navegar = (tech: string | null) => {
+      const url = new URL(location.href);
+      if (tech) url.searchParams.set("tech", tech);
+      else url.searchParams.delete("tech");
+      history.pushState({}, "", url);
+    };
+
+    for (const b of botones) {
+      b.addEventListener("click", () => {
+        const tech = b.dataset.techFilter!;
+        // volver a pulsar la misma tecnologia quita el filtro
+        const siguiente = leerUrl() === tech ? null : tech;
+        navegar(siguiente);
+        aplicar(siguiente, Boolean(siguiente));
+      });
+    }
+
+    limpiar?.addEventListener("click", () => {
+      navegar(null);
+      aplicar(null, false);
+    });
+
+    window.addEventListener("popstate", () => aplicar(leerUrl(), false));
+
+    // estado inicial, por si se llega con ?tech= ya en el enlace
+    aplicar(leerUrl(), false);
+  }
+</script>
