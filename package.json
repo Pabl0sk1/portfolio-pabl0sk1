@@ -1,7 +1,9 @@
 {
-  "name": "",
+  "name": "portfolio-pabl0sk1",
+  "description": "Portafolio personal de Pablo Mysskoski Ocampos - Desarrollador Full Stack",
   "type": "module",
-  "version": "0.0.1",
+  "version": "1.0.0",
+  "private": true,
   "scripts": {
     "dev": "astro dev",
     "build": "astro build",
@@ -9,13 +11,15 @@
     "astro": "astro"
   },
   "dependencies": {
-    "@astrojs/react": "^4.3.0",
+    "@astrojs/sitemap": "^3.6.0",
     "@fontsource-variable/onest": "^5.2.7",
-    "@fontsource/manrope": "^5.2.8",
+    "@google/model-viewer": "^4.1.0",
     "@tailwindcss/vite": "^4.1.5",
     "astro": "^5.13.5",
-    "react": "^19.1.0",
-    "react-dom": "^19.1.0",
     "tailwindcss": "^4.1.5"
+  },
+  "devDependencies": {
+    "@astrojs/check": "^0.9.10",
+    "typescript": "^5.9.3"
   }
 }
