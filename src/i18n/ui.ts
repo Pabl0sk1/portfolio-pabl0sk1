@@ -87,6 +87,7 @@ export const ui = {
     "footer.rights": "Algunos derechos reservados",
     "footer.linkedin": "Perfil de LinkedIn",
     "footer.github": "Perfil de GitHub",
+    "footer.discord": "Perfil de Discord",
     "footer.email": "Enviar un correo",
 
     "thanks.title": "Mensaje enviado - Pablo Ocampos",
@@ -177,6 +178,7 @@ export const ui = {
     "footer.rights": "Some rights reserved",
     "footer.linkedin": "LinkedIn profile",
     "footer.github": "GitHub profile",
+    "footer.discord": "Discord profile",
     "footer.email": "Send an email",
 
     "thanks.title": "Message sent - Pablo Ocampos",

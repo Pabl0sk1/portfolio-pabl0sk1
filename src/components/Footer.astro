@@ -2,7 +2,14 @@
 import LinkedInIcon from "./icons/LinkedIn.astro";
 import GithubIcon from "./icons/GitHub.astro";
 import GmailIcon from "./icons/Gmail.astro";
-import { LINKEDIN_URL, GITHUB_URL, EMAIL, SHORT_NAME } from "../consts";
+import DiscordIcon from "./icons/Discord.astro";
+import {
+  LINKEDIN_URL,
+  GITHUB_URL,
+  DISCORD_URL,
+  EMAIL,
+  SHORT_NAME,
+} from "../consts";
 import { getLangFromUrl, useTranslations } from "../i18n/utils";
 
 const lang = getLangFromUrl(Astro.url);
@@ -42,6 +49,15 @@ const currentYear = new Date().getFullYear();
         aria-label={t("footer.github")}
       >
         <GithubIcon class="w-5 h-5" />
+      </a>
+      <a
+        href={DISCORD_URL}
+        target="_blank"
+        rel="noopener noreferrer"
+        class="p-2 rounded-full transition-transform hover:scale-125 hover:bg-gray-300 dark:hover:bg-gray-700"
+        aria-label={t("footer.discord")}
+      >
+        <DiscordIcon class="w-5 h-5" />
       </a>
       <a
         href={`mailto:${EMAIL}`}
