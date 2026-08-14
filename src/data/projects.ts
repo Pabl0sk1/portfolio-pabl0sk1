@@ -19,6 +19,9 @@ export interface Project {
   tags: TechKey[];
   /**
    * Usado tambien, pero transversal a casi todo: no distingue al proyecto.
+   * Node entra aqui y no en `tags` a proposito: fue cadena de build (Vite,
+   * Angular CLI), nunca backend. Como transversal no aparece en las tarjetas
+   * y el contador va en gris, asi que no sugiere experiencia de servidor.
    * Va en una linea discreta en vez de como etiqueta, porque "HTML" junto a
    * "Row-Level Security" no aporta nada y llena la tarjeta de ruido.
    * Cuenta igual para el contador y para el filtro.
@@ -33,7 +36,7 @@ export const PROJECTS: Project[] = [
     link: "",
     caseStudy: "/proyectos/faro",
     tags: ["python", "fastapi", "postgresql", "react", "tailwind", "docker"],
-    transversal: ["git", "html", "css"],
+    transversal: ["git", "html", "css", "node"],
   },
   {
     slug: "timon",
@@ -41,7 +44,7 @@ export const PROJECTS: Project[] = [
     link: "",
     caseStudy: "",
     tags: ["python", "fastapi", "postgresql", "react", "tailwind", "docker"],
-    transversal: ["git", "html", "css"],
+    transversal: ["git", "html", "css", "node"],
   },
   {
     slug: "stockpro",
@@ -57,7 +60,7 @@ export const PROJECTS: Project[] = [
     link: "",
     caseStudy: "",
     tags: ["java", "springboot", "postgresql", "react", "javascript", "bootstrap", "docker"],
-    transversal: ["git", "html", "css"],
+    transversal: ["git", "html", "css", "node"],
   },
   {
     slug: "atelier",
@@ -65,7 +68,7 @@ export const PROJECTS: Project[] = [
     link: "",
     caseStudy: "",
     tags: ["java", "springboot", "postgresql", "react", "javascript", "bootstrap"],
-    transversal: ["git", "html", "css"],
+    transversal: ["git", "html", "css", "node"],
   },
   {
     slug: "shopeasy",
@@ -73,7 +76,7 @@ export const PROJECTS: Project[] = [
     link: "https://shopeasy-app.web.app/",
     caseStudy: "",
     tags: ["ionic", "angular", "firebase", "typescript", "sass"],
-    transversal: ["git", "html", "css"],
+    transversal: ["git", "html", "css", "node"],
   },
 ];
 
