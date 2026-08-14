@@ -31,11 +31,5 @@ export default defineConfig({
 
   vite: {
     plugins: [tailwindcss()],
-    // model-viewer es un paquete grande de componentes web y el pre-bundling
-    // de Vite se atraganta con el en `astro dev` (responde 504 y el visor no
-    // llega a cargar). Excluirlo lo sirve tal cual y arregla el modo dev.
-    optimizeDeps: {
-      exclude: ["@google/model-viewer"],
-    },
   },
 });

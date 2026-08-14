@@ -61,9 +61,7 @@ export const ui = {
     "hero.p3": "Alto Paraná, Paraguay",
     "hero.imageAlt": "Foto de perfil de Pablo Mysskoski Ocampos",
     "hero.social": "Redes sociales y contacto",
-    "hero.model.alt": "Modelo 3D de un escritorio de programador",
-    "hero.model.loading": "Cargando modelo 3D…",
-    "hero.model.error": "No se pudo cargar el modelo 3D.",
+    "hero.canvas.alt": "Animación de una red de nodos con peticiones viajando entre ellos",
 
     "section.experience": "Experiencia",
     "section.projects": "Proyectos",
@@ -75,7 +73,7 @@ export const ui = {
     "experience.logoAlt": "Logo de",
 
     "projects.website": "Website",
-    "projects.caseStudy": "Ver cómo se construyó",
+    "projects.caseStudy": "Ver",
     "projects.imageAlt": "Captura de pantalla del proyecto",
     "projects.filterActive": "Mostrando {n} proyectos que usan {tech}",
     "projects.clearFilter": "Ver todos",
@@ -175,9 +173,7 @@ export const ui = {
     "hero.p3": "Alto Paraná, Paraguay",
     "hero.imageAlt": "Profile picture of Pablo Mysskoski Ocampos",
     "hero.social": "Social links and contact",
-    "hero.model.alt": "3D model of a developer desk",
-    "hero.model.loading": "Loading 3D model…",
-    "hero.model.error": "The 3D model could not be loaded.",
+    "hero.canvas.alt": "Animation of a network of nodes with requests travelling between them",
 
     "section.experience": "Experience",
     "section.projects": "Projects",
@@ -189,7 +185,7 @@ export const ui = {
     "experience.logoAlt": "Logo of",
 
     "projects.website": "Website",
-    "projects.caseStudy": "See how it was built",
+    "projects.caseStudy": "View",
     "projects.imageAlt": "Screenshot of the project",
     "projects.filterActive": "Showing {n} projects using {tech}",
     "projects.clearFilter": "Show all",

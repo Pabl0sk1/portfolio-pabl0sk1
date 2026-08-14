@@ -5,6 +5,7 @@ import GmailIcon from "./icons/Gmail.astro";
 import GithubIcon from "./icons/GitHub.astro";
 import DiscordIcon from "./icons/Discord.astro";
 import SocialPill from "./SocialPill.astro";
+import HeroCanvas from "./HeroCanvas.astro";
 import {
   LINKEDIN_URL,
   GITHUB_URL,
@@ -86,94 +87,9 @@ const t = useTranslations(lang);
     </nav>
   </div>
 
-  <!-- Modelo 3D: se carga solo al entrar en pantalla, con esqueleto mientras tanto -->
+  <!-- Red de nodos dibujada a mano sobre canvas -->
   <div class="flex-1 w-full md:w-auto">
-    <div
-      id="model-slot"
-      data-alt={t("hero.model.alt")}
-      data-error={t("hero.model.error")}
-      class="relative w-full md:w-auto h-80 md:h-[500px] rounded-2xl overflow-hidden bg-black/10 dark:bg-white/10"
-    >
-      <div
-        id="model-placeholder"
-        class="absolute inset-0 flex flex-col items-center justify-center gap-3 text-gray-600 dark:text-gray-400 motion-safe:animate-pulse"
-      >
-        <svg
-          class="size-10 opacity-60"
-          viewBox="0 0 24 24"
-          fill="none"
-          stroke="currentColor"
-          stroke-width="1.5"
-          aria-hidden="true"
-        >
-          <path
-            stroke-linecap="round"
-            stroke-linejoin="round"
-            d="M21 7.5 12 2.25 3 7.5m18 0-9 5.25m9-5.25v9L12 21m0-8.25L3 7.5m9 5.25V21M3 7.5v9L12 21"
-          ></path>
-        </svg>
-        <span class="text-sm">{t("hero.model.loading")}</span>
-      </div>
-    </div>
+    <HeroCanvas label={t("hero.canvas.alt")} />
   </div>
 </div>
 
-<script>
-  // Carga diferida: el visor 3D (~300 KB) y el modelo (~1.5 MB) solo se descargan
-  // cuando el contenedor entra en pantalla, para no competir con el LCP del Hero.
-  const slot = document.getElementById("model-slot");
-  const placeholder = document.getElementById("model-placeholder");
-
-  if (slot) {
-    const prefersReducedMotion = window.matchMedia(
-      "(prefers-reduced-motion: reduce)",
-    ).matches;
-
-    const loadViewer = async () => {
-      try {
-        const { ModelViewerElement } = await import("@google/model-viewer");
-
-        // El modelo va comprimido con Draco, asi que hace falta su decoder.
-        // Por defecto model-viewer lo baja de gstatic.com; lo servimos nosotros
-        // para no depender de un tercero. Ojo: debe ir ANTES de crear el visor.
-        ModelViewerElement.dracoDecoderLocation = "/draco/";
-
-        const viewer = document.createElement("model-viewer");
-        viewer.setAttribute("src", "/models/desktop.glb");
-        viewer.setAttribute("alt", slot.dataset.alt ?? "");
-        viewer.setAttribute("camera-controls", "");
-        viewer.setAttribute("touch-action", "pan-y");
-        viewer.setAttribute("camera-orbit", "45deg 75deg 3m");
-        viewer.setAttribute("camera-target", "0m 0m 0m");
-        viewer.setAttribute("shadow-intensity", "1");
-        viewer.setAttribute("interaction-prompt", "none");
-        // respeta a quien pidio menos movimiento en su sistema
-        if (!prefersReducedMotion) viewer.setAttribute("auto-rotate", "");
-        viewer.className = "w-full h-full block";
-
-        viewer.addEventListener("load", () => placeholder?.remove(), {
-          once: true,
-        });
-
-        slot.appendChild(viewer);
-      } catch {
-        if (placeholder) {
-          placeholder.classList.remove("motion-safe:animate-pulse");
-          placeholder.textContent = slot.dataset.error ?? "";
-        }
-      }
-    };
-
-    const observer = new IntersectionObserver(
-      (entries) => {
-        if (entries.some((e) => e.isIntersecting)) {
-          observer.disconnect();
-          loadViewer();
-        }
-      },
-      { rootMargin: "200px" },
-    );
-
-    observer.observe(slot);
-  }
-</script>

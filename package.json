@@ -13,7 +13,6 @@
   "dependencies": {
     "@astrojs/sitemap": "^3.6.0",
     "@fontsource-variable/onest": "^5.2.7",
-    "@google/model-viewer": "^4.1.0",
     "@tailwindcss/vite": "^4.1.5",
     "astro": "^5.13.5",
     "tailwindcss": "^4.1.5"
