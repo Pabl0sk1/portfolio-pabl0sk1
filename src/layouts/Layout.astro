@@ -156,9 +156,16 @@ const personSchema = {
 </html>
 
 <style is:global>
+  :root {
+    /* alto del header fijo: lo usa el scrollbar para no pasar por debajo */
+    --header-h: 53px;
+  }
+
   html {
     font-family: "Onest Variable", system-ui, sans-serif;
     scroll-behavior: smooth;
+    /* reserva el hueco del scrollbar para que la pagina no salte al aparecer */
+    scrollbar-gutter: stable;
   }
 
   body {
@@ -166,6 +173,74 @@ const personSchema = {
     flex-direction: column;
     min-height: 100vh;
     overscroll-behavior: none;
+  }
+
+  /* --- Scrollbar propio ------------------------------------------------ */
+  /* Firefox: solo admite ancho y color, sin poder recortar la pista.
+     Va aislado con @supports a proposito: desde Chrome 121, declarar
+     `scrollbar-width` desactiva por completo las reglas ::-webkit-scrollbar,
+     y perderiamos el estilo y el recorte bajo el header. */
+  @supports not selector(::-webkit-scrollbar) {
+    html {
+      scrollbar-width: thin;
+      scrollbar-color: rgb(59 130 246 / 0.55) transparent;
+    }
+
+    html.dark {
+      scrollbar-color: rgb(96 165 250 / 0.5) transparent;
+    }
+  }
+
+  /* Chrome, Edge, Safari */
+  ::-webkit-scrollbar {
+    width: 10px;
+    height: 10px;
+  }
+
+  ::-webkit-scrollbar-track {
+    background: transparent;
+    /* arranca por debajo del header fijo en vez de correr por detras */
+    margin-top: var(--header-h);
+  }
+
+  ::-webkit-scrollbar-thumb {
+    background: linear-gradient(
+      180deg,
+      rgb(59 130 246 / 0.75),
+      rgb(79 70 229 / 0.75)
+    );
+    border-radius: 9999px;
+    /* el borde transparente adelgaza el pulgar y lo separa del borde */
+    border: 2px solid transparent;
+    background-clip: padding-box;
+  }
+
+  ::-webkit-scrollbar-thumb:hover {
+    background: linear-gradient(180deg, rgb(37 99 235), rgb(67 56 202));
+    background-clip: padding-box;
+  }
+
+  html.dark ::-webkit-scrollbar-thumb {
+    background: linear-gradient(
+      180deg,
+      rgb(96 165 250 / 0.7),
+      rgb(129 140 248 / 0.7)
+    );
+    background-clip: padding-box;
+  }
+
+  html.dark ::-webkit-scrollbar-thumb:hover {
+    background: linear-gradient(180deg, rgb(96 165 250), rgb(129 140 248));
+    background-clip: padding-box;
+  }
+
+  ::-webkit-scrollbar-corner {
+    background: transparent;
+  }
+
+  /* los contenedores con scroll propio no deben recortar su pista */
+  *:not(html)::-webkit-scrollbar-track {
+    margin-top: 0;
   }
 
   @media (prefers-reduced-motion: reduce) {

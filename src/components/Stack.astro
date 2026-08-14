@@ -45,8 +45,8 @@ const lang = getLangFromUrl(Astro.url);
 const t = useTranslations(lang);
 
 // Agrupado por nivel real y no por tipo, a proposito: asi no se da a entender
-// que algo se domina mas de lo que es cierto. Dentro de cada nivel se ordena
-// backend -> frontend -> datos -> infraestructura.
+// que algo se domina mas de lo que es cierto. El orden dentro de "tambien
+// trabajo con" sigue la evidencia: primero lo que mas proyectos respalda.
 const CATEGORIES = [
   {
     title: t("stack.main"),
@@ -77,34 +77,24 @@ const CATEGORIES = [
     ],
   },
   {
-    title: t("stack.secondary"),
-    note: t("stack.secondaryNote"),
+    title: t("stack.also"),
+    note: t("stack.alsoNote"),
     color: "text-blue-600 dark:text-blue-400",
     accent: "ring-blue-500/25 bg-blue-500/5",
-    items: [
-      { label: "PHP", icon: PhpIcon, link: "https://www.php.net/" },
-      { label: "Laravel", icon: LaravelIcon, link: "https://laravel.com/" },
-      { label: "MySQL", icon: MysqlIcon, link: "https://www.mysql.com/" },
-      { label: "Angular", icon: AngularIcon, link: "https://angular.dev/" },
-      { label: "Next.js", icon: NextIcon, link: "https://nextjs.org/" },
-      {
-        label: "Bootstrap",
-        icon: BootstrapIcon,
-        link: "https://getbootstrap.com/",
-      },
-    ],
-  },
-  {
-    title: t("stack.other"),
-    note: t("stack.otherNote"),
-    color: "text-gray-600 dark:text-gray-400",
-    accent: "ring-black/10 dark:ring-white/10",
     items: [
       { label: "Java", icon: JavaIcon, link: "https://www.java.com/" },
       {
         label: "Spring Boot",
         icon: SpringbootIcon,
         link: "https://spring.io/projects/spring-boot",
+      },
+      { label: "PHP", icon: PhpIcon, link: "https://www.php.net/" },
+      { label: "MySQL", icon: MysqlIcon, link: "https://www.mysql.com/" },
+      { label: "Angular", icon: AngularIcon, link: "https://angular.dev/" },
+      {
+        label: "Bootstrap",
+        icon: BootstrapIcon,
+        link: "https://getbootstrap.com/",
       },
       {
         label: "TypeScript",
@@ -132,6 +122,16 @@ const CATEGORIES = [
         icon: FirestoreIcon,
         link: "https://firebase.google.com/",
       },
+    ],
+  },
+  {
+    title: t("stack.learning"),
+    note: t("stack.learningNote"),
+    color: "text-amber-600 dark:text-amber-400",
+    accent: "ring-amber-500/20 bg-amber-500/5",
+    items: [
+      { label: "Laravel", icon: LaravelIcon, link: "https://laravel.com/" },
+      { label: "Next.js", icon: NextIcon, link: "https://nextjs.org/" },
     ],
   },
   {

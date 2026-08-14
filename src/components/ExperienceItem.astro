@@ -33,8 +33,10 @@ const {
   class="relative mx-12 pb-12 grid before:absolute before:left-[-35px] before:block before:h-full before:border-l-2 before:border-black/20 dark:before:border-white/15 before:content-[''] md:grid-cols-5 md:gap-10 md:space-x-4"
 >
   <div class="relative pb-12 md:col-span-2">
+    {/* top-20 y no top-0: con top-0 la tarjeta se metia por debajo del
+        header fijo al hacer scroll */}
     <div
-      class="sticky top-0 flex flex-col items-center gap-4 p-4 bg-gray-200 dark:bg-gray-800 rounded-lg shadow-md"
+      class="sticky top-20 flex flex-col items-center gap-4 p-4 bg-gray-200 dark:bg-gray-800 rounded-lg shadow-md"
     >
       <span class="text-blue-400 absolute -left-[42px] rounded-full text-5xl"
         >&bull;</span

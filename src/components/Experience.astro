@@ -2,13 +2,17 @@
 import ExperienceItem from "./ExperienceItem.astro";
 import SeedIcon from "./icons/Seed.astro";
 import BankIcon from "./icons/Bank.astro";
+import CodeIcon from "./icons/Code.astro";
 import { getLangFromUrl } from "../i18n/utils";
 import { experience } from "../i18n/content";
 
 const lang = getLangFromUrl(Astro.url);
 
-// lo que no se traduce (logo, enlace, icono) va aparte del diccionario
+// lo que no se traduce (logo, enlace, icono) va aparte del diccionario.
+// ELBRUX no lleva enlace: los productos viven en subdominios propios, no hay
+// una web corporativa publica todavia.
 const META = [
+  { link: "", icon: CodeIcon, logo: "/elbrux.webp" },
   { link: "https://biosafrasgroup.com.py/", icon: SeedIcon, logo: "/biosafras.webp" },
   { link: "https://www.ayacape.coop.py/v3/", icon: BankIcon, logo: "/ayacape.webp" },
 ];
