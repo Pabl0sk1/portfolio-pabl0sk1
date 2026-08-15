@@ -1,27 +1,80 @@
 ---
-import { getLangFromUrl } from "../i18n/utils";
-import { aboutMe, aboutMeImageAlt } from "../i18n/content";
+import { getLangFromUrl, useTranslations } from "../i18n/utils";
+import {
+  aboutMe,
+  aboutMeImageAlt,
+  datosRapidos,
+  principios,
+} from "../i18n/content";
 
 const lang = getLangFromUrl(Astro.url);
-const parrafos = aboutMe[lang];
+const t = useTranslations(lang);
 ---
 
-<article
-  class="flex flex-col items-center justify-center gap-8 text-gray-700 dark:text-gray-300 md:flex-row"
->
-  <div
-    class="[&>p]:mb-4 [&>p>strong]:text-blue-500 dark:[&>p>strong]:text-blue-200 [&>p>strong]:font-normal [&>p>strong]:font-mono text-pretty order-2 md:order-1"
+<div class="space-y-10">
+  <!-- Intro y foto -->
+  <article
+    class="flex flex-col items-center gap-8 text-gray-700 dark:text-gray-300 md:flex-row"
   >
-    {parrafos.map((parrafo) => <p set:html={parrafo} />)}
-  </div>
-  <img
-    width="256"
-    height="256"
-    loading="lazy"
-    decoding="async"
-    src="/me.webp"
-    alt={aboutMeImageAlt[lang]}
-    class="order-1 object-cover w-64 h-full p-1 md:order-2 rotate-3 lg:p-2 lg:w-64 aspect-square rounded-2xl bg-black/20 dark:bg-yellow-500/5 ring-1 ring-black/70 dark:ring-white/20"
-    style="object-position: 50% 50%"
-  />
-</article>
+    <div
+      class="[&>p>strong]:text-blue-600 dark:[&>p>strong]:text-blue-300 [&>p>strong]:font-semibold text-pretty order-2 md:order-1 space-y-4 text-lg"
+    >
+      {aboutMe[lang].map((parrafo) => <p set:html={parrafo} />)}
+    </div>
+    <img
+      width="224"
+      height="224"
+      loading="lazy"
+      decoding="async"
+      src="/me.webp"
+      alt={aboutMeImageAlt[lang]}
+      class="order-1 shrink-0 object-cover w-56 h-56 p-1 md:order-2 rotate-3 rounded-2xl bg-black/20 dark:bg-yellow-500/5 ring-1 ring-black/70 dark:ring-white/20"
+      style="object-position: 50% 50%"
+    />
+  </article>
+
+  <!-- Datos rapidos: lo que un reclutador busca de un vistazo -->
+  <section aria-label={t("about.factsLabel")}>
+    <dl class="grid gap-3 sm:grid-cols-2 lg:grid-cols-3">
+      {
+        datosRapidos[lang].map(({ etiqueta, valor }) => (
+          <div class="rounded-xl bg-black/5 dark:bg-white/5 ring-1 ring-black/10 dark:ring-white/10 px-4 py-3">
+            <dt class="text-[11px] uppercase tracking-wide text-gray-500 dark:text-gray-400">
+              {etiqueta}
+            </dt>
+            <dd class="mt-1 text-sm font-medium text-gray-900 dark:text-gray-100 text-pretty">
+              {valor}
+            </dd>
+          </div>
+        ))
+      }
+    </dl>
+  </section>
+
+  <!-- Como trabajo -->
+  <section>
+    <h3 class="text-lg font-bold text-gray-900 dark:text-white mb-4">
+      {t("about.howIWork")}
+    </h3>
+    <ul class="grid gap-4 md:grid-cols-2">
+      {
+        principios[lang].map(({ titulo, texto }, i) => (
+          <li class="relative rounded-xl bg-black/[0.03] dark:bg-white/[0.03] ring-1 ring-black/10 dark:ring-white/10 p-5">
+            <span
+              class="absolute right-4 top-3 font-mono text-2xl font-bold text-black/5 dark:text-white/10 select-none"
+              aria-hidden="true"
+            >
+              {String(i + 1).padStart(2, "0")}
+            </span>
+            <h4 class="font-bold text-gray-900 dark:text-white pr-10 text-pretty">
+              {titulo}
+            </h4>
+            <p class="mt-2 text-sm text-gray-700 dark:text-gray-300 text-pretty">
+              {texto}
+            </p>
+          </li>
+        ))
+      }
+    </ul>
+  </section>
+</div>

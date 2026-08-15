@@ -1,10 +1,15 @@
 ---
+/**
+ * Un puesto, como tarjeta.
+ *
+ * Antes era una linea de tiempo con puntos y una tarjeta pegajosa, y las
+ * viñetas se mostraban todas: entre 5 y 7 por puesto, un muro de texto. Ahora
+ * se ven las tres primeras y el resto se despliega, que es como se lee de
+ * verdad: primero se escanea y despues se profundiza en lo que interesa.
+ */
 import LinkInline from "./LinkInline.astro";
 import RouterIcon from "./icons/Route.astro";
 import { getLangFromUrl, useTranslations } from "../i18n/utils";
-
-const lang = getLangFromUrl(Astro.url);
-const t = useTranslations(lang);
 
 interface Props {
   title: string;
@@ -13,10 +18,13 @@ interface Props {
   link?: string;
   date: string;
   location?: string;
-  icon?: any;
   logo: string;
-  /** Variante del logo para tema oscuro; si falta se usa `logo` en ambos */
   logoDark?: string;
+  /** tecnologias del puesto; texto plano para poder nombrar cosas como Versat */
+  tags?: string[];
+  /** puesto en curso: se marca con un punto vivo */
+  actual?: boolean;
+  accent?: "blue" | "emerald" | "rose";
 }
 
 const {
@@ -26,86 +34,200 @@ const {
   link,
   date,
   location,
-  icon: Icon,
   logo,
   logoDark,
+  tags = [],
+  actual = false,
+  accent = "blue",
 } = Astro.props;
+
+const lang = getLangFromUrl(Astro.url);
+const t = useTranslations(lang);
+
+const VISIBLES = 3;
+const ocultas = description.slice(VISIBLES);
+
+const ACENTO = {
+  blue: "from-blue-500/60",
+  emerald: "from-emerald-500/60",
+  rose: "from-rose-500/60",
+}[accent];
 ---
 
-<div
-  class="relative mx-12 pb-12 grid before:absolute before:left-[-35px] before:block before:h-full before:border-l-2 before:border-black/20 dark:before:border-white/15 before:content-[''] md:grid-cols-5 md:gap-10 md:space-x-4"
+<article
+  class="group relative overflow-hidden rounded-2xl bg-white/60 dark:bg-white/[0.04] ring-1 ring-black/10 dark:ring-white/10 shadow-sm transition hover:shadow-md hover:ring-black/20 dark:hover:ring-white/20"
 >
-  <div class="relative pb-12 md:col-span-2">
-    {/* top-20 y no top-0: con top-0 la tarjeta se metia por debajo del
-        header fijo al hacer scroll */}
-    <div
-      class="sticky top-20 flex flex-col items-center gap-4 p-4 bg-gray-200 dark:bg-gray-800 rounded-lg shadow-md"
-    >
-      <span class="text-blue-400 absolute -left-[42px] rounded-full text-5xl"
-        >&bull;</span
+  {/* filo de color a la izquierda, en vez de la linea de tiempo */}
+  <span
+    class:list={["absolute left-0 top-0 h-full w-1 bg-gradient-to-b to-transparent", ACENTO]}
+    aria-hidden="true"></span>
+
+  <div class="p-5 sm:p-6 md:p-7">
+    <!-- Cabecera -->
+    <header class="flex items-start gap-4">
+      <span
+        class="grid place-items-center size-14 sm:size-16 shrink-0 rounded-xl bg-white dark:bg-white/10 ring-1 ring-black/10 dark:ring-white/10 overflow-hidden"
       >
-      {/* dos <img> y no <picture>: el tema se controla por la clase .dark,
-          que las media query de prefers-color-scheme no verian */}
-      <img
-        src={logo}
-        alt={`${t("experience.logoAlt")} ${company}`}
-        width="144"
-        height="144"
-        loading="lazy"
-        decoding="async"
-        class:list={[
-          "w-32 h-32 p-1 bg-white/20 md:w-36 md:h-36 rounded-xl shadow-lg object-contain",
-          logoDark && "dark:hidden",
-        ]}
-      />
-      {
-        logoDark && (
-          <img
-            src={logoDark}
-            alt={`${t("experience.logoAlt")} ${company}`}
-            width="144"
-            height="144"
-            loading="lazy"
-            decoding="async"
-            class="hidden dark:block w-32 h-32 p-1 bg-white/10 md:w-36 md:h-36 rounded-xl shadow-lg object-contain"
-          />
-        )
-      }
-      <div class="text-center">
-        <h3 class="text-xl md:text-2xl font-bold text-blue-600 dark:text-blue-400">
-          {title}
-        </h3>
-        <h4
-          class="flex items-center justify-center gap-2 font-semibold text-lg text-gray-600 dark:text-white mt-1"
-        >
-          {company}{Icon && <Icon class="w-5 h-5" />}
-        </h4>
-        <time class="block text-sm text-gray-600/80 dark:text-white/80 mt-1"
-          >{date}</time
-        >
+        <img
+          src={logo}
+          alt={`${t("experience.logoAlt")} ${company}`}
+          width="64"
+          height="64"
+          loading="lazy"
+          decoding="async"
+          class:list={[
+            "size-11 sm:size-12 object-contain",
+            logoDark && "dark:hidden",
+          ]}
+        />
         {
-          location && (
-            <span class="block text-sm text-gray-600/70 dark:text-white/70">
-              {location}
-            </span>
+          logoDark && (
+            <img
+              src={logoDark}
+              alt={`${t("experience.logoAlt")} ${company}`}
+              width="64"
+              height="64"
+              loading="lazy"
+              decoding="async"
+              class="hidden dark:block size-11 sm:size-12 object-contain"
+            />
           )
         }
-      </div>
-    </div>
-  </div>
+      </span>
 
-  <div
-    class="relative flex flex-col gap-2 pb-4 text-gray-600 dark:text-gray-300 md:col-span-3"
-  >
-    <ul class="list-disc pl-5 space-y-3 marker:text-blue-400">
-      {description.map((line) => <li class="leading-relaxed">{line}</li>)}
+      {/* en movil se apila: si la fecha comparte fila, aplasta el titulo */}
+      <div
+        class="min-w-0 flex-1 flex flex-col gap-2 sm:flex-row sm:items-start sm:justify-between sm:gap-4"
+      >
+        <div class="min-w-0">
+          <h3
+            class="text-lg sm:text-xl font-bold text-gray-900 dark:text-white text-pretty"
+          >
+            {title}
+          </h3>
+          <p class="mt-0.5 text-sm text-gray-700 dark:text-gray-300 text-pretty">
+            <span class="font-semibold">{company}</span>
+            {location && <span class="text-gray-500 dark:text-gray-400"> · {location}</span>}
+          </p>
+        </div>
+
+        <p
+          class="flex items-center gap-2 self-start sm:shrink-0 rounded-full bg-black/5 dark:bg-white/10 px-3 py-1.5 text-xs font-medium text-gray-700 dark:text-gray-300"
+        >
+          {
+            actual && (
+              <span class="relative flex size-2" aria-hidden="true">
+                <span class="motion-safe:animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-500 opacity-75" />
+                <span class="relative inline-flex size-2 rounded-full bg-emerald-500" />
+              </span>
+            )
+          }
+          <time class="whitespace-nowrap">{date}</time>
+        </p>
+      </div>
+    </header>
+
+    <!-- Logros -->
+    <ul class="mt-5 space-y-2.5">
+      {
+        description.slice(0, VISIBLES).map((linea) => (
+          <li class="flex gap-3 text-sm sm:text-base text-gray-700 dark:text-gray-300 text-pretty">
+            <span
+              class="mt-2 size-1.5 shrink-0 rounded-full bg-blue-500/70"
+              aria-hidden="true"
+            />
+            {linea}
+          </li>
+        ))
+      }
     </ul>
+
     {
-      link && (
-        <LinkInline href={link}>
-          {t("experience.more")} <RouterIcon class="ml-4" />
-        </LinkInline>
+      ocultas.length > 0 && (
+        <>
+          <ul class="mt-2.5 space-y-2.5" hidden data-extra>
+            {ocultas.map((linea) => (
+              <li class="flex gap-3 text-sm sm:text-base text-gray-700 dark:text-gray-300 text-pretty">
+                <span
+                  class="mt-2 size-1.5 shrink-0 rounded-full bg-blue-500/70"
+                  aria-hidden="true"
+                />
+                {linea}
+              </li>
+            ))}
+          </ul>
+
+          <button
+            type="button"
+            data-toggle-extra
+            aria-expanded="false"
+            data-mas={`${t("experience.showMore")} (${ocultas.length})`}
+            data-menos={t("experience.showLess")}
+            class="mt-4 inline-flex items-center gap-1.5 text-sm font-semibold text-blue-700 dark:text-blue-300 hover:underline underline-offset-4 cursor-pointer focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-blue-600 rounded"
+          >
+            <span data-label>{`${t("experience.showMore")} (${ocultas.length})`}</span>
+            <svg
+              class="size-4 transition-transform"
+              data-chevron
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="2.5"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              aria-hidden="true"
+            >
+              <path d="m6 9 6 6 6-6" />
+            </svg>
+          </button>
+        </>
+      )
+    }
+
+    <!-- Pie: tecnologias y enlace -->
+    {
+      (tags.length > 0 || link) && (
+        <footer class="mt-6 flex flex-wrap items-center gap-2 border-t border-black/10 dark:border-white/10 pt-4">
+          {tags.map((tag) => (
+            <span class="rounded-md bg-black/5 dark:bg-white/10 px-2 py-1 text-[11px] font-medium text-gray-700 dark:text-gray-300">
+              {tag}
+            </span>
+          ))}
+          {link && (
+            <span class="ml-auto">
+              <LinkInline href={link}>
+                {t("experience.more")} <RouterIcon class="ml-2" />
+              </LinkInline>
+            </span>
+          )}
+        </footer>
       )
     }
   </div>
-</div>
+</article>
+
+<script>
+  // Desplegar el resto de logros
+  for (const boton of document.querySelectorAll<HTMLButtonElement>(
+    "[data-toggle-extra]"
+  )) {
+    boton.addEventListener("click", () => {
+      const tarjeta = boton.closest("article");
+      const extra = tarjeta?.querySelector<HTMLElement>("[data-extra]");
+      const etiqueta = boton.querySelector("[data-label]");
+      const chevron = boton.querySelector("[data-chevron]");
+      if (!extra) return;
+
+      const abierto = boton.getAttribute("aria-expanded") === "true";
+      boton.setAttribute("aria-expanded", String(!abierto));
+      extra.hidden = abierto;
+
+      if (etiqueta) {
+        etiqueta.textContent = abierto
+          ? (boton.dataset.mas ?? "")
+          : (boton.dataset.menos ?? "");
+      }
+      chevron?.classList.toggle("rotate-180", !abierto);
+    });
+  }
+</script>

@@ -3,6 +3,7 @@ import "@fontsource-variable/onest";
 import "../styles/global.css";
 import Header from "../components/Header.astro";
 import Footer from "../components/Footer.astro";
+import CommandPalette from "../components/CommandPalette.astro";
 import {
   SITE_URL,
   OG_IMAGE,
@@ -147,13 +148,11 @@ const personSchema = {
       })();
     </script>
   </head>
-  <body class="relative text-black dark:text-white bg-blue-50 dark:bg-gray-950">
-    <div
-      class="fixed inset-0 z-[-2] w-full bg-blue-100 dark:bg-gray-950
-      bg-[radial-gradient(ellipse_90%_90%_at_90%_-20%,rgba(217,216,255,0.5),rgba(255,255,255,0.9))]
-      dark:bg-[radial-gradient(ellipse_80%_80%_at_50%_-20%,rgba(120,119,198,0.3),rgba(255,255,255,0))]"
-    >
-    </div>
+  <body class="relative text-black dark:text-white">
+    {/* Fondo de la pagina: base + halos + rejilla + ruido, todo en CSS.
+        Va fijo y detras de todo, y es deliberadamente sutil para no competir
+        con la red de nodos del Hero. */}
+    <div class="page-bg" aria-hidden="true"></div>
     <Header />
     {/* El scroll vive aqui y no en el <body> a proposito: asi la barra
         pertenece a este contenedor, que arranca justo debajo del header.
@@ -163,6 +162,8 @@ const personSchema = {
       <slot />
       <Footer />
     </div>
+    {/* fuera del header: ahi el backdrop-filter recortaba su position:fixed */}
+    <CommandPalette />
   </body>
 </html>
 
@@ -202,6 +203,94 @@ const personSchema = {
     overscroll-behavior: none;
     display: flex;
     flex-direction: column;
+  }
+
+
+  /* --- Fondo de la pagina --------------------------------------------- */
+  .page-bg {
+    position: fixed;
+    inset: 0;
+    z-index: -2;
+    pointer-events: none;
+    /* base clara con dos halos de color: uno arriba a la derecha y otro
+       arriba a la izquierda, para que la luz no salga de un solo punto */
+    background-color: #eef1f7;
+    background-image:
+      radial-gradient(
+        ellipse 75% 55% at 78% -8%,
+        rgba(99, 102, 241, 0.2),
+        transparent 62%
+      ),
+      radial-gradient(
+        ellipse 60% 45% at 12% 4%,
+        rgba(56, 189, 248, 0.16),
+        transparent 60%
+      ),
+      radial-gradient(
+        ellipse 90% 60% at 50% 108%,
+        rgba(129, 140, 248, 0.12),
+        transparent 65%
+      );
+  }
+
+  /* rejilla tecnica, difuminada hacia los bordes con una mascara */
+  .page-bg::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background-image:
+      linear-gradient(to right, rgba(15, 23, 42, 0.055) 1px, transparent 1px),
+      linear-gradient(to bottom, rgba(15, 23, 42, 0.055) 1px, transparent 1px);
+    background-size: 58px 58px;
+    -webkit-mask-image: radial-gradient(
+      ellipse 75% 65% at 50% 0%,
+      #000 35%,
+      transparent 100%
+    );
+    mask-image: radial-gradient(
+      ellipse 75% 65% at 50% 0%,
+      #000 35%,
+      transparent 100%
+    );
+  }
+
+  /* grano fino: rompe el degradado plano y le da algo de textura */
+  .page-bg::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    opacity: 0.035;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='140' height='140'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='3'/%3E%3C/filter%3E%3Crect width='140' height='140' filter='url(%23n)'/%3E%3C/svg%3E");
+  }
+
+  html.dark .page-bg {
+    background-color: #070b16;
+    background-image:
+      radial-gradient(
+        ellipse 78% 58% at 76% -10%,
+        rgba(99, 102, 241, 0.26),
+        transparent 62%
+      ),
+      radial-gradient(
+        ellipse 62% 48% at 10% 2%,
+        rgba(14, 165, 233, 0.16),
+        transparent 60%
+      ),
+      radial-gradient(
+        ellipse 95% 60% at 50% 110%,
+        rgba(79, 70, 229, 0.16),
+        transparent 66%
+      );
+  }
+
+  html.dark .page-bg::before {
+    background-image:
+      linear-gradient(to right, rgba(148, 163, 184, 0.07) 1px, transparent 1px),
+      linear-gradient(to bottom, rgba(148, 163, 184, 0.07) 1px, transparent 1px);
+  }
+
+  html.dark .page-bg::after {
+    opacity: 0.05;
   }
 
   /* --- Scrollbar propio ------------------------------------------------ */

@@ -29,40 +29,35 @@ const t = useTranslations(lang);
   </Container>
   <div class="space-y-24">
     <Container id="experiencia">
-      <TitleSection>
-        <BriefCaseIcon class="size-8" />
+      <TitleSection index="01" icon={BriefCaseIcon} accent="blue">
         {t("section.experience")}
       </TitleSection>
       <Experience />
     </Container>
 
     <Container id="proyectos">
-      <TitleSection>
-        <CodeIcon class="size-8" />
+      <TitleSection index="02" icon={CodeIcon} accent="violet">
         {t("section.projects")}
       </TitleSection>
       <Projects />
     </Container>
 
     <Container id="stack">
-      <TitleSection>
-        <TechFlowIcon class="size-8" />
+      <TitleSection index="03" icon={TechFlowIcon} accent="emerald">
         {t("section.stack")}
       </TitleSection>
       <Stack />
     </Container>
 
     <Container id="sobre-mi">
-      <TitleSection>
-        <UserIcon class="size-8" />
+      <TitleSection index="04" icon={UserIcon} accent="amber">
         {t("section.about")}
       </TitleSection>
       <AboutMe />
     </Container>
 
     <Container id="contactar">
-      <TitleSection>
-        <ContactIcon class="size-8" />
+      <TitleSection index="05" icon={ContactIcon} accent="rose">
         {t("section.contact")}
       </TitleSection>
       <SendToMe />

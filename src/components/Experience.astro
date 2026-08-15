@@ -1,26 +1,54 @@
 ---
 import ExperienceItem from "./ExperienceItem.astro";
-import SeedIcon from "./icons/Seed.astro";
-import BankIcon from "./icons/Bank.astro";
-import CodeIcon from "./icons/Code.astro";
 import { getLangFromUrl } from "../i18n/utils";
 import { experience } from "../i18n/content";
 
 const lang = getLangFromUrl(Astro.url);
 
-// lo que no se traduce (logo, enlace, icono) va aparte del diccionario.
-// ELBRUX no lleva enlace: los productos viven en subdominios propios, no hay
+// Lo que no se traduce. Las tecnologias van como texto plano y no como claves
+// del registro: aqui hay que poder nombrar cosas que no forman parte del stack
+// declarado, como Versat ERP o GeneXus.
+// ELBRUX no lleva enlace: sus productos viven en subdominios propios y no hay
 // una web corporativa publica todavia.
 const META = [
-  { link: "", icon: CodeIcon, logo: "/elbrux.webp", logoDark: "/elbrux-dark.webp" },
-  { link: "https://biosafrasgroup.com.py/", icon: SeedIcon, logo: "/biosafras.webp" },
-  { link: "https://www.ayacape.coop.py/v3/", icon: BankIcon, logo: "/ayacape.webp" },
+  {
+    link: "",
+    logo: "/elbrux.webp",
+    logoDark: "/elbrux-dark.webp",
+    actual: true,
+    accent: "blue" as const,
+    tags: ["Python", "FastAPI", "PostgreSQL", "React", "Docker", "Scrum"],
+  },
+  {
+    link: "https://biosafrasgroup.com.py/",
+    logo: "/biosafras.webp",
+    actual: false,
+    accent: "emerald" as const,
+    tags: [
+      "Java",
+      "Spring Boot",
+      "React",
+      "Python",
+      "MySQL",
+      "Docker",
+      "Versat ERP",
+      "n8n",
+      "Power BI",
+    ],
+  },
+  {
+    link: "https://www.ayacape.coop.py/v3/",
+    logo: "/ayacape.webp",
+    actual: false,
+    accent: "rose" as const,
+    tags: ["GeneXus", "Java", "Oracle SQL", "XML", "Postman"],
+  },
 ];
 
 const EXPERIENCE = experience[lang].map((entry, i) => ({ ...entry, ...META[i] }));
 ---
 
-<ol class="relative mt-16">
+<ol class="mt-10 space-y-6">
   {
     EXPERIENCE.map((entry) => (
       <li>

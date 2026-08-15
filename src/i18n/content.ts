@@ -177,19 +177,88 @@ export const projects: Record<Lang, ProjectEntry[]> = {
 
 export const aboutMe: Record<Lang, string[]> = {
   es: [
-    "Soy Pablo Ocampos, desarrollador de software y analista de sistemas en formación. Me dedico a construir <strong>sistemas de gestión para empresas</strong>: la clase de software que un equipo usa todos los días para trabajar.",
-    "Mi stack principal es <strong>Python con FastAPI</strong> en el backend y <strong>React, PostgreSQL y Docker</strong> en el resto. Con eso diseño APIs REST, modelo bases de datos y despliego lo que construyo.",
-    "Trabajo los proyectos <strong>de punta a punta</strong>: entiendo primero el proceso de negocio, después escribo el código, y me hago cargo del despliegue y del soporte. Me interesa tanto que el sistema funcione como que la persona que lo usa no tenga que pelearse con él.",
-    "Disfruto especialmente de <strong>automatizar lo repetitivo</strong> y de convertir datos dispersos en reportes que sirvan para decidir. Suele ser donde menos código hace falta para el mayor impacto.",
-    "Actualmente estoy <strong>abierto a nuevas oportunidades</strong>, en modalidad remota o presencial, y cursando el 9.º semestre de la Licenciatura en Análisis de Sistemas en la Universidad Nacional del Este.",
+    "Soy Pablo Ocampos, desarrollador de software y analista de sistemas en formación. Construyo <strong>sistemas de gestión para empresas</strong>: la clase de software que un equipo usa todos los días para trabajar, con <strong>Python y FastAPI</strong> en el backend y <strong>React, PostgreSQL y Docker</strong> en el resto.",
   ],
-
   en: [
-    "I'm Pablo Ocampos, a software developer and systems analyst in training. I build <strong>business management systems</strong>: the kind of software a team relies on every day to get their work done.",
-    "My core stack is <strong>Python with FastAPI</strong> on the backend and <strong>React, PostgreSQL and Docker</strong> across the rest. That's what I use to design REST APIs, model databases and ship what I build.",
-    "I take projects <strong>end to end</strong>: I start by understanding the business process, then write the code, and I own the deployment and the support that follows. I care as much about the system working as about the person using it not having to fight with it.",
-    "I particularly enjoy <strong>automating the repetitive</strong> and turning scattered data into reports people can actually decide on. That's usually where the least code buys the most impact.",
-    "I'm currently <strong>open to new opportunities</strong>, remote or on-site, and in my 9th semester of a Systems Analysis degree at Universidad Nacional del Este.",
+    "I'm Pablo Ocampos, a software developer and systems analyst in training. I build <strong>business management systems</strong>: the kind of software a team relies on every day, with <strong>Python and FastAPI</strong> on the backend and <strong>React, PostgreSQL and Docker</strong> across the rest.",
+  ],
+};
+
+export interface Dato {
+  etiqueta: string;
+  valor: string;
+}
+
+/** Lo que un reclutador filtra de entrada y antes no estaba en el sitio */
+export const datosRapidos: Record<Lang, Dato[]> = {
+  es: [
+    { etiqueta: "Ubicación", valor: "Hernandarias, Alto Paraná, Paraguay" },
+    { etiqueta: "Experiencia", valor: "3 años en desarrollo full stack" },
+    { etiqueta: "Disponibilidad", valor: "Remoto (GMT-3) o presencial en Alto Paraná" },
+    { etiqueta: "Idiomas", valor: "Español nativo · Portugués fluido · Inglés intermedio" },
+    { etiqueta: "Formación", valor: "Lic. en Análisis de Sistemas, UNE (9.º semestre)" },
+    { etiqueta: "Ahora", valor: "Cofundador de ELBRUX, con software en producción" },
+  ],
+  en: [
+    { etiqueta: "Location", valor: "Hernandarias, Alto Paraná, Paraguay" },
+    { etiqueta: "Experience", valor: "3 years in full stack development" },
+    { etiqueta: "Availability", valor: "Remote (GMT-3) or on-site in Alto Paraná" },
+    { etiqueta: "Languages", valor: "Native Spanish · Fluent Portuguese · Intermediate English" },
+    { etiqueta: "Education", valor: "BSc in Systems Analysis, UNE (9th semester)" },
+    { etiqueta: "Currently", valor: "Co-founder of ELBRUX, with software in production" },
+  ],
+};
+
+export interface Principio {
+  titulo: string;
+  texto: string;
+}
+
+/** Como trabaja, sacado de decisiones reales y no de frases hechas */
+export const principios: Record<Lang, Principio[]> = {
+  es: [
+    {
+      titulo: "Primero el negocio, después el código",
+      texto:
+        "Antes de escribir nada intento entender por qué una quincena se calcula así o qué necesita ver un gerente. Las decisiones técnicas que mejor envejecen salen de esas conversaciones.",
+    },
+    {
+      titulo: "De punta a punta",
+      texto:
+        "Levanto requisitos, escribo el código, despliego y doy soporte. Haberme hecho cargo del final cambia cómo escribo el principio.",
+    },
+    {
+      titulo: "Automatizar lo repetitivo",
+      texto:
+        "Suele ser donde menos código hace falta para el mayor impacto: procesos manuales que pasan a correr solos y datos dispersos que se vuelven un reporte útil.",
+    },
+    {
+      titulo: "Que no se rompa en silencio",
+      texto:
+        "Copias de seguridad con restauración probada, no solo programada. Reglas que se aplican en la base y no dependen de que nadie olvide un WHERE.",
+    },
+  ],
+  en: [
+    {
+      titulo: "Business first, code second",
+      texto:
+        "Before writing anything I try to understand why a payroll period is calculated the way it is, or what a manager actually needs to see. The technical decisions that age best come out of those conversations.",
+    },
+    {
+      titulo: "End to end",
+      texto:
+        "I gather the requirements, write the code, deploy it and support it. Owning the end changes how I write the beginning.",
+    },
+    {
+      titulo: "Automate the repetitive",
+      texto:
+        "That is usually where the least code buys the most impact: manual processes that start running on their own, and scattered data that turns into a report someone can act on.",
+    },
+    {
+      titulo: "Nothing fails silently",
+      texto:
+        "Backups with verified restores, not just scheduled ones. Rules enforced by the database instead of relying on nobody forgetting a WHERE clause.",
+    },
   ],
 };
 

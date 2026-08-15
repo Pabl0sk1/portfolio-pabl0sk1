@@ -1,5 +1,79 @@
-<h2
-  class={`flex items-center mb-6 text-3xl font-semibold gap-x-3 text-black/80 dark:text-white ${Astro.props.className}`}
->
-  <slot />
-</h2>
+---
+/**
+ * Titulo de seccion: indice monoespaciado, icono en placa, titulo y un hilo
+ * que se extiende hasta el borde. El icono entra por prop y no por slot para
+ * poder darle su propia placa.
+ */
+interface Props {
+  /** "01", "02"... da sensacion de recorrido y ancla la seccion */
+  index: string;
+  icon: any;
+  /** color de acento de la seccion */
+  accent?: "blue" | "violet" | "emerald" | "amber" | "rose";
+  class?: string;
+}
+
+const { index, icon: Icon, accent = "blue", class: className } = Astro.props;
+
+const ACENTOS = {
+  blue: {
+    texto: "text-blue-600 dark:text-blue-400",
+    placa: "bg-blue-500/10 ring-blue-500/25 text-blue-600 dark:text-blue-400",
+    hilo: "from-blue-500/40",
+  },
+  violet: {
+    texto: "text-violet-600 dark:text-violet-400",
+    placa: "bg-violet-500/10 ring-violet-500/25 text-violet-600 dark:text-violet-400",
+    hilo: "from-violet-500/40",
+  },
+  emerald: {
+    texto: "text-emerald-600 dark:text-emerald-400",
+    placa: "bg-emerald-500/10 ring-emerald-500/25 text-emerald-600 dark:text-emerald-400",
+    hilo: "from-emerald-500/40",
+  },
+  amber: {
+    texto: "text-amber-600 dark:text-amber-400",
+    placa: "bg-amber-500/10 ring-amber-500/25 text-amber-600 dark:text-amber-400",
+    hilo: "from-amber-500/40",
+  },
+  rose: {
+    texto: "text-rose-600 dark:text-rose-400",
+    placa: "bg-rose-500/10 ring-rose-500/25 text-rose-600 dark:text-rose-400",
+    hilo: "from-rose-500/40",
+  },
+}[accent];
+---
+
+<div class:list={["flex items-center gap-3 sm:gap-4 mb-8", className]}>
+  <span
+    class:list={[
+      "font-mono text-xs sm:text-sm font-bold tabular-nums select-none",
+      ACENTOS.texto,
+    ]}
+    aria-hidden="true">{index}</span
+  >
+
+  <span
+    class:list={[
+      "grid place-items-center size-9 sm:size-11 shrink-0 rounded-xl ring-1",
+      ACENTOS.placa,
+    ]}
+    aria-hidden="true"
+  >
+    <Icon class="size-5 sm:size-6" />
+  </span>
+
+  <h2
+    class="text-2xl sm:text-3xl font-bold tracking-tight text-gray-900 dark:text-white whitespace-nowrap"
+  >
+    <slot />
+  </h2>
+
+  {/* el hilo ocupa lo que sobra, asi el titulo queda anclado a la izquierda */}
+  <span
+    class:list={[
+      "h-px flex-1 bg-gradient-to-r to-transparent",
+      ACENTOS.hilo,
+    ]}
+    aria-hidden="true"></span>
+</div>

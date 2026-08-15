@@ -23,7 +23,10 @@ pnpm-debug.log*
 # jetbrains setting folder
 .idea/
 
-# CV: contiene el teléfono, que no está publicado en el sitio, y este
-# repositorio es público. Los archivos viven en cv/ localmente.
-# Para versionarlos igualmente, borrar esta línea (el teléfono quedará público).
-cv/
+# CV: el generador y los .docx completos llevan el teléfono, que no está
+# publicado en el sitio, y este repositorio es público.
+#
+# La barra inicial es imprescindible: sin ella, "cv/" también ignora
+# public/cv/, que son las versiones SIN teléfono que se descargan desde la web.
+# Sin ellas Netlify no las publica y el botón "Descargar CV" da 404.
+/cv/

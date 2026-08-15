@@ -1,125 +1,194 @@
 ---
+/**
+ * Contacto multicanal. El formulario es una via mas, no la unica: mucha gente
+ * prefiere escribir un correo o ir a LinkedIn, y antes desde aqui no habia
+ * forma de hacerlo ni de llevarse el CV.
+ */
 import { getLangFromUrl, useTranslations, localizePath } from "../i18n/utils";
+import { EMAIL, LINKEDIN_URL, GITHUB_URL } from "../consts";
+import LinkedinIcon from "./icons/LinkedIn.astro";
+import GithubIcon from "./icons/GitHub.astro";
+import FileIcon from "./icons/File.astro";
 
 const lang = getLangFromUrl(Astro.url);
 const t = useTranslations(lang);
 
-// Cada campo lleva id + label[for] asociado: sin eso, los lectores de
-// pantalla no relacionan la etiqueta con su input.
+// El CV publicado va sin telefono: es una URL publica e indexable y los bots
+// rastrean paginas buscando numeros. El completo se envia directamente.
+const cvHref = lang === "es" ? "/cv/Pablo-Ocampos-CV-ES.docx" : "/cv/Pablo-Ocampos-CV-EN.docx";
+
 const FIELDS = [
-  {
-    id: "contact-name",
-    name: "name",
-    label: t("form.name"),
-    type: "text",
-    autocomplete: "name",
-  },
-  {
-    id: "contact-email",
-    name: "email",
-    label: t("form.email"),
-    type: "email",
-    autocomplete: "email",
-  },
-  {
-    id: "contact-subject",
-    name: "subject",
-    label: t("form.subject"),
-    type: "text",
-    autocomplete: "off",
-  },
+  { id: "contact-name", name: "name", label: t("form.name"), type: "text", autocomplete: "name" },
+  { id: "contact-email", name: "email", label: t("form.email"), type: "email", autocomplete: "email" },
+  { id: "contact-subject", name: "subject", label: t("form.subject"), type: "text", autocomplete: "off" },
 ] as const;
 
 const inputClass =
-  "mt-2 p-2 rounded-lg bg-gray-200 text-black dark:bg-white/10 dark:text-white border border-gray-400/60 dark:border-white/10 focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-500";
+  "mt-2 p-2.5 rounded-lg bg-gray-200 text-black dark:bg-white/10 dark:text-white border border-gray-400/60 dark:border-white/10 focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-500";
 
-// un formulario de Netlify por idioma, para que la pagina de gracias coincida
 const formName = lang === "es" ? "contact" : "contact-en";
+
+const canalClass =
+  "group flex items-center gap-3 rounded-xl bg-black/5 dark:bg-white/5 ring-1 ring-black/10 dark:ring-white/10 px-4 py-3 " +
+  "transition hover:bg-black/10 dark:hover:bg-white/10 hover:ring-blue-500/40 " +
+  "focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-blue-600";
 ---
 
-<form
-  name={formName}
-  method="POST"
-  action={localizePath("/thanks", lang)}
-  data-netlify="true"
-  netlify-honeypot="bot-field"
-  enctype="multipart/form-data"
-  class="flex flex-col gap-4 bg-black/10 dark:bg-white/5 p-6 rounded-xl shadow-lg text-gray-900 dark:text-gray-300"
->
-  <input type="hidden" name="form-name" value={formName} />
-  <p class="hidden">
-    <label>{t("form.honeypot")} <input name="bot-field" tabindex="-1" /></label>
-  </p>
-
-  {
-    FIELDS.map(({ id, name, label, type, autocomplete }) => (
-      <div class="flex flex-col">
-        <label class="text-sm font-medium" for={id}>
-          {label}
-        </label>
-        <input
-          id={id}
-          type={type}
-          name={name}
-          autocomplete={autocomplete}
-          class={inputClass}
-          required
-        />
-      </div>
-    ))
-  }
-
-  <div class="flex flex-col">
-    <label class="text-sm font-medium" for="contact-message">
-      {t("form.message")}
-    </label>
-    <textarea id="contact-message" name="message" class={inputClass} rows="5" required
-    ></textarea>
-  </div>
-
-  <div class="flex flex-col">
-    <label class="text-sm font-medium mb-2" for="contact-resume">
-      {t("form.file")}
-    </label>
+<div class="grid gap-8 lg:grid-cols-5">
+  <!-- Columna izquierda: disponibilidad y vias directas -->
+  <div class="lg:col-span-2 space-y-4">
     <div
-      class="flex flex-wrap justify-between items-center gap-2 w-full text-sm px-4 py-3 bg-gray-200 text-black dark:bg-white/10 dark:text-white rounded-lg border border-dashed border-gray-400 focus-within:border-blue-500 hover:border-blue-400 transition"
+      class="rounded-xl bg-emerald-500/10 ring-1 ring-emerald-500/30 px-4 py-4"
     >
-      <span
-        id="file-name"
-        class="truncate min-w-0 flex-1"
-        data-placeholder={t("form.filePlaceholder")}
+      <p class="flex items-center gap-2 font-semibold text-emerald-700 dark:text-emerald-300">
+        <span class="relative flex size-2.5" aria-hidden="true">
+          <span
+            class="motion-safe:animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-500 opacity-75"
+          ></span>
+          <span class="relative inline-flex size-2.5 rounded-full bg-emerald-500"></span>
+        </span>
+        {t("contact.available")}
+      </p>
+      <p class="mt-2 text-sm text-gray-700 dark:text-gray-300">
+        {t("contact.availableDetail")}
+      </p>
+      <p class="mt-1 text-sm text-gray-600 dark:text-gray-400">
+        {t("contact.responseTime")}
+      </p>
+    </div>
+
+    <div class="space-y-3">
+      {/* correo con copiar al portapapeles: mas util que abrir el cliente */}
+      <button
+        type="button"
+        id="copy-email"
+        data-email={EMAIL}
+        data-copied={t("contact.copied")}
+        class={`${canalClass} w-full text-left cursor-pointer`}
       >
-        {t("form.filePlaceholder")}
-      </span>
-      {/* min-w-0 + max-w-full: el input de archivo nativo tiene un ancho
-          intrinseco que desbordaba la pagina a lo ancho en movil */}
-      <input
-        id="contact-resume"
-        type="file"
-        name="resume"
-        class="text-sm min-w-0 max-w-full file:mr-2 file:rounded file:border-0 file:bg-blue-500 file:px-3 file:py-1 file:text-white file:cursor-pointer"
-      />
+        <svg
+          class="size-5 shrink-0 text-gray-600 dark:text-gray-300"
+          viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"
+          aria-hidden="true"
+        >
+          <rect x="2.5" y="4.5" width="19" height="15" rx="2.5"></rect>
+          <path d="m3 6 9 6 9-6" stroke-linecap="round"></path>
+        </svg>
+        <span class="min-w-0">
+          <span class="block text-xs text-gray-500 dark:text-gray-400">
+            {t("contact.emailLabel")}
+          </span>
+          <span
+            id="copy-email-text"
+            class="block truncate text-sm font-medium text-gray-900 dark:text-gray-100"
+            >{EMAIL}</span
+          >
+        </span>
+      </button>
+
+      <a href={LINKEDIN_URL} target="_blank" rel="noopener noreferrer" class={canalClass}>
+        <LinkedinIcon class="size-5 shrink-0" />
+        <span>
+          <span class="block text-xs text-gray-500 dark:text-gray-400">LinkedIn</span>
+          <span class="block text-sm font-medium text-gray-900 dark:text-gray-100">
+            {t("contact.linkedin")}
+          </span>
+        </span>
+      </a>
+
+      <a href={GITHUB_URL} target="_blank" rel="noopener noreferrer" class={canalClass}>
+        <GithubIcon class="size-5 shrink-0" />
+        <span>
+          <span class="block text-xs text-gray-500 dark:text-gray-400">GitHub</span>
+          <span class="block text-sm font-medium text-gray-900 dark:text-gray-100">
+            {t("contact.github")}
+          </span>
+        </span>
+      </a>
+
+      <a
+        href={cvHref}
+        download
+        class="flex items-center justify-center gap-2 w-full rounded-xl bg-blue-600 px-4 py-3 font-semibold text-white transition hover:bg-blue-500 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-blue-600"
+      >
+        <FileIcon class="size-5" />
+        {t("contact.downloadCv")}
+      </a>
     </div>
   </div>
 
-  <button
-    type="submit"
-    class="mt-4 bg-blue-600 text-white font-bold py-2 rounded-lg hover:bg-blue-500 transition-all cursor-pointer focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-blue-600"
+  <!-- Columna derecha: el formulario -->
+  <form
+    name={formName}
+    method="POST"
+    action={localizePath("/thanks", lang)}
+    data-netlify="true"
+    netlify-honeypot="bot-field"
+    class="lg:col-span-3 flex flex-col gap-4 bg-black/10 dark:bg-white/5 p-6 rounded-xl shadow-lg text-gray-900 dark:text-gray-300"
   >
-    {t("form.submit")}
-  </button>
-</form>
+    <p class="text-sm text-gray-600 dark:text-gray-400">
+      {t("contact.formIntro")}
+    </p>
+
+    <input type="hidden" name="form-name" value={formName} />
+    <p class="hidden">
+      <label>{t("form.honeypot")} <input name="bot-field" tabindex="-1" /></label>
+    </p>
+
+    {
+      FIELDS.map(({ id, name, label, type, autocomplete }) => (
+        <div class="flex flex-col">
+          <label class="text-sm font-medium" for={id}>
+            {label}
+          </label>
+          <input
+            id={id}
+            type={type}
+            name={name}
+            autocomplete={autocomplete}
+            class={inputClass}
+            required
+          />
+        </div>
+      ))
+    }
+
+    <div class="flex flex-col">
+      <label class="text-sm font-medium" for="contact-message">
+        {t("form.message")}
+      </label>
+      <textarea id="contact-message" name="message" class={inputClass} rows="6" required
+      ></textarea>
+    </div>
+
+    <button
+      type="submit"
+      class="mt-2 bg-blue-600 text-white font-bold py-2.5 rounded-lg hover:bg-blue-500 transition-all cursor-pointer focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-blue-600"
+    >
+      {t("form.submit")}
+    </button>
+  </form>
+</div>
 
 <script>
-  // el nombre del archivo elegido, sin `onchange` inline en el HTML
-  const fileInput = document.getElementById("contact-resume");
-  const fileName = document.getElementById("file-name");
+  // Copiar el correo al portapapeles con aviso temporal
+  const boton = document.getElementById("copy-email");
+  const texto = document.getElementById("copy-email-text");
 
-  fileInput?.addEventListener("change", (event) => {
-    const files = (event.target as HTMLInputElement).files;
-    if (fileName) {
-      fileName.textContent =
-        files?.[0]?.name ?? fileName.dataset.placeholder ?? "";
+  boton?.addEventListener("click", async () => {
+    const email = boton.dataset.email ?? "";
+    const aviso = boton.dataset.copied ?? "";
+    if (!texto) return;
+
+    try {
+      await navigator.clipboard.writeText(email);
+    } catch {
+      // sin permiso de portapapeles: abrir el cliente de correo
+      location.href = `mailto:${email}`;
+      return;
     }
+
+    texto.textContent = aviso;
+    setTimeout(() => (texto.textContent = email), 1800);
   });
 </script>

@@ -71,6 +71,8 @@ export const ui = {
 
     "experience.more": "Saber más",
     "experience.logoAlt": "Logo de",
+    "experience.showMore": "Ver más logros",
+    "experience.showLess": "Ver menos",
 
     "projects.website": "Website",
     "projects.caseStudy": "Ver",
@@ -96,12 +98,23 @@ export const ui = {
     "stack.project": "proyecto",
     "stack.projects": "proyectos",
 
+    "about.factsLabel": "Datos rápidos",
+    "about.howIWork": "Cómo trabajo",
+
+    "contact.available": "Abierto a oportunidades",
+    "contact.availableDetail": "Remoto (GMT-3) o presencial en Alto Paraná, Paraguay.",
+    "contact.responseTime": "Suelo responder en 24-48 horas.",
+    "contact.emailLabel": "Correo · pulsa para copiar",
+    "contact.copied": "¡Copiado!",
+    "contact.linkedin": "Ver perfil profesional",
+    "contact.github": "Ver repositorios públicos",
+    "contact.downloadCv": "Descargar CV",
+    "contact.formIntro": "O escribime directamente desde acá.",
+
     "form.name": "Nombre",
     "form.email": "Correo",
     "form.subject": "Asunto",
     "form.message": "Mensaje",
-    "form.file": "Adjuntar archivo",
-    "form.filePlaceholder": "Selecciona un archivo…",
     "form.submit": "Enviar Mensaje",
     "form.honeypot": "No rellenar:",
 
@@ -183,6 +196,8 @@ export const ui = {
 
     "experience.more": "Learn more",
     "experience.logoAlt": "Logo of",
+    "experience.showMore": "See more",
+    "experience.showLess": "See less",
 
     "projects.website": "Website",
     "projects.caseStudy": "View",
@@ -208,12 +223,23 @@ export const ui = {
     "stack.project": "project",
     "stack.projects": "projects",
 
+    "about.factsLabel": "Quick facts",
+    "about.howIWork": "How I work",
+
+    "contact.available": "Open to opportunities",
+    "contact.availableDetail": "Remote (GMT-3) or on-site in Alto Paraná, Paraguay.",
+    "contact.responseTime": "I usually reply within 24-48 hours.",
+    "contact.emailLabel": "Email · click to copy",
+    "contact.copied": "Copied!",
+    "contact.linkedin": "See professional profile",
+    "contact.github": "See public repositories",
+    "contact.downloadCv": "Download CV",
+    "contact.formIntro": "Or write to me straight from here.",
+
     "form.name": "Name",
     "form.email": "Email",
     "form.subject": "Subject",
     "form.message": "Message",
-    "form.file": "Attach a file",
-    "form.filePlaceholder": "Choose a file…",
     "form.submit": "Send Message",
     "form.honeypot": "Do not fill in:",
 
