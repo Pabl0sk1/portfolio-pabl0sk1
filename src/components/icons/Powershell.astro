@@ -1,6 +1,13 @@
+---
+// Un id por instancia: los SVG en linea comparten el espacio de ids
+// del documento, y si el elemento que define el gradiente se oculta,
+// todos los que lo referencian se quedan sin relleno.
+const uid = `powershell-` + Math.random().toString(36).slice(2, 8) + `-`;
+---
+
 <svg {...Astro.props} xml:space="preserve" viewBox="0 0 128 128"
   ><linearGradient
-    id="powershell__a"
+    id={`${uid}powershell__a`}
     x1="96.306"
     x2="25.454"
     y1="35.144"
@@ -11,12 +18,12 @@
       offset="1"
       stop-color="#c7e6ff"></stop></linearGradient
   ><path
-    fill="url(#powershell__a)"
+    fill={`url(#${uid}powershell__a)`}
     fill-rule="evenodd"
     d="M7.2 110.5c-1.7 0-3.1-.7-4.1-1.9-1-1.2-1.3-2.9-.9-4.6l18.6-80.5c.8-3.4 4-6 7.4-6h92.6c1.7 0 3.1.7 4.1 1.9 1 1.2 1.3 2.9.9 4.6l-18.6 80.5c-.8 3.4-4 6-7.4 6H7.2z"
     clip-rule="evenodd"
     opacity=".8"></path><linearGradient
-    id="powershell__b"
+    id={`${uid}powershell__b`}
     x1="25.336"
     x2="94.569"
     y1="98.33"
@@ -29,7 +36,7 @@
     ></stop><stop offset=".79" stop-color="#0c131b"></stop><stop offset="1"
     ></stop></linearGradient
   ><path
-    fill="url(#powershell__b)"
+    fill={`url(#${uid}powershell__b)`}
     fill-rule="evenodd"
     d="M120.3 18.5H28.5c-2.9 0-5.7 2.3-6.4 5.2L3.7 104.3c-.7 2.9 1.1 5.2 4 5.2h91.8c2.9 0 5.7-2.3 6.4-5.2l18.4-80.5c.7-2.9-1.1-5.3-4-5.3z"
     clip-rule="evenodd"></path><path

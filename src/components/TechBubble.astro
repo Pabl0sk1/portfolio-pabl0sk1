@@ -43,13 +43,19 @@ const baldosa =
   "focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-blue-600 " +
   (esFiltro
     ? "cursor-pointer hover:bg-gray-400 dark:hover:bg-white/15 hover:shadow-md " +
-      "aria-pressed:bg-blue-600 dark:aria-pressed:bg-blue-500"
+      // Seleccionado con anillo y un tinte muy leve, no con un relleno solido:
+      // cualquier color de fondo termina chocando con el color propio de algun
+      // logo, y asi el icono queda siempre sobre el fondo con el que se diseno.
+      "aria-pressed:bg-blue-500/20 dark:aria-pressed:bg-blue-400/20 " +
+      "aria-pressed:ring-2 aria-pressed:ring-blue-600 dark:aria-pressed:ring-blue-400 " +
+      "aria-pressed:shadow-md"
     : "hover:bg-gray-400 dark:hover:bg-white/10 hover:shadow-md");
 
 const etiqueta =
   "text-xs text-center leading-tight text-gray-900 dark:text-white/85 " +
   "group-hover:text-blue-800 dark:group-hover:text-blue-200 " +
-  "group-aria-pressed:text-white dark:group-aria-pressed:text-white";
+  "group-aria-pressed:font-bold group-aria-pressed:text-blue-800 " +
+  "dark:group-aria-pressed:text-blue-200";
 ---
 
 <div class="group relative w-20 h-20 transition-transform hover:-translate-y-0.5">

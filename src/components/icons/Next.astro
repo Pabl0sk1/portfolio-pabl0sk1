@@ -1,23 +1,30 @@
+---
+// Un id por instancia: los SVG en linea comparten el espacio de ids
+// del documento, y si el elemento que define el gradiente se oculta,
+// todos los que lo referencian se quedan sin relleno.
+const uid = `next-` + Math.random().toString(36).slice(2, 8) + `-`;
+---
+
 <svg {...Astro.props} viewBox="0 0 180 180"
   ><mask
-    id="nextjs_icon_dark__:r8:mask0_408_134"
+    id={`${uid}nextjs_icon_dark__:r8:mask0_408_134`}
     maskUnits="userSpaceOnUse"
     x="0"
     y="0"
     style="mask-type:alpha"
     ><circle cx="90" cy="90" fill="black" r="90"></circle></mask
-  ><g mask="url(#nextjs_icon_dark__:r8:mask0_408_134)"
+  ><g mask={`url(#${uid}nextjs_icon_dark__:r8:mask0_408_134)`}
     ><circle cx="90" cy="90" data-circle="true" fill="black" r="90"
     ></circle><path
       d="M149.508 157.52L69.142 54H54V125.97H66.1136V69.3836L139.999 164.845C143.333 162.614 146.509 160.165 149.508 157.52Z"
-      fill="url(#nextjs_icon_dark__:r8:paint0_linear_408_134)"></path><rect
-      fill="url(#nextjs_icon_dark__:r8:paint1_linear_408_134)"
+      fill={`url(#${uid}nextjs_icon_dark__:r8:paint0_linear_408_134)`}></path><rect
+      fill={`url(#${uid}nextjs_icon_dark__:r8:paint1_linear_408_134)`}
       x="115"
       y="54"></rect></g
   ><defs
     ><linearGradient
       gradientUnits="userSpaceOnUse"
-      id="nextjs_icon_dark__:r8:paint0_linear_408_134"
+      id={`${uid}nextjs_icon_dark__:r8:paint0_linear_408_134`}
       x1="109"
       x2="144.5"
       y1="116.5"
@@ -28,7 +35,7 @@
         stop-opacity="0"></stop></linearGradient
     ><linearGradient
       gradientUnits="userSpaceOnUse"
-      id="nextjs_icon_dark__:r8:paint1_linear_408_134"
+      id={`${uid}nextjs_icon_dark__:r8:paint1_linear_408_134`}
       x1="121"
       x2="120.799"
       y1="54"

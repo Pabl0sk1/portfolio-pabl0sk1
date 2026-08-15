@@ -148,3 +148,4 @@ export const TAG_COLOR: Partial<Record<TechKey, string>> = {
   tkinter: "text-blue-600",
   docker: "text-blue-400",
 };
+
