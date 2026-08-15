@@ -6,11 +6,20 @@
  * se filtran las tarjetas que la usan.
  */
 import type { TechKey } from "./tech";
+// Las capturas se importan en vez de referenciarse por ruta: asi las procesa
+// astro:assets y cada pantalla recibe el tamano que le toca. En public/ se
+// servian tal cual, siempre a 1280 px.
+import faro from "../assets/projects/Faro.webp";
+import timon from "../assets/projects/Timon.webp";
+import stockpro from "../assets/projects/StockPro.webp";
+import biotech from "../assets/projects/BioTech.webp";
+import atelier from "../assets/projects/Atelier.webp";
+import shopeasy from "../assets/projects/ShopEasy.webp";
 
 export interface Project {
   /** identifica la tarjeta en el DOM y en la URL del filtro */
   slug: string;
-  image: string;
+  image: ImageMetadata;
   /** sitio publico, vacio si no lo tiene */
   link: string;
   /** lo que caracteriza al proyecto; se muestra como etiquetas de color */
@@ -38,7 +47,7 @@ export interface Project {
 export const PROJECTS: Project[] = [
   {
     slug: "faro",
-    image: "/projects/Faro.webp",
+    image: faro,
     link: "",
     tags: ["python", "fastapi", "postgresql", "react", "tailwind", "docker"],
     transversal: ["git", "html", "css", "node"],
@@ -47,7 +56,7 @@ export const PROJECTS: Project[] = [
   },
   {
     slug: "timon",
-    image: "/projects/Timon.webp",
+    image: timon,
     link: "",
     tags: ["python", "fastapi", "postgresql", "react", "tailwind", "docker"],
     transversal: ["git", "html", "css", "node"],
@@ -56,7 +65,7 @@ export const PROJECTS: Project[] = [
   },
   {
     slug: "stockpro",
-    image: "/projects/StockPro.webp",
+    image: stockpro,
     link: "",
     tags: ["python", "tkinter", "sqlite"],
     transversal: ["git"],
@@ -65,7 +74,7 @@ export const PROJECTS: Project[] = [
   },
   {
     slug: "biotech",
-    image: "/projects/BioTech.webp",
+    image: biotech,
     link: "",
     tags: ["java", "springboot", "postgresql", "react", "javascript", "bootstrap", "docker"],
     transversal: ["git", "html", "css", "node"],
@@ -74,7 +83,7 @@ export const PROJECTS: Project[] = [
   },
   {
     slug: "atelier",
-    image: "/projects/Atelier.webp",
+    image: atelier,
     link: "",
     tags: ["java", "springboot", "postgresql", "react", "javascript", "bootstrap"],
     transversal: ["git", "html", "css", "node"],
@@ -83,7 +92,7 @@ export const PROJECTS: Project[] = [
   },
   {
     slug: "shopeasy",
-    image: "/projects/ShopEasy.webp",
+    image: shopeasy,
     link: "https://shopeasy-app.web.app/",
     tags: ["ionic", "angular", "firebase", "typescript", "sass"],
     transversal: ["git", "html", "css", "node"],

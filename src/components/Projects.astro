@@ -10,6 +10,7 @@
  * La pieza entera es un <button>: los enlaces viven solo dentro del panel, asi
  * no hay anclas anidadas dentro de un control.
  */
+import { Image } from "astro:assets";
 import LinkIcon from "./icons/Link.astro";
 import LinkButton from "./LinkButton.astro";
 import TechIcon from "./TechIcon.astro";
@@ -56,13 +57,14 @@ const FILAS = [
 
   <div id="projects-grid" class="grid gap-4 md:grid-cols-3 md:[grid-auto-flow:dense]">
     {
-      FILAS.map((fila) => (
+      FILAS.map((fila, iFila) => (
         /* contents: las piezas y los paneles entran en la rejilla exterior,
            pero el agrupado mantiene los paneles despues de la fila entera */
         <div class="contents">
-          {fila.map(({ title, resumen, image, tags, transversal, span, slug }) => (
+          {fila.map(({ title, resumen, image, tags, transversal, span, slug }, i) => (
             <button
               type="button"
+              style={`--orden:${iFila * 4 + i * 2}`}
               data-tile={slug}
               data-project={slug}
               data-tags={[...tags, ...transversal].join(" ")}
@@ -78,13 +80,15 @@ const FILAS = [
                 span === 2 ? "md:col-span-2" : "md:col-span-1",
               ]}
             >
-              <img
+              {/* widths + sizes: la pieza ocupa el ancho entero en movil y
+                   hasta dos columnas en escritorio. Antes salia siempre a
+                   1280 px, tambien en pantallas de densidad normal. */}
+              <Image
                 src={image}
                 alt={`${t("projects.imageAlt")} ${title}`}
-                width="640"
-                height="360"
+                widths={[400, 640, 1024, 1280]}
+                sizes="(max-width: 767px) 100vw, 600px"
                 loading="lazy"
-                decoding="async"
                 class="absolute inset-0 -z-10 size-full object-cover object-top transition-transform duration-500 group-hover:scale-105"
               />
               {/* velo: las capturas son claras y el texto va encima */}
@@ -140,24 +144,24 @@ const FILAS = [
             </button>
           ))}
 
-          {fila.map(({ title, description, image, tags, transversal, link, slug }) => (
+          {fila.map(({ title, description, image, tags, transversal, link, slug }, i) => (
             /* rejilla de una fila de 0fr a 1fr: se puede animar la altura sin
                conocerla de antemano, que con height:auto no se puede */
             <div
               id={`panel-${slug}`}
+              style={`--orden:${iFila * 4 + i * 2 + 1}`}
               data-panel={slug}
               class="grid grid-rows-[0fr] transition-[grid-template-rows] duration-300 motion-reduce:transition-none data-[abierto]:grid-rows-[1fr] md:col-span-3"
             >
               <div class="overflow-hidden">
                 <div class="rounded-2xl bg-white/60 dark:bg-white/[0.04] ring-1 ring-black/10 dark:ring-white/10 p-5 sm:p-6">
                   <div class="grid gap-6 md:grid-cols-2">
-                    <img
+                    <Image
                       src={image}
                       alt={`${t("projects.imageAlt")} ${title}`}
-                      width="640"
-                      height="360"
+                      widths={[400, 640, 1024, 1280]}
+                      sizes="(max-width: 767px) 100vw, 520px"
                       loading="lazy"
-                      decoding="async"
                       class="w-full rounded-xl object-cover object-top ring-1 ring-black/10 dark:ring-white/10"
                     />
 
@@ -212,6 +216,16 @@ const FILAS = [
 </div>
 
 <style>
+  /* En una sola columna, agrupar por filas deja el panel detras de la pieza
+     siguiente: el detalle de BioTech aparecia debajo de Shop Easy. Se reordena
+     a pieza-panel-pieza-panel. En escritorio no se toca, que ahi el agrupado
+     es justo lo que hace que el panel salga bajo la fila entera. */
+  @media (max-width: 767px) {
+    #projects-grid > div > * {
+      order: var(--orden);
+    }
+  }
+
   /* Con un filtro puesto se pierden piezas y los tamanos dejan huecos, asi que
      todas pasan a ocupar una columna. El id gana en especificidad a las
      utilidades de Tailwind. */

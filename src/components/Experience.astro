@@ -1,5 +1,9 @@
 ---
 import ExperienceItem from "./ExperienceItem.astro";
+import elbrux from "../assets/elbrux.webp";
+import elbruxDark from "../assets/elbrux-dark.webp";
+import biosafras from "../assets/biosafras.webp";
+import ayacape from "../assets/ayacape.webp";
 import { getLangFromUrl } from "../i18n/utils";
 import { experience } from "../i18n/content";
 
@@ -13,15 +17,15 @@ const lang = getLangFromUrl(Astro.url);
 const META = [
   {
     link: "",
-    logo: "/elbrux.webp",
-    logoDark: "/elbrux-dark.webp",
+    logo: elbrux,
+    logoDark: elbruxDark,
     actual: true,
     accent: "blue" as const,
     tags: ["Python", "FastAPI", "PostgreSQL", "React", "Docker", "Scrum"],
   },
   {
     link: "https://biosafrasgroup.com.py/",
-    logo: "/biosafras.webp",
+    logo: biosafras,
     actual: false,
     accent: "emerald" as const,
     tags: [
@@ -38,7 +42,7 @@ const META = [
   },
   {
     link: "https://www.ayacape.coop.py/v3/",
-    logo: "/ayacape.webp",
+    logo: ayacape,
     actual: false,
     accent: "rose" as const,
     tags: ["GeneXus", "Java", "Oracle SQL", "XML", "Postman"],

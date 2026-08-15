@@ -7,6 +7,7 @@
  * se ven las tres primeras y el resto se despliega, que es como se lee de
  * verdad: primero se escanea y despues se profundiza en lo que interesa.
  */
+import { Image } from "astro:assets";
 import LinkInline from "./LinkInline.astro";
 import RouterIcon from "./icons/Route.astro";
 import { getLangFromUrl, useTranslations } from "../i18n/utils";
@@ -18,8 +19,8 @@ interface Props {
   link?: string;
   date: string;
   location?: string;
-  logo: string;
-  logoDark?: string;
+  logo: ImageMetadata;
+  logoDark?: ImageMetadata;
   /** tecnologias del puesto; texto plano para poder nombrar cosas como Versat */
   tags?: string[];
   /** puesto en curso: se marca con un punto vivo */
@@ -68,13 +69,12 @@ const ACENTO = {
       <span
         class="grid place-items-center size-14 sm:size-16 shrink-0 rounded-xl bg-white dark:bg-white/10 ring-1 ring-black/10 dark:ring-white/10 overflow-hidden"
       >
-        <img
+        <Image
           src={logo}
           alt={`${t("experience.logoAlt")} ${company}`}
-          width="64"
-          height="64"
+          width={64}
+          densities={[1, 2]}
           loading="lazy"
-          decoding="async"
           class:list={[
             "size-11 sm:size-12 object-contain",
             logoDark && "dark:hidden",
@@ -82,13 +82,12 @@ const ACENTO = {
         />
         {
           logoDark && (
-            <img
+            <Image
               src={logoDark}
               alt={`${t("experience.logoAlt")} ${company}`}
-              width="64"
-              height="64"
+              width={64}
+              densities={[1, 2]}
               loading="lazy"
-              decoding="async"
               class="hidden dark:block size-11 sm:size-12 object-contain"
             />
           )
