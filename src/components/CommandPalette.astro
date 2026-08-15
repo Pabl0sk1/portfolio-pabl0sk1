@@ -1,6 +1,13 @@
 ---
 /**
  * Paleta de comandos (Cmd/Ctrl + K).
+ *
+ * Se monta a nivel de <body> y NO dentro del header a proposito: el header
+ * lleva backdrop-filter, y eso lo convierte en bloque contenedor de sus
+ * descendientes `position: fixed`. Dentro de el, el `inset-0` del overlay se
+ * resolvia contra el header y solo cubria una franja de 96px, asi que el
+ * fondo se veia recortado arriba y los clics fuera del cuadro no lo cerraban.
+ * El boton disparador si vive en el header; el script lo busca por id.
  * Salta a secciones, abre proyectos, filtra por tecnologia y cambia tema o
  * idioma. Los datos se inyectan ya traducidos desde el servidor para no
  * duplicar el diccionario en el cliente.
@@ -65,22 +72,6 @@ const datos = {
   },
 };
 ---
-
-<button
-  id="cmd-open"
-  type="button"
-  aria-keyshortcuts="Control+K Meta+K"
-  class="hidden md:inline-flex items-center gap-2 rounded-lg bg-white/50 dark:bg-black/30 ring-1 ring-black/10 dark:ring-white/10 px-2.5 py-1.5 text-xs text-gray-600 dark:text-gray-300 hover:bg-white dark:hover:bg-black/60 hover:ring-blue-500/40 transition cursor-pointer focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-blue-600"
->
-  <svg class="w-3.5 h-3.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
-    <circle cx="11" cy="11" r="7"></circle><path d="m20 20-3.5-3.5" stroke-linecap="round"></path>
-  </svg>
-  <span>{t("cmd.open")}</span>
-  <kbd
-    class="ml-1 rounded border border-black/15 dark:border-white/20 px-1.5 py-0.5 font-sans text-[10px] font-semibold"
-    >⌘K</kbd
-  >
-</button>
 
 <div
   id="cmd-overlay"
@@ -337,16 +328,19 @@ const datos = {
       render();
     });
 
-    // atajo global
+    // Todo el teclado se escucha en document y no en el overlay a proposito:
+    // basta con hacer clic en una zona no enfocable del cuadro para que el foco
+    // salga del dialogo, y entonces un listener colgado del overlay deja de
+    // recibir las teclas (ni Escape, ni flechas, ni Enter).
     document.addEventListener("keydown", (e) => {
       if ((e.metaKey || e.ctrlKey) && e.key.toLowerCase() === "k") {
         e.preventDefault();
         overlay.hidden ? abrirPaleta() : cerrar();
+        return;
       }
-    });
 
-    // teclado dentro de la paleta
-    overlay.addEventListener("keydown", (e) => {
+      if (overlay.hidden) return;
+
       if (e.key === "Escape") {
         e.preventDefault();
         cerrar();
@@ -368,9 +362,15 @@ const datos = {
       }
     });
 
-    // clic fuera del cuadro
+
     overlay.addEventListener("mousedown", (e) => {
-      if (!dialogo?.contains(e.target as Node)) cerrar();
+      if (!dialogo?.contains(e.target as Node)) {
+        cerrar();
+      } else if (e.target !== input) {
+        // clic en una zona muerta del cuadro: se devuelve el foco al campo
+        // para poder seguir escribiendo y navegando con el teclado
+        setTimeout(() => input.focus(), 0);
+      }
     });
   }
 </script>
