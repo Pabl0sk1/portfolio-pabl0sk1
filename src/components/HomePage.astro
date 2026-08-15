@@ -24,7 +24,10 @@ const t = useTranslations(lang);
 ---
 
 <main class="px-4">
-  <Container class="py-16 md:py-36">
+  {/* relative: la red del hero se posiciona contra esta seccion, para cubrir
+      tambien su relleno vertical. Sin overflow-hidden, que recortaria el
+      lienzo a sangre; de eso ya se encarga #scroll-area */}
+  <Container class="relative py-16 md:py-36">
     <Hero />
   </Container>
   <div class="space-y-24">

@@ -59,9 +59,11 @@ export const ui = {
     "hero.p2":
       "Experiencia en automatización de procesos, optimizando operaciones reales de negocio.",
     "hero.p3": "Alto Paraná, Paraguay",
+    "hero.ctaProjects": "Ver proyectos",
+    "hero.ctaContact": "Hablemos",
     "hero.imageAlt": "Foto de perfil de Pablo Mysskoski Ocampos",
     "hero.social": "Redes sociales y contacto",
-    "hero.canvas.alt": "Animación de una red de nodos con peticiones viajando entre ellos",
+    "hero.canvas.alt": "Red de nodos animada con las tecnologías principales",
 
     "section.experience": "Experiencia",
     "section.projects": "Proyectos",
@@ -185,9 +187,11 @@ export const ui = {
     "hero.p2":
       "Experienced in process automation, optimising real business operations.",
     "hero.p3": "Alto Paraná, Paraguay",
+    "hero.ctaProjects": "See projects",
+    "hero.ctaContact": "Let's talk",
     "hero.imageAlt": "Profile picture of Pablo Mysskoski Ocampos",
     "hero.social": "Social links and contact",
-    "hero.canvas.alt": "Animation of a network of nodes with requests travelling between them",
+    "hero.canvas.alt": "Animated node network showing the main technologies",
 
     "section.experience": "Experience",
     "section.projects": "Projects",

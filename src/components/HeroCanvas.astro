@@ -1,29 +1,73 @@
 ---
 /**
- * Red de nodos con peticiones viajando por las aristas.
- * Dibujado a mano sobre canvas, sin librerias: sustituye al modelo 3D, que
- * era un recurso descargado y no demostraba nada del trabajo propio.
+ * Red de nodos con peticiones viajando por las aristas, dibujada a mano sobre
+ * canvas y sin librerias.
  *
- * Se pausa fuera de pantalla y con la pestana oculta, y se queda quieto si el
+ * Ocupa el fondo del hero de lado a lado en vez de vivir en una tarjeta a la
+ * derecha, y sus nodos grandes son el stack principal, con su nombre al lado:
+ * asi la animacion dice algo en vez de ser adorno.
+ *
+ * Se pausa fuera de pantalla y con la pestana oculta, y se queda quieta si el
  * sistema pide menos movimiento.
  */
 interface Props {
   label: string;
+  /** nombres de los nodos grandes, en orden */
+  techs: string[];
 }
 
-const { label } = Astro.props;
+const { label, techs } = Astro.props;
 ---
 
 <div
   id="hero-canvas-wrap"
-  class="relative w-full md:w-auto h-80 md:h-[500px] rounded-2xl overflow-hidden bg-gradient-to-br from-blue-500/5 to-indigo-500/10 dark:from-blue-400/5 dark:to-indigo-400/10 ring-1 ring-black/5 dark:ring-white/10"
+  class="absolute inset-0 z-0 overflow-hidden pointer-events-none left-1/2 -ml-[50vw] w-[100vw]"
+  aria-hidden="true"
 >
   <canvas
     id="hero-canvas"
     role="img"
     aria-label={label}
-    class="block w-full h-full"></canvas>
+    data-techs={techs.join("|")}
+    class="block size-full"></canvas>
 </div>
+
+<style>
+  /* Una sola mascara radial: la red queda densa a la derecha y se disuelve
+     hacia el texto y los bordes. Con dos mascaras haria falta mask-composite,
+     que no esta igual de asentado entre navegadores. */
+  #hero-canvas {
+    -webkit-mask-image: radial-gradient(
+      ellipse 62% 78% at 72% 48%,
+      #000 22%,
+      transparent 76%
+    );
+    mask-image: radial-gradient(
+      ellipse 62% 78% at 72% 48%,
+      #000 22%,
+      transparent 76%
+    );
+  }
+
+  @media (max-width: 767px) {
+    /* En movil el texto ocupa todo el ancho: la red se va arriba y baja de
+       opacidad. A plena intensidad, un nodo caia justo sobre la insignia y
+       parecia un fallo de pintado, no un fondo. */
+    #hero-canvas {
+      opacity: 0.5;
+      -webkit-mask-image: radial-gradient(
+        ellipse 85% 45% at 62% 12%,
+        #000 15%,
+        transparent 70%
+      );
+      mask-image: radial-gradient(
+        ellipse 85% 45% at 62% 12%,
+        #000 15%,
+        transparent 70%
+      );
+    }
+  }
+</style>
 
 <script>
   const wrap = document.getElementById("hero-canvas-wrap");
@@ -35,11 +79,14 @@ const { label } = Astro.props;
       "(prefers-reduced-motion: reduce)"
     ).matches;
 
+    const TECHS = (canvas.dataset.techs ?? "").split("|").filter(Boolean);
+
     type Nodo = {
       x: number; y: number;      // posicion base, en fraccion del lienzo
       vx: number; vy: number;    // deriva lenta
       r: number;                 // radio
-      hub: boolean;              // los hub son los nodos grandes
+      etiqueta: string;          // vacio en los nodos pequenos
+      brillo: number;            // 0..1, sube al acercar el cursor
     };
     type Arista = { a: number; b: number };
     type Pulso = { arista: number; t: number; v: number };
@@ -49,15 +96,52 @@ const { label } = Astro.props;
     let nodos: Nodo[] = [];
     let aristas: Arista[] = [];
     let pulsos: Pulso[] = [];
-    const raton = { x: -999, y: -999, activo: false };
+    let anchoSuficiente = false;
+    const raton = { x: -9999, y: -9999, activo: false };
 
-    const CANT_NODOS = 26;
-    const DIST_ARISTA = 0.28; // en fraccion del lado menor
+    const CANT_PEQUENOS = 22;
+    const DIST_ARISTA = 0.2; // en fraccion del lienzo
 
     const aleatorio = (min: number, max: number) =>
       min + Math.random() * (max - min);
+    const limitar = (v: number, min: number, max: number) =>
+      Math.min(max, Math.max(min, v));
 
     const construir = () => {
+      // La banda de los nodos con nombre se mide contra el borde real de la
+      // columna de texto. Con fracciones fijas del lienzo, en cuanto cambiaba
+      // el ancho de la ventana los nombres caian encima del parrafo y de las
+      // redes sociales.
+      const cajaLienzo = wrap.getBoundingClientRect();
+      const cajaTexto = document
+        .getElementById("hero-content")
+        ?.getBoundingClientRect();
+      const bordeTexto = cajaTexto ? cajaTexto.right - cajaLienzo.left : 0;
+      // hace falta sitio para el nodo y su nombre; si no, la red es solo fondo
+      anchoSuficiente = ancho - bordeTexto >= 260;
+
+      const banda = anchoSuficiente
+        ? { x0: (bordeTexto + 30) / ancho, x1: 0.95, y0: 0.14, dy: 0.72 }
+        : { x0: 0.14, x1: 0.86, y0: 0.06, dy: 0.34 };
+
+      const hubs: Nodo[] = TECHS.map((nombre, i) => {
+        const t = TECHS.length > 1 ? i / (TECHS.length - 1) : 0.5;
+        const zigzag = i % 2 === 0 ? 0.08 : 0.55;
+        return {
+          x: limitar(
+            banda.x0 + (banda.x1 - banda.x0) * zigzag + aleatorio(-0.02, 0.02),
+            0.06,
+            0.94
+          ),
+          y: limitar(banda.y0 + t * banda.dy + aleatorio(-0.02, 0.02), 0.06, 0.94),
+          vx: aleatorio(-0.00005, 0.00005),
+          vy: aleatorio(-0.00005, 0.00005),
+          r: 5,
+          etiqueta: nombre,
+          brillo: 0,
+        };
+      });
+
       // Rejilla con jitter en vez de posiciones al azar: al azar salen grumos
       // y zonas vacias, y esto tiene que leerse como una red, no como ruido.
       const cols = 6;
@@ -68,7 +152,6 @@ const { label } = Astro.props;
           celdas.push({ cx: (c + 0.5) / cols, cy: (f + 0.5) / filas });
         }
       }
-      // barajar para que los hub no caigan siempre en las mismas celdas
       for (let i = celdas.length - 1; i > 0; i--) {
         const j = Math.floor(Math.random() * (i + 1));
         [celdas[i], celdas[j]] = [celdas[j], celdas[i]];
@@ -77,31 +160,37 @@ const { label } = Astro.props;
       const jitterX = 0.5 / cols;
       const jitterY = 0.5 / filas;
 
-      nodos = celdas.slice(0, CANT_NODOS).map((celda, i) => {
-        const hub = i < 4;
-        return {
-          x: Math.min(0.94, Math.max(0.06, celda.cx + aleatorio(-jitterX, jitterX))),
-          y: Math.min(0.94, Math.max(0.06, celda.cy + aleatorio(-jitterY, jitterY))),
-          vx: aleatorio(-0.00007, 0.00007),
-          vy: aleatorio(-0.00007, 0.00007),
-          r: hub ? aleatorio(4.5, 6) : aleatorio(1.8, 3),
-          hub,
-        };
-      });
+      const pequenos: Nodo[] = celdas.slice(0, CANT_PEQUENOS).map((celda) => ({
+        x: limitar(celda.cx + aleatorio(-jitterX, jitterX), 0.04, 0.96),
+        y: limitar(celda.cy + aleatorio(-jitterY, jitterY), 0.04, 0.96),
+        vx: aleatorio(-0.00007, 0.00007),
+        vy: aleatorio(-0.00007, 0.00007),
+        r: aleatorio(1.6, 2.8),
+        etiqueta: "",
+        brillo: 0,
+      }));
+
+      nodos = [...hubs, ...pequenos];
 
       aristas = [];
+      // la cadena entre nodos con nombre se traza siempre: es lo que hace que
+      // se lean como un sistema y no como puntos sueltos que coinciden cerca
+      for (let i = 0; i + 1 < hubs.length; i++) aristas.push({ a: i, b: i + 1 });
+
       for (let i = 0; i < nodos.length; i++) {
         for (let j = i + 1; j < nodos.length; j++) {
+          if (i < hubs.length && j === i + 1 && j < hubs.length) continue;
           const dx = nodos[i].x - nodos[j].x;
           const dy = nodos[i].y - nodos[j].y;
           if (Math.hypot(dx, dy) < DIST_ARISTA) aristas.push({ a: i, b: j });
         }
       }
 
-      // una peticion viajando por algunas aristas, no por todas
+      // las peticiones se concentran donde estan los nombres
       pulsos = [];
-      aristas.forEach((_, i) => {
-        if (Math.random() < 0.45) {
+      aristas.forEach((e, i) => {
+        const tocaHub = e.a < hubs.length || e.b < hubs.length;
+        if (Math.random() < (tocaHub ? 0.85 : 0.3)) {
           pulsos.push({ arista: i, t: Math.random(), v: aleatorio(0.0022, 0.005) });
         }
       });
@@ -124,9 +213,9 @@ const { label } = Astro.props;
       const colNodo = oscuro ? "148, 197, 253" : "37, 99, 235";
       const colHub = oscuro ? "129, 140, 248" : "79, 70, 229";
       const colArista = oscuro ? "148, 163, 184" : "71, 85, 105";
+      const colTexto = oscuro ? "203, 213, 225" : "51, 65, 85";
 
       ctx.clearRect(0, 0, ancho, alto);
-      const lado = Math.min(ancho, alto);
 
       const px = (n: Nodo) => n.x * ancho;
       const py = (n: Nodo) => n.y * alto;
@@ -137,8 +226,8 @@ const { label } = Astro.props;
         const a = nodos[e.a];
         const b = nodos[e.b];
         const d = Math.hypot(a.x - b.x, a.y - b.y);
-        const alpha = (1 - d / DIST_ARISTA) * (oscuro ? 0.34 : 0.28);
-        ctx.strokeStyle = `rgba(${colArista}, ${Math.max(0, alpha)})`;
+        const alpha = (1 - Math.min(1, d / DIST_ARISTA)) * (oscuro ? 0.46 : 0.4);
+        ctx.strokeStyle = `rgba(${colArista}, ${Math.max(0.09, alpha)})`;
         ctx.beginPath();
         ctx.moveTo(px(a), py(a));
         ctx.lineTo(px(b), py(b));
@@ -164,28 +253,66 @@ const { label } = Astro.props;
       }
 
       // nodos
+      ctx.font =
+        '600 12px ui-sans-serif, system-ui, -apple-system, "Segoe UI", sans-serif';
+      ctx.textBaseline = "middle";
+
       for (const n of nodos) {
         const x = px(n);
         const y = py(n);
-        ctx.fillStyle = `rgba(${n.hub ? colHub : colNodo}, ${n.hub ? 0.95 : 0.7})`;
+        const conNombre = n.etiqueta !== "";
+
+        ctx.fillStyle = `rgba(${conNombre ? colHub : colNodo}, ${
+          conNombre ? 0.9 + n.brillo * 0.1 : 0.8
+        })`;
         ctx.beginPath();
-        ctx.arc(x, y, n.r, 0, Math.PI * 2);
+        ctx.arc(x, y, n.r + n.brillo * 1.5, 0, Math.PI * 2);
         ctx.fill();
 
-        if (n.hub) {
-          ctx.strokeStyle = `rgba(${colHub}, 0.35)`;
-          ctx.lineWidth = 1;
-          ctx.beginPath();
-          ctx.arc(x, y, n.r + 5, 0, Math.PI * 2);
-          ctx.stroke();
+        if (!conNombre) continue;
+
+        ctx.strokeStyle = `rgba(${colHub}, ${0.42 + n.brillo * 0.45})`;
+        ctx.lineWidth = 1;
+        ctx.beginPath();
+        ctx.arc(x, y, n.r + 5 + n.brillo * 3, 0, Math.PI * 2);
+        ctx.stroke();
+
+        // el nombre solo cabe con sitio: en movil la red es puro fondo
+        if (!anchoSuficiente) continue;
+
+        // cerca del borde derecho el texto se sale, asi que cambia de lado
+        const aLaIzquierda = x > ancho - 130;
+        ctx.textAlign = aLaIzquierda ? "right" : "left";
+        ctx.fillStyle = `rgba(${colTexto}, ${0.65 + n.brillo * 0.35})`;
+        ctx.fillText(
+          n.etiqueta,
+          aLaIzquierda ? x - n.r - 9 : x + n.r + 9,
+          y + 0.5
+        );
+      }
+    };
+
+    const avanzar = () => {
+      for (const n of nodos) {
+        n.x += n.vx;
+        n.y += n.vy;
+        if (n.x < 0.05 || n.x > 0.95) n.vx *= -1;
+        if (n.y < 0.05 || n.y > 0.95) n.vy *= -1;
+
+        // brillo por cercania del cursor, con vuelta suave a su sitio
+        let objetivo = 0;
+        if (raton.activo && n.etiqueta) {
+          const d = Math.hypot(n.x * ancho - raton.x, n.y * alto - raton.y);
+          objetivo = d < 150 ? 1 - d / 150 : 0;
         }
+        n.brillo += (objetivo - n.brillo) * 0.12;
       }
 
       // el cursor separa suavemente los nodos cercanos
       if (raton.activo) {
         for (const n of nodos) {
-          const dx = px(n) - raton.x;
-          const dy = py(n) - raton.y;
+          const dx = n.x * ancho - raton.x;
+          const dy = n.y * alto - raton.y;
           const d = Math.hypot(dx, dy);
           if (d < 110 && d > 0.5) {
             const empuje = ((110 - d) / 110) * 0.0009;
@@ -195,16 +322,6 @@ const { label } = Astro.props;
         }
       }
 
-      void lado;
-    };
-
-    const avanzar = () => {
-      for (const n of nodos) {
-        n.x += n.vx;
-        n.y += n.vy;
-        if (n.x < 0.05 || n.x > 0.95) n.vx *= -1;
-        if (n.y < 0.05 || n.y > 0.95) n.vy *= -1;
-      }
       for (const p of pulsos) {
         p.t += p.v;
         if (p.t > 1) {
@@ -234,13 +351,11 @@ const { label } = Astro.props;
       cancelAnimationFrame(raf);
     };
 
-    construir();
     redimensionar();
+    construir();
     pintar();
 
-    if (menosMovimiento) {
-      // se deja el fotograma fijo: la red se ve, pero nada se mueve
-    } else {
+    if (!menosMovimiento) {
       // solo animar cuando esta en pantalla y la pestana visible
       const io = new IntersectionObserver(
         (entradas) => (entradas[0].isIntersecting ? arrancar() : parar()),
@@ -253,18 +368,37 @@ const { label } = Astro.props;
       );
     }
 
-    const alRedimensionar = () => {
-      redimensionar();
-      pintar();
-    };
-    window.addEventListener("resize", alRedimensionar, { passive: true });
+    let anchoPrevio = ancho;
+    window.addEventListener(
+      "resize",
+      () => {
+        redimensionar();
+        // rehacer solo en saltos grandes: la banda depende del ancho, pero
+        // reconstruir en cada pixel de arrastre marea
+        if (Math.abs(ancho - anchoPrevio) > 120) {
+          construir();
+          anchoPrevio = ancho;
+        }
+        pintar();
+      },
+      { passive: true }
+    );
 
-    wrap.addEventListener("pointermove", (e) => {
-      const caja = wrap.getBoundingClientRect();
-      raton.x = e.clientX - caja.left;
-      raton.y = e.clientY - caja.top;
-      raton.activo = true;
-    });
-    wrap.addEventListener("pointerleave", () => (raton.activo = false));
+    // El lienzo no recibe eventos, va detras del texto y con pointer-events
+    // desactivados para no comerse los enlaces. Se escucha en el documento y
+    // se descarta lo que cae fuera del hero.
+    document.addEventListener(
+      "pointermove",
+      (e) => {
+        const caja = wrap.getBoundingClientRect();
+        const x = e.clientX - caja.left;
+        const y = e.clientY - caja.top;
+        raton.activo =
+          x >= 0 && y >= 0 && x <= caja.width && y <= caja.height;
+        raton.x = x;
+        raton.y = y;
+      },
+      { passive: true }
+    );
   }
 </script>

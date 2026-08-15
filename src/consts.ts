@@ -8,6 +8,11 @@ export const SITE_URL = "https://portfolio-pabl0sk1.netlify.app";
 
 export const FULL_NAME = "Pablo Mysskoski Ocampos";
 export const SHORT_NAME = "Pablo Ocampos";
+/**
+ * Nombre grande del hero. Va aparte de FULL_NAME a proposito: ese alimenta el
+ * JSON-LD y las etiquetas SEO, donde tiene que ir el nombre completo.
+ */
+export const DISPLAY_NAME = "Pablo M. Ocampos";
 export const JOB_TITLE = "Analista de Sistemas / Desarrollador Full Stack";
 export const LOCATION = "Hernandarias, Alto Paraná, Paraguay";
 
@@ -17,9 +22,6 @@ export const PHONE = "[telefono eliminado]";
 export const LINKEDIN_URL =
   "https://www.linkedin.com/in/pablo-m-ocampos-b48374381/";
 export const GITHUB_URL = "https://github.com/Pabl0sk1";
-/** Foto de perfil del Hero, servida desde GitHub para que siga a la del perfil */
-export const GITHUB_AVATAR =
-  "https://avatars.githubusercontent.com/u/127477502?s=400&u=b76de0007f81513f49e60ebd8c3d14c61ca02292&v=4";
 export const DISCORD_URL = "https://discordapp.com/users/918699279806255165";
 
 export const SITE_TITLE =
