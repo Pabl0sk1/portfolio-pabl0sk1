@@ -37,11 +37,6 @@ const secciones = [
 const proyectos = projectsText[lang].map((texto, i) => ({
   slug: PROJECTS[i].slug,
   label: texto.title,
-  caseStudy: PROJECTS[i].caseStudy
-    ? lang === "en"
-      ? "/en" + PROJECTS[i].caseStudy.replace("/proyectos/", "/projects/")
-      : PROJECTS[i].caseStudy
-    : "",
 }));
 
 // solo las que tienen proyectos: filtrar por una sin uso no llevaria a nada
@@ -62,7 +57,6 @@ const datos = {
     groupProjects: t("cmd.groupProjects"),
     groupTech: t("cmd.groupTech"),
     groupActions: t("cmd.groupActions"),
-    caseStudy: t("projects.caseStudy"),
     filterBy: t("cmd.filterBy"),
     theme: t("cmd.theme"),
     language: t("cmd.language"),
@@ -185,25 +179,12 @@ const datos = {
         accion: () => irASeccion(s.id),
       })),
 
-      ...datos.proyectos.flatMap((p: any) => {
-        const base: Item[] = [
-          {
-            id: `proj-${p.slug}`,
-            label: p.label,
-            grupo: T.groupProjects,
-            accion: () => irASeccion("proyectos"),
-          },
-        ];
-        if (p.caseStudy) {
-          base.push({
-            id: `case-${p.slug}`,
-            label: `${p.label} — ${T.caseStudy}`,
-            grupo: T.groupProjects,
-            accion: () => (location.href = p.caseStudy),
-          });
-        }
-        return base;
-      }),
+      ...datos.proyectos.map((p: any) => ({
+        id: `proj-${p.slug}`,
+        label: p.label,
+        grupo: T.groupProjects,
+        accion: () => irASeccion("proyectos"),
+      })),
 
       ...datos.tecnologias.map((tec: any) => ({
         id: `tech-${tec.key}`,

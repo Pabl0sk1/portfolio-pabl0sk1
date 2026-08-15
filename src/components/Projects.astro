@@ -1,30 +1,42 @@
 ---
+/**
+ * Mosaico de proyectos con detalle desplegable.
+ *
+ * Antes eran seis tarjetas iguales en dos columnas: Faro, en produccion con un
+ * cliente real, se leia igual que un trabajo de aprendizaje. Ahora el tamano de
+ * la pieza da la jerarquia y la descripcion larga se guarda en un panel que se
+ * abre bajo su fila.
+ *
+ * La pieza entera es un <button>: los enlaces viven solo dentro del panel, asi
+ * no hay anclas anidadas dentro de un control.
+ */
 import LinkIcon from "./icons/Link.astro";
-import RouterIcon from "./icons/Route.astro";
 import LinkButton from "./LinkButton.astro";
 import TechIcon from "./TechIcon.astro";
-import { getLangFromUrl, useTranslations, localizePath } from "../i18n/utils";
+import { getLangFromUrl, useTranslations } from "../i18n/utils";
 import { projects as projectsText } from "../i18n/content";
 import { PROJECTS } from "../data/projects";
-import { TECH, TAG_COLOR } from "../data/tech";
+import { TECH } from "../data/tech";
 
 const lang = getLangFromUrl(Astro.url);
 const t = useTranslations(lang);
 
-// el texto sale del diccionario y el resto de data/projects.ts, en el mismo orden
-const TARJETAS = projectsText[lang].map((texto, i) => ({
-  ...texto,
-  ...PROJECTS[i],
-}));
+// el texto sale del diccionario y el resto de data/projects.ts, emparejados por
+// indice; el orden del mosaico se aplica despues
+const TARJETAS = projectsText[lang]
+  .map((texto, i) => ({ ...texto, ...PROJECTS[i] }))
+  .sort((a, b) => a.orden - b.orden);
 
-// la ruta del caso de estudio se traduce: /proyectos/faro -> /en/projects/faro
-const rutaCaso = (ruta: string) =>
-  lang === "en"
-    ? localizePath(ruta.replace("/proyectos/", "/projects/"), "en")
-    : ruta;
+// se agrupa de dos en dos porque cada fila del mosaico son dos piezas y sus
+// paneles van despues de ambas, no entre medias
+const FILAS = [
+  TARJETAS.slice(0, 2),
+  TARJETAS.slice(2, 4),
+  TARJETAS.slice(4, 6),
+];
 ---
 
-<div id="projects-grid" class="max-w-6xl mx-auto px-4">
+<div class="max-w-6xl mx-auto px-4">
   {/* Aviso del filtro activo; el script lo muestra y lo rellena */}
   <div
     id="filter-bar"
@@ -42,70 +54,151 @@ const rutaCaso = (ruta: string) =>
     </button>
   </div>
 
-  <div class="grid gap-12 md:grid-cols-2">
+  <div id="projects-grid" class="grid gap-4 md:grid-cols-3 md:[grid-auto-flow:dense]">
     {
-      TARJETAS.map(
-        ({ title, description, image, tags, transversal, link, slug, caseStudy }) => (
-          <article
-            data-project={slug}
-            data-tags={[...tags, ...transversal].join(" ")}
-            class="flex flex-col bg-black/10 dark:bg-gray-800 rounded-xl shadow-md overflow-hidden hover:shadow-lg transition-shadow duration-300 border border-black/10 dark:border-white/10"
-          >
-            <div class="relative w-full h-64 md:h-48 overflow-hidden">
+      FILAS.map((fila) => (
+        /* contents: las piezas y los paneles entran en la rejilla exterior,
+           pero el agrupado mantiene los paneles despues de la fila entera */
+        <div class="contents">
+          {fila.map(({ title, resumen, image, tags, transversal, span, slug }) => (
+            <button
+              type="button"
+              data-tile={slug}
+              data-project={slug}
+              data-tags={[...tags, ...transversal].join(" ")}
+              aria-expanded="false"
+              aria-controls={`panel-${slug}`}
+              aria-label={`${title}: ${t("projects.expand")}`}
+              class:list={[
+                "group relative isolate flex h-64 flex-col justify-end overflow-hidden rounded-2xl text-left",
+                "ring-1 ring-black/10 dark:ring-white/10 shadow-sm transition",
+                "hover:shadow-lg hover:ring-blue-500/40 cursor-pointer",
+                "focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-blue-600",
+                "aria-expanded:ring-blue-500/60",
+                span === 2 ? "md:col-span-2" : "md:col-span-1",
+              ]}
+            >
               <img
                 src={image}
                 alt={`${t("projects.imageAlt")} ${title}`}
                 width="640"
                 height="360"
-                class="w-full h-full object-cover object-top transition-transform duration-300 ease-in-out hover:scale-105"
                 loading="lazy"
                 decoding="async"
+                class="absolute inset-0 -z-10 size-full object-cover object-top transition-transform duration-500 group-hover:scale-105"
               />
-            </div>
+              {/* velo: las capturas son claras y el texto va encima */}
+              <span
+                class="absolute inset-0 -z-10 bg-gradient-to-t from-gray-950 via-gray-950/75 to-gray-950/15"
+                aria-hidden="true"
+              />
 
-            <div class="p-4 flex flex-col justify-between gap-3 grow">
-              <h3 class="text-xl md:text-2xl font-bold text-blue-800 dark:text-blue-200">
-                {title}
-              </h3>
-              <p class="text-gray-700 dark:text-gray-300 text-sm grow">
-                {description}
-              </p>
+              <span
+                class="absolute right-4 top-4 font-mono text-xs font-bold tabular-nums text-white/50"
+                aria-hidden="true"
+              >
+                {String(TARJETAS.findIndex((p) => p.slug === slug) + 1).padStart(2, "0")}
+              </span>
 
-              <div class="flex flex-wrap justify-center gap-2 mt-2">
-                {tags.map((key) => (
-                  <span
-                    class={`flex items-center gap-1 px-2 py-1 md:px-3 md:py-1.5 text-[10px] md:text-sm font-medium rounded-full
-                    transition-all duration-200 ease-in-out bg-black/85 dark:bg-white ${TAG_COLOR[key] ?? ""}
-                    md:hover:scale-105 md:hover:shadow-md`}
-                  >
-                    <TechIcon tech={key} class="w-4 h-4 md:w-5 md:h-5" />
-                    {TECH[key].label}
+              <span class="relative p-5">
+                <span class="block text-lg font-bold text-white text-pretty">
+                  {title}
+                </span>
+                <span class="mt-0.5 block text-sm text-gray-300 text-pretty">
+                  {resumen}
+                </span>
+
+                <span class="mt-3 flex items-center gap-3">
+                  {/* el stack va en texto y no en iconos: a este tamano son
+                      manchas de color, y los logos oscuros como PostgreSQL o
+                      Java se pierden sobre el velo. Los iconos van en el panel */}
+                  <span class="min-w-0 truncate text-xs font-medium text-gray-400">
+                    {/* en las piezas estrechas caben dos: con tres se cortaba
+                        justo en el contador */}
+                    {tags.slice(0, span === 2 ? 3 : 2).map((k) => TECH[k].label).join(" · ")}
+                    {tags.length > (span === 2 ? 3 : 2) &&
+                      ` +${tags.length - (span === 2 ? 3 : 2)}`}
                   </span>
-                ))}
-              </div>
 
-              {(link || caseStudy) && (
-                <div class="flex flex-wrap items-center gap-3 mt-3">
-                  {caseStudy && (
-                    <LinkButton
-                      href={rutaCaso(caseStudy)}
-                      external={false}
-                      class="text-sm px-3 py-1"
+                  <span
+                    class="ml-auto grid size-8 place-items-center rounded-full bg-white/10 text-white ring-1 ring-white/20 transition group-hover:bg-white/20 group-aria-expanded:rotate-45"
+                    aria-hidden="true"
+                  >
+                    <svg
+                      class="size-4"
+                      viewBox="0 0 24 24"
+                      fill="none"
+                      stroke="currentColor"
+                      stroke-width="2.5"
+                      stroke-linecap="round"
                     >
-                      <RouterIcon class="w-4 h-4" /> {t("projects.caseStudy")}
-                    </LinkButton>
-                  )}
-                  {link && (
-                    <LinkButton href={link} class="text-sm px-3 py-1">
-                      <LinkIcon class="w-4 h-4" /> {t("projects.website")}
-                    </LinkButton>
-                  )}
+                      <path d="M12 5v14M5 12h14" />
+                    </svg>
+                  </span>
+                </span>
+              </span>
+            </button>
+          ))}
+
+          {fila.map(({ title, description, image, tags, transversal, link, slug }) => (
+            /* rejilla de una fila de 0fr a 1fr: se puede animar la altura sin
+               conocerla de antemano, que con height:auto no se puede */
+            <div
+              id={`panel-${slug}`}
+              data-panel={slug}
+              class="grid grid-rows-[0fr] transition-[grid-template-rows] duration-300 motion-reduce:transition-none data-[abierto]:grid-rows-[1fr] md:col-span-3"
+            >
+              <div class="overflow-hidden">
+                <div class="rounded-2xl bg-white/60 dark:bg-white/[0.04] ring-1 ring-black/10 dark:ring-white/10 p-5 sm:p-6">
+                  <div class="grid gap-6 md:grid-cols-2">
+                    <img
+                      src={image}
+                      alt={`${t("projects.imageAlt")} ${title}`}
+                      width="640"
+                      height="360"
+                      loading="lazy"
+                      decoding="async"
+                      class="w-full rounded-xl object-cover object-top ring-1 ring-black/10 dark:ring-white/10"
+                    />
+
+                    <div class="flex flex-col">
+                      <h3 class="text-xl font-bold text-gray-900 dark:text-white">
+                        {title}
+                      </h3>
+                      <p class="mt-3 grow text-sm text-gray-700 dark:text-gray-300 text-pretty">
+                        {description}
+                      </p>
+
+                      <div class="mt-4 flex flex-wrap gap-2">
+                        {tags.map((key) => (
+                          <span class="flex items-center gap-1.5 rounded-md bg-black/5 dark:bg-white/10 px-2 py-1 text-xs font-medium text-gray-800 dark:text-gray-200">
+                            <TechIcon tech={key} class="size-4" />
+                            {TECH[key].label}
+                          </span>
+                        ))}
+                      </div>
+
+                      {transversal.length > 0 && (
+                        <p class="mt-2 text-xs text-gray-500 dark:text-gray-400">
+                          {transversal.map((k) => TECH[k].label).join(" · ")}
+                        </p>
+                      )}
+
+                      {link && (
+                        <div class="mt-5 flex flex-wrap items-center gap-3">
+                          <LinkButton href={link} class="text-sm px-3 py-1">
+                            <LinkIcon class="w-4 h-4" /> {t("projects.website")}
+                          </LinkButton>
+                        </div>
+                      )}
+                    </div>
+                  </div>
                 </div>
-              )}
+              </div>
             </div>
-          </article>
-        )
-      )
+          ))}
+        </div>
+      ))
     }
   </div>
 
@@ -118,10 +211,70 @@ const rutaCaso = (ruta: string) =>
   </p>
 </div>
 
+<style>
+  /* Con un filtro puesto se pierden piezas y los tamanos dejan huecos, asi que
+     todas pasan a ocupar una columna. El id gana en especificidad a las
+     utilidades de Tailwind. */
+  @media (min-width: 768px) {
+    #projects-grid[data-filtrando] > div > button {
+      grid-column: span 1 / span 1;
+    }
+  }
+</style>
+
 <script>
+  // --- Detalle desplegable -------------------------------------------------
+  // Solo un panel abierto a la vez: dos paneles abiertos dejan el mosaico
+  // partido y obligan a buscar cual es cual.
+  const piezas = Array.from(
+    document.querySelectorAll<HTMLButtonElement>("[data-tile]")
+  );
+
+  const panelDe = (slug: string) =>
+    document.querySelector<HTMLElement>(`[data-panel="${slug}"]`);
+
+  const cerrar = (pieza: HTMLButtonElement) => {
+    const panel = panelDe(pieza.dataset.tile!);
+    pieza.setAttribute("aria-expanded", "false");
+    if (panel) {
+      delete panel.dataset.abierto;
+      panel.inert = true;
+    }
+  };
+
+  for (const pieza of piezas) {
+    // cerrado de salida: fuera del orden de tabulacion hasta que se abra
+    const panel = panelDe(pieza.dataset.tile!);
+    if (panel) panel.inert = true;
+
+    pieza.addEventListener("click", () => {
+      const abierto = pieza.getAttribute("aria-expanded") === "true";
+      for (const otra of piezas) cerrar(otra);
+      if (abierto) return;
+
+      const suyo = panelDe(pieza.dataset.tile!);
+      pieza.setAttribute("aria-expanded", "true");
+      if (suyo) {
+        suyo.dataset.abierto = "";
+        suyo.inert = false;
+      }
+    });
+  }
+
+  document.addEventListener("keydown", (e) => {
+    if (e.key !== "Escape") return;
+    const abierta = piezas.find(
+      (p) => p.getAttribute("aria-expanded") === "true"
+    );
+    if (!abierta) return;
+    cerrar(abierta);
+    abierta.focus();
+  });
+
   // --- Filtrado de proyectos por tecnologia --------------------------------
   // El estado vive en la URL (?tech=python) para que el filtro se pueda
   // compartir y para que el boton atras del navegador funcione.
+  const rejilla = document.getElementById("projects-grid");
   const barra = document.getElementById("filter-bar");
   const texto = document.getElementById("filter-text");
   const vacio = document.getElementById("filter-empty");
@@ -145,6 +298,13 @@ const rutaCaso = (ruta: string) =>
         const mostrar = !tech || tags.includes(tech);
         card.hidden = !mostrar;
         if (mostrar) visibles++;
+        // el panel de una pieza oculta no debe quedarse abierto debajo
+        if (!mostrar) cerrar(card as HTMLButtonElement);
+      }
+
+      if (rejilla) {
+        if (tech) rejilla.dataset.filtrando = "";
+        else delete rejilla.dataset.filtrando;
       }
 
       for (const b of botones) {

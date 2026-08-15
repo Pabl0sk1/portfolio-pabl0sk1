@@ -13,8 +13,6 @@ export interface Project {
   image: string;
   /** sitio publico, vacio si no lo tiene */
   link: string;
-  /** ruta del caso de estudio, sin prefijo de idioma; vacio si no hay */
-  caseStudy: string;
   /** lo que caracteriza al proyecto; se muestra como etiquetas de color */
   tags: TechKey[];
   /**
@@ -27,6 +25,14 @@ export interface Project {
    * Cuenta igual para el contador y para el filtro.
    */
   transversal: TechKey[];
+  /**
+   * Posicion y tamano en el mosaico. El array conserva el orden de
+   * i18n/content.ts, que empareja por indice; la seccion ordena por `orden`
+   * despues de juntar ambos. Los `span` de cada fila suman 3, que son las
+   * columnas del mosaico: si no suman, quedan huecos.
+   */
+  orden: number;
+  span: 1 | 2;
 }
 
 export const PROJECTS: Project[] = [
@@ -34,49 +40,55 @@ export const PROJECTS: Project[] = [
     slug: "faro",
     image: "/projects/Faro.webp",
     link: "",
-    caseStudy: "/proyectos/faro",
     tags: ["python", "fastapi", "postgresql", "react", "tailwind", "docker"],
     transversal: ["git", "html", "css", "node"],
+    orden: 1,
+    span: 2,
   },
   {
     slug: "timon",
     image: "/projects/Timon.webp",
     link: "",
-    caseStudy: "",
     tags: ["python", "fastapi", "postgresql", "react", "tailwind", "docker"],
     transversal: ["git", "html", "css", "node"],
+    orden: 4,
+    span: 2,
   },
   {
     slug: "stockpro",
     image: "/projects/StockPro.webp",
     link: "",
-    caseStudy: "",
     tags: ["python", "tkinter", "sqlite"],
     transversal: ["git"],
+    orden: 2,
+    span: 1,
   },
   {
     slug: "biotech",
     image: "/projects/BioTech.webp",
     link: "",
-    caseStudy: "",
     tags: ["java", "springboot", "postgresql", "react", "javascript", "bootstrap", "docker"],
     transversal: ["git", "html", "css", "node"],
+    orden: 5,
+    span: 2,
   },
   {
     slug: "atelier",
     image: "/projects/Atelier.webp",
     link: "",
-    caseStudy: "",
     tags: ["java", "springboot", "postgresql", "react", "javascript", "bootstrap"],
     transversal: ["git", "html", "css", "node"],
+    orden: 3,
+    span: 1,
   },
   {
     slug: "shopeasy",
     image: "/projects/ShopEasy.webp",
     link: "https://shopeasy-app.web.app/",
-    caseStudy: "",
     tags: ["ionic", "angular", "firebase", "typescript", "sass"],
     transversal: ["git", "html", "css", "node"],
+    orden: 6,
+    span: 1,
   },
 ];
 

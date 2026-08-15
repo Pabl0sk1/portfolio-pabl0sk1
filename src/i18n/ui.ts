@@ -75,10 +75,11 @@ export const ui = {
     "experience.showLess": "Ver menos",
 
     "projects.website": "Website",
-    "projects.caseStudy": "Ver",
     "projects.imageAlt": "Captura de pantalla del proyecto",
     "projects.filterActive": "Mostrando {n} proyectos que usan {tech}",
     "projects.clearFilter": "Ver todos",
+    "projects.expand": "Ver detalle",
+    "projects.collapse": "Cerrar detalle",
     "projects.noResults": "Ningún proyecto usa esa tecnología.",
 
     "stack.main": "Stack principal",
@@ -200,10 +201,11 @@ export const ui = {
     "experience.showLess": "See less",
 
     "projects.website": "Website",
-    "projects.caseStudy": "View",
     "projects.imageAlt": "Screenshot of the project",
     "projects.filterActive": "Showing {n} projects using {tech}",
     "projects.clearFilter": "Show all",
+    "projects.expand": "See details",
+    "projects.collapse": "Close details",
     "projects.noResults": "No project uses that technology.",
 
     "stack.main": "Core stack",

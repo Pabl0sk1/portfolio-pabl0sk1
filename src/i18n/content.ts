@@ -11,6 +11,8 @@ export interface ExperienceEntry {
 
 export interface ProjectEntry {
   title: string;
+  /** una linea para la pieza del mosaico; la descripcion larga va en el panel */
+  resumen: string;
   description: string;
 }
 
@@ -111,31 +113,37 @@ export const projects: Record<Lang, ProjectEntry[]> = {
   es: [
     {
       title: "Faro · RRHH",
+      resumen: "Nóminas, asistencia y recibos firmados con QR",
       description:
         "Sistema de Recursos Humanos web multi-tenant para pymes, en producción con una empresa de ~80 empleados. Liquidaciones quincenales con aporte IPS y aguinaldo, control de asistencia mediante kiosko con reconocimiento facial, recibos en PDF firmados con QR de validación pública y aislamiento de datos por empresa con Row-Level Security en PostgreSQL.",
     },
     {
       title: "Timón · Taller",
+      resumen: "Gestión para talleres mecánicos",
       description:
         "Sistema de gestión para talleres mecánicos: órdenes de trabajo con flujo de ocho estados e historial, inventario de repuestos con descuento automático de stock, caja diaria y seguimiento público por QR para que el cliente del taller consulte su vehículo sin necesidad de cuenta. Construido sobre el núcleo multi-tenant reutilizable de Faro.",
     },
     {
       title: "StockPro",
+      resumen: "Punto de venta de escritorio, sin conexión",
       description:
         "Aplicación de escritorio para gestión comercial de pymes, entregada e instalada a un cliente real. Punto de venta con ticket imprimible, kardex de productos, cuentas corrientes, arqueo de caja y reportes de rentabilidad. Funciona totalmente offline sobre SQLite y sin dependencias externas: los códigos de barras Code 128 y los gráficos están implementados a mano sobre la librería estándar.",
     },
     {
       title: "BioTech",
+      resumen: "ERP modular agroindustrial",
       description:
         "Sistema ERP modular para entorno agroindustrial, enfocado en la gestión de operaciones internas como planificación, horas extras, solicitudes de crédito y control de entidades. Integra datos de sistemas externos, ofrece análisis mediante dashboards y está desplegado íntegramente en contenedores Docker.",
     },
     {
       title: "Atelier",
+      resumen: "Ventas, inventario y alquiler de prendas",
       description:
-        "Sistema de gestión para negocio local que centraliza ventas, compras, inventario y alquileres, permitiendo un mejor control operativo y organización de procesos internos.",
+        "Sistema de gestión para una ropería, que centraliza ventas, compras, inventario y alquiler de prendas, permitiendo un mejor control operativo y organización de los procesos internos.",
     },
     {
       title: "Shop Easy",
+      resumen: "Listas de compras en tiempo real",
       description:
         "Aplicación móvil para la gestión de listas de compras con sincronización en tiempo real, pensada para mejorar la organización y experiencia del usuario.",
     },
@@ -144,31 +152,37 @@ export const projects: Record<Lang, ProjectEntry[]> = {
   en: [
     {
       title: "Faro · HR",
+      resumen: "Payroll, attendance and QR-signed payslips",
       description:
         "Multi-tenant HR web platform for small and medium businesses, running in production for a company of ~80 employees. Fortnightly payroll with social security contributions and statutory bonus, attendance tracking through a face-recognition kiosk, digitally signed PDF payslips with a public QR validation code, and per-company data isolation using Row-Level Security in PostgreSQL.",
     },
     {
       title: "Timón · Auto Shop",
+      resumen: "Management system for car repair shops",
       description:
         "Management system for car repair shops: work orders with an eight-stage pipeline and full history, spare-part inventory with automatic stock deduction, daily cash register, and public QR tracking so customers can check their vehicle without an account. Built on top of Faro's reusable multi-tenant core.",
     },
     {
       title: "StockPro",
+      resumen: "Offline desktop point of sale",
       description:
         "Desktop application for small-business commercial management, delivered and installed for a real client. Point of sale with printable receipts, product ledger, customer accounts, cash reconciliation and profitability reports. Runs fully offline on SQLite with zero external dependencies: the Code 128 barcodes and the charts are hand-implemented on the standard library.",
     },
     {
       title: "BioTech",
+      resumen: "Modular agro-industrial ERP",
       description:
         "Modular ERP system for an agro-industrial company, focused on internal operations such as planning, overtime, credit requests and entity management. It pulls data from external systems, provides dashboards for decision-making and is deployed entirely in Docker containers.",
     },
     {
       title: "Atelier",
+      resumen: "Sales, inventory and garment rentals",
       description:
-        "Management system for a local business that centralises sales, purchases, inventory and rentals, giving better operational control and organisation of internal processes.",
+        "Management system for a clothing shop that centralises sales, purchases, inventory and garment rentals, giving better operational control and organisation of internal processes.",
     },
     {
       title: "Shop Easy",
+      resumen: "Real-time shopping lists",
       description:
         "Mobile app for managing shopping lists with real-time synchronisation, designed to improve organisation and the overall user experience.",
     },

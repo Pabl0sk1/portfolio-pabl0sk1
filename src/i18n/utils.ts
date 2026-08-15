@@ -28,19 +28,16 @@ export function otherLang(lang: Lang): Lang {
 }
 
 /**
- * Rutas cuyo segmento se traduce. Sin esto, el selector de idioma llevaria de
- * /proyectos/faro a /en/proyectos/faro, que no existe.
- * Se guardan sin el prefijo de idioma.
+ * Rutas cuyo segmento se traduce, sin el prefijo de idioma. Ahora mismo no hay
+ * ninguna, pero el mecanismo se queda: sin el, una pagina como /proyectos/faro
+ * llevaria a /en/proyectos/faro al cambiar de idioma, que no existe.
  */
-const RUTAS_EQUIVALENTES: Record<Lang, string>[] = [
-  { es: "/proyectos/faro", en: "/projects/faro" },
-];
+const RUTAS_EQUIVALENTES: Record<Lang, string>[] = [];
 
 /**
  * Version localizada de una ruta, teniendo en cuenta los segmentos que se
  * traducen. La ruta de entrada se escribe siempre en su forma espanola.
- *   pathForLang("/proyectos/faro", "en") -> "/en/projects/faro"
- *   pathForLang("/thanks", "en")         -> "/en/thanks"
+ *   pathForLang("/thanks", "en") -> "/en/thanks"
  */
 export function pathForLang(rutaEs: string, lang: Lang): string {
   const limpia = rutaEs.replace(/\/$/, "") || "/";
@@ -50,7 +47,7 @@ export function pathForLang(rutaEs: string, lang: Lang): string {
 
 /**
  * Misma pagina en el otro idioma, conservando la ruta.
- * "/en/thanks" -> "/thanks"   |   "/proyectos/faro" -> "/en/projects/faro"
+ * "/en/thanks" -> "/thanks"   |   "/" -> "/en/"
  */
 export function switchLangPath(pathname: string, lang: Lang): string {
   const sinPrefijo =
