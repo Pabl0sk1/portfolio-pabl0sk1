@@ -83,6 +83,8 @@ export const ui = {
     "projects.expand": "Ver detalle",
     "projects.collapse": "Cerrar detalle",
     "projects.noResults": "Ningún proyecto usa esa tecnología.",
+    "projects.elbrux": "Proyecto de ELBRUX",
+    "projects.elbruxLink": "Ver la experiencia",
 
     "stack.main": "Stack principal",
     "stack.mainNote": "Lo que uso a diario y donde estoy más fuerte",
@@ -211,6 +213,8 @@ export const ui = {
     "projects.expand": "See details",
     "projects.collapse": "Close details",
     "projects.noResults": "No project uses that technology.",
+    "projects.elbrux": "An ELBRUX project",
+    "projects.elbruxLink": "See the experience",
 
     "stack.main": "Core stack",
     "stack.mainNote": "What I use daily and where I'm strongest",

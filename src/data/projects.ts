@@ -15,6 +15,9 @@ import stockpro from "../assets/projects/StockPro.webp";
 import biotech from "../assets/projects/BioTech.webp";
 import atelier from "../assets/projects/Atelier.webp";
 import shopeasy from "../assets/projects/ShopEasy.webp";
+import cinemateca from "../assets/projects/Cinemateca.webp";
+import pulse from "../assets/projects/Pulse.webp";
+import marvelworld from "../assets/projects/MarvelWorld.webp";
 
 export interface Project {
   /** identifica la tarjeta en el DOM y en la URL del filtro */
@@ -22,6 +25,12 @@ export interface Project {
   image: ImageMetadata;
   /** sitio publico, vacio si no lo tiene */
   link: string;
+  /**
+   * Entregado como ELBRUX, la marca propia. Marca la pieza en el mosaico.
+   * Solo Faro y Timon: StockPro se entrego aparte, aunque comparta cliente
+   * y epoca.
+   */
+  elbrux?: true;
   /** lo que caracteriza al proyecto; se muestra como etiquetas de color */
   tags: TechKey[];
   /**
@@ -35,13 +44,14 @@ export interface Project {
    */
   transversal: TechKey[];
   /**
-   * Posicion y tamano en el mosaico. El array conserva el orden de
-   * i18n/content.ts, que empareja por indice; la seccion ordena por `orden`
-   * despues de juntar ambos. Los `span` de cada fila suman 3, que son las
-   * columnas del mosaico: si no suman, quedan huecos.
+   * Posicion en el mosaico. El array conserva el orden de i18n/content.ts, que
+   * empareja por indice; la seccion ordena por `orden` despues de juntar ambos.
+   *
+   * El ancho de la pieza no se escribe aqui: lo reparte anchos() en
+   * data/mosaico.ts segun cuantas haya a la vista, que con el filtro por
+   * tecnologia no son siempre las nueve.
    */
   orden: number;
-  span: 1 | 2;
 }
 
 export const PROJECTS: Project[] = [
@@ -49,19 +59,19 @@ export const PROJECTS: Project[] = [
     slug: "faro",
     image: faro,
     link: "",
+    elbrux: true,
     tags: ["python", "fastapi", "postgresql", "react", "tailwind", "docker"],
     transversal: ["git", "html", "css", "node"],
-    orden: 1,
-    span: 2,
+    orden: 4,
   },
   {
     slug: "timon",
     image: timon,
     link: "",
+    elbrux: true,
     tags: ["python", "fastapi", "postgresql", "react", "tailwind", "docker"],
     transversal: ["git", "html", "css", "node"],
-    orden: 4,
-    span: 2,
+    orden: 5,
   },
   {
     slug: "stockpro",
@@ -69,8 +79,7 @@ export const PROJECTS: Project[] = [
     link: "",
     tags: ["python", "tkinter", "sqlite"],
     transversal: ["git"],
-    orden: 2,
-    span: 1,
+    orden: 6,
   },
   {
     slug: "biotech",
@@ -78,8 +87,7 @@ export const PROJECTS: Project[] = [
     link: "",
     tags: ["java", "springboot", "postgresql", "react", "javascript", "bootstrap", "docker"],
     transversal: ["git", "html", "css", "node"],
-    orden: 5,
-    span: 2,
+    orden: 7,
   },
   {
     slug: "atelier",
@@ -87,8 +95,7 @@ export const PROJECTS: Project[] = [
     link: "",
     tags: ["java", "springboot", "postgresql", "react", "javascript", "bootstrap"],
     transversal: ["git", "html", "css", "node"],
-    orden: 3,
-    span: 1,
+    orden: 8,
   },
   {
     slug: "shopeasy",
@@ -96,8 +103,31 @@ export const PROJECTS: Project[] = [
     link: "https://shopeasy-app.web.app/",
     tags: ["ionic", "angular", "firebase", "typescript", "sass"],
     transversal: ["git", "html", "css", "node"],
-    orden: 6,
-    span: 1,
+    orden: 9,
+  },
+  {
+    slug: "cinemateca",
+    image: cinemateca,
+    link: "",
+    tags: ["python", "fastapi", "postgresql", "react", "tailwind", "docker"],
+    transversal: ["git", "html", "css", "node"],
+    orden: 1,
+  },
+  {
+    slug: "pulse",
+    image: pulse,
+    link: "",
+    tags: ["python", "fastapi", "postgresql", "react", "tailwind", "docker"],
+    transversal: ["git", "html", "css", "node"],
+    orden: 2,
+  },
+  {
+    slug: "marvel-world",
+    image: marvelworld,
+    link: "",
+    tags: ["python", "fastapi", "postgresql", "react", "tailwind", "docker"],
+    transversal: ["git", "html", "css", "node"],
+    orden: 3,
   },
 ];
 

@@ -147,6 +147,24 @@ export const projects: Record<Lang, ProjectEntry[]> = {
       description:
         "Aplicación móvil para la gestión de listas de compras con sincronización en tiempo real, pensada para mejorar la organización y experiencia del usuario.",
     },
+    {
+      title: "Cinemateca",
+      resumen: "Catálogo de cine y sala de dominio público",
+      description:
+        "Catálogo de cine en español con el censo completo de TMDb —más de 1,2 millones de títulos—, estrenos al día y las plataformas donde ver cada película legalmente en cada país. Incluye una sala libre con reproductor propio, selector de calidad, pistas de audio y subtítulos, que solo sirve obras de dominio público y Creative Commons: la restricción la impone un trigger en PostgreSQL, no la buena voluntad del código. Los importadores son reanudables, con el cursor guardado en la base.",
+    },
+    {
+      title: "Pulse",
+      resumen: "Catálogo musical con reproductor propio",
+      description:
+        "Catálogo musical en español que separa obra, grabación y publicación, la distinción que ninguna plataforma comercial expone: créditos completos de quién tocó, produjo y mezcló cada tema, formaciones de los grupos con sus años y búsqueda por un verso de la letra. El reproductor es propio, con cola, radio infinita, listas, atajos de teclado y un visualizador que lee el audio real con AnalyserNode. Suena entero solo lo libre; del resto, el adelanto oficial.",
+    },
+    {
+      title: "Marvel World",
+      resumen: "Enciclopedia del universo Marvel",
+      description:
+        "Enciclopedia en español del universo Marvel, y no solo lo que llegó al cine: más de 2.600 personajes con su Power Grid oficial y relaciones dirigidas entre ellos —«mentor de» no significa lo mismo al revés—, además de equipos, especies, lugares, objetos, realidades y eventos, todos navegables en cruce. El esquema lo define SQL numerado y migrado, nunca el ORM, y los importadores de Marvel API, TMDb y Wikidata son idempotentes gracias a una tabla de fuentes externas.",
+    },
   ],
 
   en: [
@@ -185,6 +203,24 @@ export const projects: Record<Lang, ProjectEntry[]> = {
       resumen: "Real-time shopping lists",
       description:
         "Mobile app for managing shopping lists with real-time synchronisation, designed to improve organisation and the overall user experience.",
+    },
+    {
+      title: "Cinemateca",
+      resumen: "Film catalogue and public-domain screening room",
+      description:
+        "Spanish-language film catalogue holding TMDb's full census — over 1.2 million titles — with same-day releases and the platforms where each film can be watched legally in any given country. It includes a free screening room with a custom player offering quality, audio-track and subtitle selection, serving only public-domain and Creative Commons works: the rule is enforced by a PostgreSQL trigger, not by the code's good intentions. Every long importer is resumable, with its cursor stored in the database.",
+    },
+    {
+      title: "Pulse",
+      resumen: "Music catalogue with a custom player",
+      description:
+        "Spanish-language music catalogue that separates work, recording and release — the distinction no commercial service exposes: full credits for who played, produced and mixed each track, band line-ups with their years, and search by a single line of lyrics. The player is custom-built, with a queue, endless radio, playlists, keyboard shortcuts and a visualiser that reads the real audio through an AnalyserNode. Only free music plays in full; everything else, the official preview.",
+    },
+    {
+      title: "Marvel World",
+      resumen: "Encyclopaedia of the Marvel universe",
+      description:
+        "Spanish-language encyclopaedia of the Marvel universe, and not just what made it to the screen: over 2,600 characters with their official Power Grid and directed relationships between them — \"mentor of\" does not mean the same in reverse — plus teams, species, locations, objects, realities and events, all cross-navigable. The schema is defined by numbered, migrated SQL rather than the ORM, and the Marvel API, TMDb and Wikidata importers are idempotent thanks to an external-sources table.",
     },
   ],
 };
