@@ -28,9 +28,9 @@ export const experience: Record<Lang, ExperienceEntry[]> = {
         "Cofundé ELBRUX junto a un socio: un emprendimiento de desarrollo de software a medida para pymes, donde ambos programamos y llevamos el negocio de punta a punta, desde la búsqueda de clientes y el presupuesto hasta el contrato, la entrega y el soporte.",
         "Desarrollamos Faro, sistema web de Recursos Humanos multi-tenant en producción para una empresa industrial de 80 empleados, con backend en Python y FastAPI sobre PostgreSQL, aislamiento de datos por empresa con Row-Level Security, MFA y control de acceso por roles.",
         "Construimos Timón, sistema de gestión para talleres mecánicos, reutilizando el núcleo multi-tenant de Faro como plantilla de producto para acortar el tiempo de desarrollo de la siguiente vertical.",
-        "Entregamos StockPro, aplicación de escritorio de gestión comercial en Python y SQLite, instalada y en uso en un cliente, con actualización remota y migraciones de esquema versionadas.",
         "Desplegamos la infraestructura con Docker y Docker Compose detrás de Caddy con HTTPS automático, con CI/CD en GitHub Actions y copias de seguridad diarias con restauración verificada.",
         "Organizamos el trabajo con metodologías ágiles, aplicando Scrum y Kanban sobre ClickUp para planificar, repartir y dar seguimiento a las tareas entre ambos.",
+        "Al margen de ELBRUX, entregué por mi cuenta StockPro, aplicación de escritorio de gestión comercial en Python y SQLite, instalada y en uso en un cliente, con actualización remota y migraciones de esquema versionadas.",
       ],
     },
     {
@@ -73,9 +73,9 @@ export const experience: Record<Lang, ExperienceEntry[]> = {
         "Co-founded ELBRUX with a business partner: a custom software venture for small and medium businesses, where we both write code and run the business end to end, from finding clients and quoting through to contracts, delivery and support.",
         "Built Faro, a multi-tenant HR web platform running in production for an industrial company of 80 employees, with a Python and FastAPI backend on PostgreSQL, per-tenant data isolation using Row-Level Security, MFA and role-based access control.",
         "Built Timon, a management system for car repair shops, reusing Faro's multi-tenant core as a product template to shorten the build time of the next vertical.",
-        "Delivered StockPro, a Python and SQLite desktop application for commercial management, installed and in daily use at a client, with remote updates and versioned schema migrations.",
         "Deployed the infrastructure with Docker and Docker Compose behind Caddy with automatic HTTPS, with CI/CD on GitHub Actions and daily backups with verified restores.",
         "Organised the work with agile methodologies, applying Scrum and Kanban on ClickUp to plan, split and track tasks between the two of us.",
+        "Outside ELBRUX, delivered StockPro on my own: a Python and SQLite desktop application for commercial management, installed and in daily use at a client, with remote updates and versioned schema migrations.",
       ],
     },
     {
