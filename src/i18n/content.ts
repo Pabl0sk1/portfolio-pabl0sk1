@@ -30,7 +30,6 @@ export const experience: Record<Lang, ExperienceEntry[]> = {
         "Construimos Timón, sistema de gestión para talleres mecánicos, reutilizando el núcleo multi-tenant de Faro como plantilla de producto para acortar el tiempo de desarrollo de la siguiente vertical.",
         "Desplegamos la infraestructura con Docker y Docker Compose detrás de Caddy con HTTPS automático, con CI/CD en GitHub Actions y copias de seguridad diarias con restauración verificada.",
         "Organizamos el trabajo con metodologías ágiles, aplicando Scrum y Kanban sobre ClickUp para planificar, repartir y dar seguimiento a las tareas entre ambos.",
-        "Al margen de ELBRUX, entregué por mi cuenta StockPro, aplicación de escritorio de gestión comercial en Python y SQLite, instalada y en uso en un cliente, con actualización remota y migraciones de esquema versionadas.",
       ],
     },
     {
@@ -75,7 +74,6 @@ export const experience: Record<Lang, ExperienceEntry[]> = {
         "Built Timon, a management system for car repair shops, reusing Faro's multi-tenant core as a product template to shorten the build time of the next vertical.",
         "Deployed the infrastructure with Docker and Docker Compose behind Caddy with automatic HTTPS, with CI/CD on GitHub Actions and daily backups with verified restores.",
         "Organised the work with agile methodologies, applying Scrum and Kanban on ClickUp to plan, split and track tasks between the two of us.",
-        "Outside ELBRUX, delivered StockPro on my own: a Python and SQLite desktop application for commercial management, installed and in daily use at a client, with remote updates and versioned schema migrations.",
       ],
     },
     {

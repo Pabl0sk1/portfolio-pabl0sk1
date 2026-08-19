@@ -163,8 +163,12 @@ for (const f of FILAS) {
                 </span>
               )}
 
+              {/* fondo propio: el velo de la pieza arriba es casi
+                  transparente y el numero se perdia contra la captura. Lleva
+                  el mismo tratamiento por tema que el distintivo de la
+                  esquina opuesta, para que las dos se lean igual */}
               <span
-                class="absolute right-4 top-4 font-mono text-xs font-bold tabular-nums text-white/50"
+                class="absolute right-4 top-4 grid size-7 place-items-center rounded-full bg-white/85 dark:bg-black/40 ring-1 ring-black/10 dark:ring-white/20 backdrop-blur-sm font-mono text-xs font-bold tabular-nums text-gray-900/70 dark:text-white/70"
                 aria-hidden="true"
               >
                 {String(TARJETAS.findIndex((p) => p.slug === slug) + 1).padStart(2, "0")}
