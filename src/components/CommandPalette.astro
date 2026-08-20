@@ -34,10 +34,16 @@ const secciones = [
   { id: "contactar", label: t("nav.contact") },
 ];
 
-const proyectos = projectsText[lang].map((texto, i) => ({
-  slug: PROJECTS[i].slug,
-  label: texto.title,
-}));
+// mismo orden que el mosaico, del mas reciente al mas antiguo: la paleta
+// listaba en el orden del array, que es el de emparejado por indice
+const proyectos = projectsText[lang]
+  .map((texto, i) => ({
+    slug: PROJECTS[i].slug,
+    label: texto.title,
+    orden: PROJECTS[i].orden,
+  }))
+  .sort((a, b) => a.orden - b.orden)
+  .map(({ slug, label }) => ({ slug, label }));
 
 // solo las que tienen proyectos: filtrar por una sin uso no llevaria a nada
 const tecnologias = (Object.keys(TECH) as TechKey[])

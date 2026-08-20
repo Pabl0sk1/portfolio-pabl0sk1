@@ -18,11 +18,25 @@ import shopeasy from "../assets/projects/ShopEasy.webp";
 import cinemateca from "../assets/projects/Cinemateca.webp";
 import pulse from "../assets/projects/Pulse.webp";
 import marvelworld from "../assets/projects/MarvelWorld.webp";
+import nacar from "../assets/projects/Nacar.webp";
+// La marca de cada sistema, sacada de su propio favicon o icono de aplicacion.
+import faroLogo from "../assets/projects/logos/Faro.webp";
+import timonLogo from "../assets/projects/logos/Timon.webp";
+import stockproLogo from "../assets/projects/logos/StockPro.webp";
+import biotechLogo from "../assets/projects/logos/BioTech.webp";
+import shopeasyLogo from "../assets/projects/logos/ShopEasy.webp";
+import cinematecaLogo from "../assets/projects/logos/Cinemateca.webp";
+import pulseLogo from "../assets/projects/logos/Pulse.webp";
+import marvelworldLogo from "../assets/projects/logos/MarvelWorld.webp";
+import nacarLogo from "../assets/projects/logos/Nacar.webp";
+import atelierLogo from "../assets/projects/logos/Atelier.webp";
 
 export interface Project {
   /** identifica la tarjeta en el DOM y en la URL del filtro */
   slug: string;
   image: ImageMetadata;
+  /** Marca del sistema, sobre chapa blanca en la pieza y en el panel. */
+  logo: ImageMetadata;
   /** sitio publico, vacio si no lo tiene */
   link: string;
   /**
@@ -43,13 +57,19 @@ export interface Project {
    * Cuenta igual para el contador y para el filtro.
    */
   transversal: TechKey[];
+  /** Ano en que se construyo. Se muestra en la pieza y en el panel. */
+  year: number;
   /**
    * Posicion en el mosaico. El array conserva el orden de i18n/content.ts, que
    * empareja por indice; la seccion ordena por `orden` despues de juntar ambos.
    *
+   * Va de lo mas reciente a lo mas antiguo. No se deriva de `year` porque
+   * dentro de un mismo ano el orden lo decide que se quiere ensenar primero,
+   * no la fecha.
+   *
    * El ancho de la pieza no se escribe aqui: lo reparte anchos() en
    * data/mosaico.ts segun cuantas haya a la vista, que con el filtro por
-   * tecnologia no son siempre las nueve.
+   * tecnologia no son siempre las diez.
    */
   orden: number;
 }
@@ -58,76 +78,104 @@ export const PROJECTS: Project[] = [
   {
     slug: "faro",
     image: faro,
+    logo: faroLogo,
     link: "",
     elbrux: true,
     tags: ["python", "fastapi", "postgresql", "react", "tailwind", "docker"],
     transversal: ["git", "html", "css", "node"],
-    orden: 4,
+    year: 2026,
+    orden: 7,
   },
   {
     slug: "timon",
     image: timon,
+    logo: timonLogo,
     link: "",
     elbrux: true,
     tags: ["python", "fastapi", "postgresql", "react", "tailwind", "docker"],
     transversal: ["git", "html", "css", "node"],
-    orden: 5,
+    year: 2026,
+    orden: 6,
   },
   {
     slug: "stockpro",
     image: stockpro,
+    logo: stockproLogo,
     link: "",
     tags: ["python", "tkinter", "sqlite"],
     transversal: ["git"],
-    orden: 6,
+    year: 2026,
+    orden: 5,
   },
   {
     slug: "biotech",
     image: biotech,
+    logo: biotechLogo,
     link: "",
     tags: ["java", "springboot", "postgresql", "react", "javascript", "bootstrap", "docker"],
     transversal: ["git", "html", "css", "node"],
-    orden: 7,
+    year: 2025,
+    orden: 8,
   },
   {
     slug: "atelier",
     image: atelier,
+    logo: atelierLogo,
     link: "",
     tags: ["java", "springboot", "postgresql", "react", "javascript", "bootstrap"],
     transversal: ["git", "html", "css", "node"],
-    orden: 8,
+    year: 2023,
+    orden: 10,
   },
   {
     slug: "shopeasy",
     image: shopeasy,
+    logo: shopeasyLogo,
     link: "https://shopeasy-app.web.app/",
     tags: ["ionic", "angular", "firebase", "typescript", "sass"],
     transversal: ["git", "html", "css", "node"],
+    year: 2024,
     orden: 9,
   },
   {
     slug: "cinemateca",
     image: cinemateca,
+    logo: cinematecaLogo,
     link: "",
     tags: ["python", "fastapi", "postgresql", "react", "tailwind", "docker"],
     transversal: ["git", "html", "css", "node"],
-    orden: 1,
+    year: 2026,
+    orden: 3,
   },
   {
     slug: "pulse",
     image: pulse,
+    logo: pulseLogo,
     link: "",
     tags: ["python", "fastapi", "postgresql", "react", "tailwind", "docker"],
     transversal: ["git", "html", "css", "node"],
+    year: 2026,
     orden: 2,
   },
   {
     slug: "marvel-world",
     image: marvelworld,
+    logo: marvelworldLogo,
     link: "",
     tags: ["python", "fastapi", "postgresql", "react", "tailwind", "docker"],
     transversal: ["git", "html", "css", "node"],
-    orden: 3,
+    year: 2026,
+    orden: 4,
+  },
+  {
+    slug: "nacar",
+    image: nacar,
+    logo: nacarLogo,
+    link: "",
+    tags: ["next", "react", "typescript", "prisma", "sqlite", "tailwind"],
+    transversal: ["git", "html", "css", "node"],
+    year: 2026,
+    orden: 1,
   },
 ];
 

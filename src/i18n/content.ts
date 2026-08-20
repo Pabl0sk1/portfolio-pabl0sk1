@@ -163,6 +163,12 @@ export const projects: Record<Lang, ProjectEntry[]> = {
       description:
         "Enciclopedia en español del universo Marvel, y no solo lo que llegó al cine: más de 2.600 personajes con su Power Grid oficial y relaciones dirigidas entre ellos —«mentor de» no significa lo mismo al revés—, además de equipos, especies, lugares, objetos, realidades y eventos, todos navegables en cruce. El esquema lo define SQL numerado y migrado, nunca el ORM, y los importadores de Marvel API, TMDb y Wikidata son idempotentes gracias a una tabla de fuentes externas.",
     },
+    {
+      title: "Nácar · Casino",
+      resumen: "Veinte juegos con matemática auditada y rondas verificables",
+      description:
+        "Casino online con veinte mesas —ruleta, blackjack, craps, crash, tragamonedas— donde ningún resultado se calcula en el navegador: el estado privado de la ronda vive en el servidor y al cliente solo le llega lo que puede dibujar. Cada ronda parte de una semilla que se publica antes de la apuesta, así que después cualquiera puede recalcular el reparto y comprobar que fue el que dice. Los saldos son centavos enteros sobre un libro mayor contable, y dos auditorías propias verifican el RTP de los veinte juegos y cuadran el libro entero antes de dar por buena una tanda de cambios. Funciona con fichas simuladas: sin pasarela de pago real.",
+    },
   ],
 
   en: [
@@ -219,6 +225,12 @@ export const projects: Record<Lang, ProjectEntry[]> = {
       resumen: "Encyclopaedia of the Marvel universe",
       description:
         "Spanish-language encyclopaedia of the Marvel universe, and not just what made it to the screen: over 2,600 characters with their official Power Grid and directed relationships between them — \"mentor of\" does not mean the same in reverse — plus teams, species, locations, objects, realities and events, all cross-navigable. The schema is defined by numbered, migrated SQL rather than the ORM, and the Marvel API, TMDb and Wikidata importers are idempotent thanks to an external-sources table.",
+    },
+    {
+      title: "Nácar · Casino",
+      resumen: "Twenty games with audited math and verifiable rounds",
+      description:
+        "Online casino with twenty tables — roulette, blackjack, craps, crash, slots — where no outcome is ever computed in the browser: the round's private state stays on the server and the client only receives what it can draw. Every round starts from a seed published before the bet is placed, so anyone can recompute the deal afterwards and check it was the one claimed. Balances are whole cents on an accounting ledger, and two in-house audits verify the RTP of all twenty games and reconcile the entire ledger before a batch of changes is accepted. It runs on play money: there is no real payment gateway.",
     },
   ],
 };

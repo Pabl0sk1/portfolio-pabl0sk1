@@ -85,6 +85,8 @@ export const ui = {
     "projects.noResults": "Ningún proyecto usa esa tecnología.",
     "projects.elbrux": "Proyecto de ELBRUX",
     "projects.elbruxLink": "Ver la experiencia",
+    "projects.zoom": "Ver la captura completa",
+    "projects.zoomClose": "Cerrar la captura",
 
     "stack.main": "Stack principal",
     "stack.mainNote": "Lo que uso a diario y donde estoy más fuerte",
@@ -215,6 +217,8 @@ export const ui = {
     "projects.noResults": "No project uses that technology.",
     "projects.elbrux": "An ELBRUX project",
     "projects.elbruxLink": "See the experience",
+    "projects.zoom": "See the full screenshot",
+    "projects.zoomClose": "Close the screenshot",
 
     "stack.main": "Core stack",
     "stack.mainNote": "What I use daily and where I'm strongest",
