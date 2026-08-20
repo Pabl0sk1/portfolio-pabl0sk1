@@ -8,7 +8,7 @@
  * `tier` refleja el nivel real declarado, no la preferencia:
  *   main     lo que se usa a diario
  *   also     respaldado por proyectos entregados
- *   learning bases solidas, sin proyectos propios todavia
+ *   learning bases solidas, sin proyectos propios en produccion
  *   tool     entorno de trabajo, no cuenta como stack
  *   ai       asistentes
  */
@@ -65,6 +65,7 @@ export const TECH = {
 
   laravel: { label: "Laravel", link: "https://laravel.com/", tier: "learning" },
   next: { label: "Next.js", link: "https://nextjs.org/", tier: "learning" },
+  prisma: { label: "Prisma", link: "https://www.prisma.io/", tier: "learning" },
 
   n8n: { label: "n8n", link: "https://n8n.io/", tier: "tool" },
   github: { label: "GitHub", link: "https://github.com/", tier: "tool" },
@@ -106,7 +107,7 @@ export const TIER_ORDER: Record<Tier, TechKey[]> = {
     "tkinter",
     "firebase",
   ],
-  learning: ["laravel", "next"],
+  learning: ["laravel", "next", "prisma"],
   tool: [
     "n8n",
     "github",
