@@ -51,7 +51,7 @@ const CAPTURAS = new Map(
               src: tarjeta.image,
               width: tarjeta.image.width,
               format: "webp",
-              quality: 90,
+              quality: 95,
             })
           ).src,
         ] as const
@@ -148,6 +148,7 @@ for (const f of FILAS) {
                 alt={`${t("projects.imageAlt")} ${title}`}
                 widths={[400, 640, 1024, 1280]}
                 sizes="(max-width: 767px) 100vw, 600px"
+                quality={90}
                 loading="lazy"
                 class="absolute inset-0 -z-10 size-full object-cover object-top transition-transform duration-500 group-hover:scale-105"
               />
@@ -170,6 +171,7 @@ for (const f of FILAS) {
                     alt=""
                     width={32}
                     densities={[1, 2]}
+                    quality={90}
                     loading="lazy"
                     class="size-4 object-contain dark:hidden"
                   />
@@ -178,6 +180,7 @@ for (const f of FILAS) {
                     alt=""
                     width={32}
                     densities={[1, 2]}
+                    quality={90}
                     loading="lazy"
                     class="hidden size-4 object-contain dark:block"
                   />
@@ -224,6 +227,7 @@ for (const f of FILAS) {
                     alt=""
                     width={128}
                     densities={[1, 2]}
+                    quality={90}
                     loading="lazy"
                     class="mt-0.5 size-10 shrink-0 rounded-lg bg-white/90 object-contain p-1 ring-1 ring-black/10 shadow-sm"
                   />
@@ -315,6 +319,7 @@ for (const f of FILAS) {
                         alt={`${t("projects.imageAlt")} ${title}`}
                         widths={[400, 640, 1024, 1280]}
                         sizes="(max-width: 767px) 100vw, 520px"
+                        quality={90}
                         loading="lazy"
                         class="size-full object-cover object-left-top transition-transform duration-500 motion-reduce:transition-none group-hover/zoom:scale-[1.03]"
                       />
@@ -347,6 +352,7 @@ for (const f of FILAS) {
                           alt=""
                           width={128}
                           densities={[1, 2]}
+                          quality={90}
                           loading="lazy"
                           class="size-11 shrink-0 rounded-xl bg-white object-contain p-1.5 ring-1 ring-black/10 dark:ring-white/15 shadow-sm"
                         />
@@ -374,6 +380,7 @@ for (const f of FILAS) {
                             alt=""
                             width={32}
                             densities={[1, 2]}
+                            quality={90}
                             loading="lazy"
                             class="size-4 object-contain dark:hidden"
                           />
@@ -382,6 +389,7 @@ for (const f of FILAS) {
                             alt=""
                             width={32}
                             densities={[1, 2]}
+                            quality={90}
                             loading="lazy"
                             class="hidden size-4 object-contain dark:block"
                           />
