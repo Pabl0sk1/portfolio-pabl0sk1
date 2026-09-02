@@ -17,7 +17,7 @@ export const JOB_TITLE = "Analista de Sistemas / Desarrollador Full Stack";
 export const LOCATION = "Hernandarias, Alto Paraná, Paraguay";
 
 export const EMAIL = "pablo.mk.ocampos@gmail.com";
-export const PHONE = "[telefono eliminado]";
+/* El telefono no va aqui: el repositorio es publico y no esta publicado en el sitio. */
 
 export const LINKEDIN_URL =
   "https://www.linkedin.com/in/pablo-m-ocampos-b48374381/";

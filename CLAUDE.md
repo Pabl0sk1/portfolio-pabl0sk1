@@ -134,14 +134,13 @@ proyecto ni puesto.
 - **Proyectos**: ninguno muestra repositorio ni etiqueta de estado. Solo
   Shop Easy enlaza a su sitio. Los repos de Faro, MotorV8 y StockPro son privados
   y un enlace daría 404.
-- **ELBRUX**: emprendimiento de **dos socios**. Se dice "socio", nunca "primo":
-  la relación familiar es irrelevante y resta profesionalidad. En el portfolio
-  el cargo es "Cofundador y Desarrollador Full Stack"; en el CV el rol técnico
-  va primero, para que no domine la lectura de fundador.
-- **Capturas de proyectos**: llevan difuminados los datos confidenciales de
-  clientes (nombre de la empresa y neto de nómina en Faro, nombre del taller en
-  MotorV8, cifras internas en BioTech, nombres de clientes finales en Atelier).
-  Si se reemplaza una captura, revisar esto de nuevo.
+- **ELBRUX**: emprendimiento de **dos socios**, y así se nombra: "socio", sin
+  más detalle sobre la relación. En el portfolio el cargo es "Cofundador y
+  Desarrollador Full Stack"; en el CV el rol técnico va primero, para que no
+  domine la lectura de fundador.
+- **Capturas de proyectos**: todo dato de clientes (nombres, cifras, personas)
+  va difuminado antes de subir la imagen. Si se reemplaza una captura, revisar
+  esto de nuevo.
 
 ## Iconos
 
