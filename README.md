@@ -12,7 +12,7 @@ Experiencia, proyectos, stack y contacto, en español e inglés.
 <picture>
   <source media="(prefers-color-scheme: dark)" srcset="docs/preview-dark.webp">
   <source media="(prefers-color-scheme: light)" srcset="docs/preview-light.webp">
-  <img src="docs/preview-light.webp" alt="Portada del portafolio: red de nodos animada con las tecnologías principales detrás del nombre y las llamadas a la acción">
+  <img src="docs/preview-light.webp" alt="Portada del portafolio: red de nodos animada con los logos del stack principal junto al nombre y las llamadas a la acción">
 </picture>
 
 </div>
@@ -25,7 +25,7 @@ Experiencia, proyectos, stack y contacto, en español e inglés.
 |---|---|
 | 🌐 **Bilingüe de verdad** | Español en `/` e inglés en `/en/`, dos URLs reales indexables. El marcado no se duplica: cada componente detecta el idioma y saca los textos del diccionario |
 | 🎨 **Tema claro y oscuro** | Por clase en `<html>`, aplicado en un script bloqueante para que la página no parpadee al cargar |
-| ✨ **Hero animado** | Red de nodos dibujada a mano sobre canvas, sin librerías. Los nodos con nombre son el stack principal y reaccionan al cursor. Se pausa fuera de pantalla y se queda quieta con `prefers-reduced-motion` |
+| ✨ **Hero animado** | Red de nodos dibujada a mano sobre canvas, sin librerías. Los nodos grandes llevan el logo real de cada tecnología del stack principal y reaccionan al cursor. Se pausa fuera de pantalla y se queda quieta con `prefers-reduced-motion` |
 | 🧩 **Proyectos en mosaico** | Piezas de distinto tamaño según el peso del proyecto, con un panel de detalle que se despliega bajo su fila |
 | 🔍 **Stack filtrable** | Al pulsar una tecnología se filtran los proyectos que la usan. El estado vive en la URL (`?tech=python`), así se puede compartir y el botón atrás funciona |
 | ⌘ **Paleta de comandos** | `Ctrl/⌘ + K` para saltar a cualquier sección, proyecto o filtro |
