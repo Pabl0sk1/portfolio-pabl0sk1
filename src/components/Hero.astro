@@ -1,7 +1,7 @@
 ---
 /**
  * Hero. La red de nodos ya no vive en una tarjeta a la derecha: ocupa el fondo
- * de la seccion entera y sus nodos grandes llevan el nombre del stack.
+ * de la seccion entera y sus nodos grandes llevan el logo del stack principal.
  *
  * El texto era un titulo mas tres lineas en naranja, azul y rojo. Ahora hay una
  * sola jerarquia: nombre, oficio, un parrafo y dos llamadas a la accion.
@@ -22,16 +22,17 @@ import {
   DISPLAY_NAME,
 } from "../consts";
 import { getLangFromUrl, useTranslations, localizePath } from "../i18n/utils";
+import { TECH, type TechKey } from "../data/tech";
 
 const lang = getLangFromUrl(Astro.url);
 const t = useTranslations(lang);
 
-// los nodos con nombre son el stack principal; cinco caben sin amontonarse
-const TECHS = ["Python", "FastAPI", "React", "PostgreSQL", "Docker"];
+// los nodos con logo son el stack principal; cinco caben sin amontonarse
+const TECHS: TechKey[] = ["python", "fastapi", "react", "postgresql", "docker"];
 ---
 
 <HeroCanvas
-  label={`${t("hero.canvas.alt")}: ${TECHS.join(", ")}`}
+  label={`${t("hero.canvas.alt")}: ${TECHS.map((k) => TECH[k].label).join(", ")}`}
   techs={TECHS}
 />
 

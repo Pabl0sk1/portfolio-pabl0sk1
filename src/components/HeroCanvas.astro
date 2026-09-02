@@ -4,16 +4,31 @@
  * canvas y sin librerias.
  *
  * Ocupa el fondo del hero de lado a lado en vez de vivir en una tarjeta a la
- * derecha, y sus nodos grandes son el stack principal, con su nombre al lado:
- * asi la animacion dice algo en vez de ser adorno.
+ * derecha, y sus nodos grandes son el stack principal, cada uno con el logo de
+ * su tecnologia: asi la animacion dice algo en vez de ser adorno.
+ *
+ * Los logos no se pintan en el lienzo: son los mismos componentes SVG del
+ * resto del sitio, colocados encima y movidos con transform en cada frame.
+ * Rasterizarlos perdia los degradados (Python) y el color por tema, y a 20 px
+ * un SVG real se ve nitido en cualquier densidad de pantalla.
+ *
+ * Con sitio a la derecha del texto, los logos van en zigzag por esa banda. Sin
+ * sitio (movil y anchos intermedios) el texto ocupa todo el ancho, asi que se
+ * reparten por el fondo entero del hero, detras del texto y atenuados, igual
+ * que la red. Se probo una fila al pie para no pisar el texto y quedaba como
+ * una barra pegada, no como parte de la red. El modo lo decide el script
+ * midiendo, y lo publica en data-layout para que el CSS elija la mascara.
  *
  * Se pausa fuera de pantalla y con la pestana oculta, y se queda quieta si el
  * sistema pide menos movimiento.
  */
+import TechIcon from "./TechIcon.astro";
+import type { TechKey } from "../data/tech";
+
 interface Props {
   label: string;
-  /** nombres de los nodos grandes, en orden */
-  techs: string[];
+  /** tecnologias de los nodos grandes, en orden */
+  techs: TechKey[];
 }
 
 const { label, techs } = Astro.props;
@@ -21,6 +36,7 @@ const { label, techs } = Astro.props;
 
 <div
   id="hero-canvas-wrap"
+  data-layout="lado"
   class="absolute inset-0 z-0 overflow-hidden pointer-events-none left-1/2 -ml-[50vw] w-[100vw]"
   aria-hidden="true"
 >
@@ -28,8 +44,18 @@ const { label, techs } = Astro.props;
     id="hero-canvas"
     role="img"
     aria-label={label}
-    data-techs={techs.join("|")}
     class="block size-full"></canvas>
+
+  {/* invisible hasta que el script los coloca: si no, aparecen un instante
+      amontonados en la esquina superior izquierda */}
+  {techs.map((tech, i) => (
+    <span
+      data-hub={i}
+      class="invisible absolute left-0 top-0 grid size-9 place-items-center rounded-full bg-white/90 dark:bg-gray-900/90 ring-1 ring-black/10 dark:ring-white/15 shadow-md will-change-transform"
+    >
+      <TechIcon tech={tech} class="size-5" />
+    </span>
+  ))}
 </div>
 
 <style>
@@ -49,23 +75,25 @@ const { label, techs } = Astro.props;
     );
   }
 
-  @media (max-width: 767px) {
-    /* En movil el texto ocupa todo el ancho: la red se va arriba y baja de
-       opacidad. A plena intensidad, un nodo caia justo sobre la insignia y
-       parecia un fallo de pintado, no un fondo. */
-    #hero-canvas {
-      opacity: 0.5;
-      -webkit-mask-image: radial-gradient(
-        ellipse 85% 45% at 62% 12%,
-        #000 15%,
-        transparent 70%
-      );
-      mask-image: radial-gradient(
-        ellipse 85% 45% at 62% 12%,
-        #000 15%,
-        transparent 70%
-      );
-    }
+  /* Sin sitio al lado del texto la red cubre el hero entero y baja de
+     opacidad, logos incluidos: a plena intensidad, un nodo sobre la insignia
+     o el titulo parecia un fallo de pintado, no un fondo. */
+  #hero-canvas-wrap[data-layout="fondo"] #hero-canvas {
+    opacity: 0.55;
+    -webkit-mask-image: radial-gradient(
+      ellipse 90% 85% at 50% 50%,
+      #000 30%,
+      transparent 88%
+    );
+    mask-image: radial-gradient(
+      ellipse 90% 85% at 50% 50%,
+      #000 30%,
+      transparent 88%
+    );
+  }
+
+  #hero-canvas-wrap[data-layout="fondo"] [data-hub] {
+    opacity: 0.6;
   }
 </style>
 
@@ -79,13 +107,15 @@ const { label, techs } = Astro.props;
       "(prefers-reduced-motion: reduce)"
     ).matches;
 
-    const TECHS = (canvas.dataset.techs ?? "").split("|").filter(Boolean);
+    const chips = Array.from(wrap.querySelectorAll<HTMLElement>("[data-hub]"));
+    const CHIP = 36; // size-9; el radio del chip manda en halos y margenes
+    const R = CHIP / 2;
 
     type Nodo = {
       x: number; y: number;      // posicion base, en fraccion del lienzo
       vx: number; vy: number;    // deriva lenta
       r: number;                 // radio
-      etiqueta: string;          // vacio en los nodos pequenos
+      hub: boolean;              // lleva logo
       brillo: number;            // 0..1, sube al acercar el cursor
     };
     type Arista = { a: number; b: number };
@@ -97,6 +127,7 @@ const { label, techs } = Astro.props;
     let aristas: Arista[] = [];
     let pulsos: Pulso[] = [];
     let anchoSuficiente = false;
+    let chipsVisibles = false;
     const raton = { x: -9999, y: -9999, activo: false };
 
     const CANT_PEQUENOS = 22;
@@ -108,24 +139,26 @@ const { label, techs } = Astro.props;
       Math.min(max, Math.max(min, v));
 
     const construir = () => {
-      // La banda de los nodos con nombre se mide contra el borde real de la
-      // columna de texto. Con fracciones fijas del lienzo, en cuanto cambiaba
-      // el ancho de la ventana los nombres caian encima del parrafo y de las
-      // redes sociales.
+      // La banda de los logos se mide contra el borde real de la columna de
+      // texto. Con fracciones fijas del lienzo, en cuanto cambiaba el ancho de
+      // la ventana caian encima del parrafo y de las redes sociales.
       const cajaLienzo = wrap.getBoundingClientRect();
       const cajaTexto = document
         .getElementById("hero-content")
         ?.getBoundingClientRect();
       const bordeTexto = cajaTexto ? cajaTexto.right - cajaLienzo.left : 0;
-      // hace falta sitio para el nodo y su nombre; si no, la red es solo fondo
-      anchoSuficiente = ancho - bordeTexto >= 260;
+      // hace falta sitio para el zigzag junto al texto; si no, la banda es el
+      // hero entero: de lado a lado y casi de arriba abajo
+      anchoSuficiente = ancho - bordeTexto >= 220;
+      wrap.dataset.layout = anchoSuficiente ? "lado" : "fondo";
 
       const banda = anchoSuficiente
-        ? { x0: (bordeTexto + 30) / ancho, x1: 0.95, y0: 0.14, dy: 0.72 }
-        : { x0: 0.14, x1: 0.86, y0: 0.06, dy: 0.34 };
+        ? { x0: (bordeTexto + CHIP) / ancho, x1: 0.95, y0: 0.14, dy: 0.72 }
+        : { x0: 0.1, x1: 0.9, y0: 0.1, dy: 0.78 };
 
-      const hubs: Nodo[] = TECHS.map((nombre, i) => {
-        const t = TECHS.length > 1 ? i / (TECHS.length - 1) : 0.5;
+      const n = chips.length;
+      const hubs: Nodo[] = chips.map((_, i) => {
+        const t = n > 1 ? i / (n - 1) : 0.5;
         const zigzag = i % 2 === 0 ? 0.08 : 0.55;
         return {
           x: limitar(
@@ -137,7 +170,7 @@ const { label, techs } = Astro.props;
           vx: aleatorio(-0.00005, 0.00005),
           vy: aleatorio(-0.00005, 0.00005),
           r: 5,
-          etiqueta: nombre,
+          hub: true,
           brillo: 0,
         };
       });
@@ -166,15 +199,15 @@ const { label, techs } = Astro.props;
         vx: aleatorio(-0.00007, 0.00007),
         vy: aleatorio(-0.00007, 0.00007),
         r: aleatorio(1.6, 2.8),
-        etiqueta: "",
+        hub: false,
         brillo: 0,
       }));
 
       nodos = [...hubs, ...pequenos];
 
       aristas = [];
-      // la cadena entre nodos con nombre se traza siempre: es lo que hace que
-      // se lean como un sistema y no como puntos sueltos que coinciden cerca
+      // la cadena entre logos se traza siempre: es lo que hace que se lean
+      // como un sistema y no como puntos sueltos que coinciden cerca
       for (let i = 0; i + 1 < hubs.length; i++) aristas.push({ a: i, b: i + 1 });
 
       for (let i = 0; i < nodos.length; i++) {
@@ -186,7 +219,7 @@ const { label, techs } = Astro.props;
         }
       }
 
-      // las peticiones se concentran donde estan los nombres
+      // las peticiones se concentran donde estan los logos
       pulsos = [];
       aristas.forEach((e, i) => {
         const tocaHub = e.a < hubs.length || e.b < hubs.length;
@@ -213,7 +246,6 @@ const { label, techs } = Astro.props;
       const colNodo = oscuro ? "148, 197, 253" : "37, 99, 235";
       const colHub = oscuro ? "129, 140, 248" : "79, 70, 229";
       const colArista = oscuro ? "148, 163, 184" : "71, 85, 105";
-      const colTexto = oscuro ? "203, 213, 225" : "51, 65, 85";
 
       ctx.clearRect(0, 0, ancho, alto);
 
@@ -252,43 +284,47 @@ const { label, techs } = Astro.props;
         ctx.fill();
       }
 
-      // nodos
-      ctx.font =
-        '600 12px ui-sans-serif, system-ui, -apple-system, "Segoe UI", sans-serif';
-      ctx.textBaseline = "middle";
-
+      // nodos pequenos
       for (const n of nodos) {
-        const x = px(n);
-        const y = py(n);
-        const conNombre = n.etiqueta !== "";
-
-        ctx.fillStyle = `rgba(${conNombre ? colHub : colNodo}, ${
-          conNombre ? 0.9 + n.brillo * 0.1 : 0.8
-        })`;
+        if (n.hub) continue;
+        ctx.fillStyle = `rgba(${colNodo}, 0.8)`;
         ctx.beginPath();
-        ctx.arc(x, y, n.r + n.brillo * 1.5, 0, Math.PI * 2);
+        ctx.arc(px(n), py(n), n.r, 0, Math.PI * 2);
         ctx.fill();
+      }
 
-        if (!conNombre) continue;
+      // logos: el lienzo pone el halo y el anillo, el chip HTML va encima.
+      // El chip se sujeta dentro del lienzo aunque el nodo derive al borde.
+      nodos.forEach((n, i) => {
+        if (!n.hub) return;
+        const x = limitar(px(n), R + 6, ancho - R - 6);
+        const y = limitar(py(n), R + 6, alto - R - 6);
+        const radioHalo = R + 12 + n.brillo * 12;
+
+        const halo = ctx.createRadialGradient(x, y, R, x, y, radioHalo);
+        halo.addColorStop(0, `rgba(${colHub}, ${0.22 + n.brillo * 0.4})`);
+        halo.addColorStop(1, `rgba(${colHub}, 0)`);
+        ctx.fillStyle = halo;
+        ctx.beginPath();
+        ctx.arc(x, y, radioHalo, 0, Math.PI * 2);
+        ctx.fill();
 
         ctx.strokeStyle = `rgba(${colHub}, ${0.42 + n.brillo * 0.45})`;
         ctx.lineWidth = 1;
         ctx.beginPath();
-        ctx.arc(x, y, n.r + 5 + n.brillo * 3, 0, Math.PI * 2);
+        ctx.arc(x, y, R + 3 + n.brillo * 3, 0, Math.PI * 2);
         ctx.stroke();
 
-        // el nombre solo cabe con sitio: en movil la red es puro fondo
-        if (!anchoSuficiente) continue;
+        const chip = chips[i];
+        if (chip) {
+          const escala = 1 + n.brillo * 0.12;
+          chip.style.transform = `translate3d(${x - R}px, ${y - R}px, 0) scale(${escala})`;
+        }
+      });
 
-        // cerca del borde derecho el texto se sale, asi que cambia de lado
-        const aLaIzquierda = x > ancho - 130;
-        ctx.textAlign = aLaIzquierda ? "right" : "left";
-        ctx.fillStyle = `rgba(${colTexto}, ${0.65 + n.brillo * 0.35})`;
-        ctx.fillText(
-          n.etiqueta,
-          aLaIzquierda ? x - n.r - 9 : x + n.r + 9,
-          y + 0.5
-        );
+      if (!chipsVisibles) {
+        for (const chip of chips) chip.classList.remove("invisible");
+        chipsVisibles = true;
       }
     };
 
@@ -301,7 +337,7 @@ const { label, techs } = Astro.props;
 
         // brillo por cercania del cursor, con vuelta suave a su sitio
         let objetivo = 0;
-        if (raton.activo && n.etiqueta) {
+        if (raton.activo && n.hub) {
           const d = Math.hypot(n.x * ancho - raton.x, n.y * alto - raton.y);
           objetivo = d < 150 ? 1 - d / 150 : 0;
         }
