@@ -10,7 +10,7 @@ import type { TechKey } from "./tech";
 // astro:assets y cada pantalla recibe el tamano que le toca. En public/ se
 // servian tal cual, siempre a 1280 px.
 import faro from "../assets/projects/Faro.webp";
-import timon from "../assets/projects/Timon.webp";
+import motorv8 from "../assets/projects/MotorV8.webp";
 import stockpro from "../assets/projects/StockPro.webp";
 import biotech from "../assets/projects/BioTech.webp";
 import atelier from "../assets/projects/Atelier.webp";
@@ -21,7 +21,7 @@ import marvelworld from "../assets/projects/MarvelWorld.webp";
 import nacar from "../assets/projects/Nacar.webp";
 // La marca de cada sistema, sacada de su propio favicon o icono de aplicacion.
 import faroLogo from "../assets/projects/logos/Faro.webp";
-import timonLogo from "../assets/projects/logos/Timon.webp";
+import motorv8Logo from "../assets/projects/logos/MotorV8.webp";
 import stockproLogo from "../assets/projects/logos/StockPro.webp";
 import biotechLogo from "../assets/projects/logos/BioTech.webp";
 import shopeasyLogo from "../assets/projects/logos/ShopEasy.webp";
@@ -41,7 +41,7 @@ export interface Project {
   link: string;
   /**
    * Entregado como ELBRUX, la marca propia. Marca la pieza en el mosaico.
-   * Solo Faro y Timon: StockPro se entrego aparte, aunque comparta cliente
+   * Solo Faro y MotorV8: StockPro se entrego aparte, aunque comparta cliente
    * y epoca.
    */
   elbrux?: true;
@@ -87,9 +87,9 @@ export const PROJECTS: Project[] = [
     orden: 7,
   },
   {
-    slug: "timon",
-    image: timon,
-    logo: timonLogo,
+    slug: "motorv8",
+    image: motorv8,
+    logo: motorv8Logo,
     link: "",
     elbrux: true,
     tags: ["python", "fastapi", "postgresql", "react", "tailwind", "docker"],

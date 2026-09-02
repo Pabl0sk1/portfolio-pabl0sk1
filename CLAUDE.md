@@ -132,7 +132,7 @@ proyecto ni puesto.
 - **Sobre mí**: habla solo de Pablo. Sin nombres de empresas y sin el stack de
   aprendizaje. Eso va en Experiencia, que es donde corresponde.
 - **Proyectos**: ninguno muestra repositorio ni etiqueta de estado. Solo
-  Shop Easy enlaza a su sitio. Los repos de Faro, Timón y StockPro son privados
+  Shop Easy enlaza a su sitio. Los repos de Faro, MotorV8 y StockPro son privados
   y un enlace daría 404.
 - **ELBRUX**: emprendimiento de **dos socios**. Se dice "socio", nunca "primo":
   la relación familiar es irrelevante y resta profesionalidad. En el portfolio
@@ -140,7 +140,7 @@ proyecto ni puesto.
   va primero, para que no domine la lectura de fundador.
 - **Capturas de proyectos**: llevan difuminados los datos confidenciales de
   clientes (nombre de la empresa y neto de nómina en Faro, nombre del taller en
-  Timón, cifras internas en BioTech, nombres de clientes finales en Atelier).
+  MotorV8, cifras internas en BioTech, nombres de clientes finales en Atelier).
   Si se reemplaza una captura, revisar esto de nuevo.
 
 ## Iconos

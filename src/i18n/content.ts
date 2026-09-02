@@ -27,7 +27,7 @@ export const experience: Record<Lang, ExperienceEntry[]> = {
       description: [
         "Cofundé ELBRUX junto a un socio: un emprendimiento de desarrollo de software a medida para pymes, donde ambos programamos y llevamos el negocio de punta a punta, desde la búsqueda de clientes y el presupuesto hasta el contrato, la entrega y el soporte.",
         "Desarrollamos Faro, sistema web de Recursos Humanos multi-tenant en producción para una empresa industrial de 80 empleados, con backend en Python y FastAPI sobre PostgreSQL, aislamiento de datos por empresa con Row-Level Security, MFA y control de acceso por roles.",
-        "Construimos Timón, sistema de gestión para talleres mecánicos, reutilizando el núcleo multi-tenant de Faro como plantilla de producto para acortar el tiempo de desarrollo de la siguiente vertical.",
+        "Construimos MotorV8, sistema de gestión para talleres mecánicos, reutilizando el núcleo multi-tenant de Faro como plantilla de producto para acortar el tiempo de desarrollo de la siguiente vertical.",
         "Desplegamos la infraestructura con Docker y Docker Compose detrás de Caddy con HTTPS automático, con CI/CD en GitHub Actions y copias de seguridad diarias con restauración verificada.",
         "Organizamos el trabajo con metodologías ágiles, aplicando Scrum y Kanban sobre ClickUp para planificar, repartir y dar seguimiento a las tareas entre ambos.",
       ],
@@ -71,7 +71,7 @@ export const experience: Record<Lang, ExperienceEntry[]> = {
       description: [
         "Co-founded ELBRUX with a business partner: a custom software venture for small and medium businesses, where we both write code and run the business end to end, from finding clients and quoting through to contracts, delivery and support.",
         "Built Faro, a multi-tenant HR web platform running in production for an industrial company of 80 employees, with a Python and FastAPI backend on PostgreSQL, per-tenant data isolation using Row-Level Security, MFA and role-based access control.",
-        "Built Timon, a management system for car repair shops, reusing Faro's multi-tenant core as a product template to shorten the build time of the next vertical.",
+        "Built MotorV8, a management system for car repair shops, reusing Faro's multi-tenant core as a product template to shorten the build time of the next vertical.",
         "Deployed the infrastructure with Docker and Docker Compose behind Caddy with automatic HTTPS, with CI/CD on GitHub Actions and daily backups with verified restores.",
         "Organised the work with agile methodologies, applying Scrum and Kanban on ClickUp to plan, split and track tasks between the two of us.",
       ],
@@ -110,13 +110,13 @@ export const experience: Record<Lang, ExperienceEntry[]> = {
 export const projects: Record<Lang, ProjectEntry[]> = {
   es: [
     {
-      title: "Faro · RRHH",
+      title: "Faro",
       resumen: "Nóminas, asistencia y recibos firmados con QR",
       description:
         "Sistema de Recursos Humanos web multi-tenant para pymes, en producción con una empresa de ~80 empleados. Liquidaciones quincenales con aporte IPS y aguinaldo, control de asistencia mediante kiosko con reconocimiento facial, recibos en PDF firmados con QR de validación pública y aislamiento de datos por empresa con Row-Level Security en PostgreSQL.",
     },
     {
-      title: "Timón · Taller",
+      title: "MotorV8",
       resumen: "Gestión para talleres mecánicos",
       description:
         "Sistema de gestión para talleres mecánicos: órdenes de trabajo con flujo de ocho estados e historial, inventario de repuestos con descuento automático de stock, caja diaria y seguimiento público por QR para que el cliente del taller consulte su vehículo sin necesidad de cuenta. Construido sobre el núcleo multi-tenant reutilizable de Faro.",
@@ -173,13 +173,13 @@ export const projects: Record<Lang, ProjectEntry[]> = {
 
   en: [
     {
-      title: "Faro · HR",
+      title: "Faro",
       resumen: "Payroll, attendance and QR-signed payslips",
       description:
         "Multi-tenant HR web platform for small and medium businesses, running in production for a company of ~80 employees. Fortnightly payroll with social security contributions and statutory bonus, attendance tracking through a face-recognition kiosk, digitally signed PDF payslips with a public QR validation code, and per-company data isolation using Row-Level Security in PostgreSQL.",
     },
     {
-      title: "Timón · Auto Shop",
+      title: "MotorV8",
       resumen: "Management system for car repair shops",
       description:
         "Management system for car repair shops: work orders with an eight-stage pipeline and full history, spare-part inventory with automatic stock deduction, daily cash register, and public QR tracking so customers can check their vehicle without an account. Built on top of Faro's reusable multi-tenant core.",
